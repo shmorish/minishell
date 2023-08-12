@@ -1,0 +1,22 @@
+# Object files
+*.o
+*.obj
+
+# Libraries
+*.a
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+.vscode/
+
+# Test files
+main.c
+a.c
+*.txt
+gnl/
+gnlTester/
