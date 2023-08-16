@@ -4,7 +4,9 @@ CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g
 
 SRC_PATH	= srcs
-SRC			= main.c
+SRC			= main.c select_commands.c ft_exit.c ft_echo.c ft_pwd.c ft_cd.c ft_env.c ft_export.c ft_unset.c \
+		ft_env_utils.c ft_env_init.c ft_print_utils.c ft_is_number_str.c ft_free.c \
+		ft_strcmp.c ft_get_list_size.c
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
 OBJ_PATH	= obj
@@ -30,12 +32,12 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline
 	@echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@ mkdir -p $(OBJ_PATH)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(INCS)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I ./includes/
 
 clean:
 	@ make clean -C $(LIB_PATH)
