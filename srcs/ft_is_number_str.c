@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	ft_is_number_str(char *s)
 {
@@ -26,3 +26,5 @@ int	ft_is_number_str(char *s)
 	else
 		return (0);
 }
+
+// Error handling "-0" "+0" "-" "+" ???

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/16 18:47:52 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/17 01:16:56 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ typedef struct s_env
 // char *env_name
 // char *env_var
 
-
-int		ft_strcmp(const char *s1, const char *s2);
 int		ft_is_number_str(char *s);
 size_t	ft_get_list_size(char **list);
 void	ft_puterr(char *s);
