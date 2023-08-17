@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/17 10:26:51 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/17 11:36:27 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	ft_cd(char **list);
 void	ft_env(char **list, t_env *env_head);
 void	ft_export(char **list, t_env *env_head);
 void	ft_unset(char **list, t_env *env_head);
+void	ft_other_command(char **list, t_env *env_head);
 
 t_env	*node_new(char *str);
 void	node_add_front(t_env *head, t_env *new);

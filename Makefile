@@ -1,12 +1,12 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g
+CFLAGS		= -Wall -Werror -Wextra
 
 SRC_PATH	= srcs
 SRC			= main.c select_commands.c ft_exit.c ft_echo.c ft_pwd.c ft_cd.c ft_env.c ft_export.c ft_unset.c \
 		ft_env_node_utils.c ft_env_init.c ft_print_utils.c ft_is_number_str.c ft_free.c \
-		ft_strcmp.c ft_get_list_size.c
+		ft_strcmp.c ft_get_list_size.c ft_other_command.c
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
 OBJ_PATH	= obj
