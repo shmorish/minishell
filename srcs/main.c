@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 		select_commands(list, env_head);
 		free_list(list);
 	}
-	head_free_all(env_head);
 	return (0);
 }
 

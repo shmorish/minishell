@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g
+CFLAGS		= -Wall -Werror -Wextra
 
 SRC_PATH	= srcs
 SRC			= main.c select_commands.c ft_exit.c ft_echo.c ft_pwd.c ft_cd.c ft_env.c ft_export.c ft_unset.c \

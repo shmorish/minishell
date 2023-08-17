@@ -35,6 +35,7 @@ t_env	*node_new(char *str)
 			new->env_var = ft_strdup("");
 		else
 			new->env_var = path_list[1];
+		free(path_list);
 	}
 	new->next = NULL;
 	new->prev = NULL;
