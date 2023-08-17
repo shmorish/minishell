@@ -61,10 +61,11 @@ int	main(int argc, char **argv, char **envp)
 		select_commands(list, env_head);
 		free_list(list);
 	}
+	head_free_all(env_head);
 	return (0);
 }
 
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q minishell");
-// }
+__attribute__((destructor))
+static void destructor() {
+    system("leaks -q minishell");
+}
