@@ -21,7 +21,6 @@ SRC			= ft_cd.c \
 				main.c \
 				select_commands.c 
 
->>>>>>> main
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
 OBJ_PATH	= obj
