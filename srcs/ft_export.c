@@ -12,23 +12,23 @@
 
 #include "../includes/minishell.h"
 
-BOOLEAN	check_equal(char *str)
+bool	check_equal(char *str)
 {
-	BOOLEAN	ans;
+	bool	ans;
 	size_t	i;
 
-	ans = FALSE;
+	ans = false;
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '=' && i != 0)
-			ans = TRUE;
+			ans = true;
 		i++;
 	}
 	return (ans);
 }
 
-BOOLEAN	check_duplicate_path(char *str, t_env *env_head)
+bool	check_duplicate_path(char *str, t_env *env_head)
 {
 	size_t	count;
 	t_env	*tmp;
@@ -39,11 +39,11 @@ BOOLEAN	check_duplicate_path(char *str, t_env *env_head)
 		count++;
 	while (tmp != env_head)
 	{
-		if (!ft_strncmp(str, tmp->var, count) && tmp->var[count] == '=')
-			return (TRUE);
+		if (!ft_strncmp(str, tmp->env_name, count))
+			return (true);
 		tmp = tmp->next;
 	}
-	return (FALSE);
+	return (false);
 }
 
 void	ft_export(char **list, t_env *env_head)

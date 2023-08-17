@@ -15,17 +15,27 @@
 t_env	*node_new(char *str)
 {
 	t_env	*new;
+	char	**path_list;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (new == NULL)
 		return (NULL);
 	if (ft_strlen(str) == 0)
-		new->var = NULL;
+	{
+		new->env_name = NULL;
+		new->env_var = NULL;
+	}
 	else
 	{
-		new->var = ft_strdup(str);
-		if (new->var == NULL)
+		path_list = ft_split(str, '=');
+		if (path_list == NULL)
 			return (NULL);
+		new->env_name = path_list[0];
+		if (path_list[1] == NULL)
+			new->env_var = ft_strdup("");
+		else
+			new->env_var = path_list[1];
+		free(path_list);
 	}
 	new->next = NULL;
 	new->prev = NULL;
@@ -61,10 +71,7 @@ void	node_delete(t_env *target)
 	target_prev = target->prev;
 	target_prev->next = target_next;
 	target_next->prev = target_prev;
-	free(target->var);
-	target->var = NULL;
-	free(target);
-	target = NULL;
+	node_free(target);
 }
 
 t_env	*get_node_pos(t_env *head, char *str)
@@ -78,7 +85,7 @@ t_env	*get_node_pos(t_env *head, char *str)
 		count++;
 	while (tmp != head)
 	{
-		if (!ft_strncmp(str, tmp->var, count))
+		if (!ft_strncmp(str, tmp->env_name, count))
 			return (tmp);
 		tmp = tmp->next;
 	}
