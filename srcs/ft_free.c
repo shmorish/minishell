@@ -27,6 +27,16 @@ void	free_list(char **list)
 	list = NULL;
 }
 
+void	node_free(t_env *node)
+{
+	free(node->env_name);
+	node->env_name = NULL;
+	free(node->env_var);
+	node->env_var = NULL;
+	free(node);
+	node = NULL;
+}
+
 void	head_free_all(t_env *head)
 {
 	t_env	*tmp;
@@ -41,15 +51,9 @@ void	head_free_all(t_env *head)
 		head->next = tmp->next;
 		tmp->next->prev = head;
 		tmp = tmp->next;
-		free(delete->var);
-		delete->var = NULL;
-		free(delete);
-		delete = NULL;
+		node_free(delete);
 	}
-	free(head->var);
-	head->var = NULL;
-	free(head);
-	head = NULL;
+	node_free(head);
 }
 
 void	free_all(char **list, t_env *head)

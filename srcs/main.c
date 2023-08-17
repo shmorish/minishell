@@ -25,9 +25,9 @@ static void	signal_handler(int signum, siginfo_t *info, void *ucontext)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	char	**list;
-	t_env	*env_head;
+	char		*line;
+	char		**list;
+	t_env		*env_head;
 	struct sigaction	act1;
 
 	(void)argc;
