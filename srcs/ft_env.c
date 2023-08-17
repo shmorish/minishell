@@ -23,7 +23,7 @@ void	ft_env(char **list, t_env *env_head)
 		tmp = env_head->next;
 		while (tmp != env_head)
 		{
-			printf("%s\n", tmp->var);
+			printf("%s=%s\n", tmp->env_name, tmp->env_var);
 			tmp = tmp->next;
 		}
 	}
