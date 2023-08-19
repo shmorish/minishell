@@ -19,7 +19,9 @@ SRC			= ft_cd.c \
 				ft_pwd.c \
 				ft_unset.c \
 				main.c \
-				select_commands.c 
+				select_commands.c \
+				ft_split_once.c \
+				ft_path_utils.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 

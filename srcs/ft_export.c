@@ -86,7 +86,6 @@ bool	check_plus(char *str)
 	if (str[i - 1] == '+')
 		ans = true;
 	return (ans);
-
 }
 
 void	ft_export(char **list, t_env *env_head)
