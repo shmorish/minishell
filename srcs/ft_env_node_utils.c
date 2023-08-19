@@ -27,14 +27,11 @@ t_env	*node_new(char *str)
 	}
 	else
 	{
-		path_list = ft_split(str, '=');
+		path_list = ft_split_once(str, '=');
 		if (path_list == NULL)
 			return (NULL);
 		new->env_name = path_list[0];
-		if (path_list[1] == NULL)
-			new->env_var = ft_strdup("");
-		else
-			new->env_var = path_list[1];
+		new->env_var = path_list[1];
 		free(path_list);
 	}
 	new->next = NULL;
