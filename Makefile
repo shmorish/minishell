@@ -48,13 +48,12 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@ mkdir -p $(OBJ_PATH)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(INCS)
-
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 clean:
 	@ make clean -C $(LIB_PATH)
 	@ $(RM) $(OBJS)
