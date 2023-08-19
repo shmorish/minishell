@@ -32,7 +32,10 @@ t_env	*node_new(char *str)
 			return (NULL);
 		new->env_name = path_list[0];
 		if (path_list[1] == NULL)
+		{
+			free(path_list[1]);
 			new->env_var = ft_strdup("");
+		}
 		else
 			new->env_var = path_list[1];
 		free(path_list);

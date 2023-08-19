@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_other_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/17 13:06:02 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/19 12:46:33 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	ft_other_command(char **list, t_env *env_head)
 		free_all(list, env_head);
 		exit(2);
 	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		ans = execve(list[0], list, NULL);
-		if (ans == -1)
+		if (ans < 0)
 		{
 			ft_put_command_err(list[0]);
 			free_all(list, env_head);
@@ -39,10 +39,15 @@ void	ft_other_command(char **list, t_env *env_head)
 		free_all(list, env_head);
 		exit(0);
 	}
-	if ((ret = wait(&status)) < 0)
+	else
 	{
-		perror("wait");
-		free_all(list, env_head);
-		exit(4);
+		ret = wait(&status);
+		if (ret < 0)
+		{
+			perror("wait");
+			free_all(list, env_head);
+			exit(4);
+		}
 	}
+
 }
