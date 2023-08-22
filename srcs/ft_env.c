@@ -17,7 +17,7 @@ void	ft_env(char **list, t_env *env_head)
 	t_env	*tmp;
 
 	if (list[1] != NULL)
-		ft_put_too_arg_err("env");
+		ft_puterr_env(list[1]);
 	else
 	{
 		tmp = env_head->next;
