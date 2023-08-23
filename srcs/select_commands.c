@@ -21,7 +21,7 @@ void	select_commands(char **list, t_env *env_head)
 	else if (!ft_strcmp("pwd", list[0]))
 		ft_pwd();
 	else if (!ft_strcmp("cd", list[0]))
-		ft_cd(list);
+		ft_cd(list, env_head);
 	else if (!ft_strcmp("env", list[0]))
 		ft_env(list, env_head);
 	else if (!ft_strcmp("export", list[0]))
@@ -29,6 +29,6 @@ void	select_commands(char **list, t_env *env_head)
 	else if (!ft_strcmp("unset", list[0]))
 		ft_unset(list, env_head);
 	else
-		ft_put_command_err(list[0]);
-		// ft_other_command(list, env_head);
+		ft_other_command(list, env_head);
+		// ft_put_command_err(list[0]);
 }

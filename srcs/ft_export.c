@@ -12,46 +12,40 @@
 
 #include "../includes/minishell.h"
 
-bool	check_equal(char *str)
+void	put_export(t_env *env_head)
 {
-	bool	ans;
-	size_t	i;
-
-	ans = false;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=' && i != 0)
-			ans = true;
-		i++;
-	}
-	return (ans);
-}
-
-bool	check_duplicate_path(char *str, t_env *env_head)
-{
-	size_t	count;
 	t_env	*tmp;
 
-	count = 0;
 	tmp = env_head->next;
-	while (str[count] != '=' && str[count] != '\0')
-		count++;
 	while (tmp != env_head)
 	{
-		if (!ft_strncmp(str, tmp->env_name, count))
-			return (true);
+		printf("declare -x %s=\"%s\"\n", tmp->env_name, tmp->env_var);
 		tmp = tmp->next;
 	}
-	return (false);
+}
+
+static void	ft_export_with_plus(char **list, t_env *env_head, int pos)
+{
+	if (check_duplicate_path(list[pos], env_head))
+		join_path(list[pos], get_node_pos(env_head, list[pos]));
+	else
+		node_add_back(env_head, node_new_with_plus(list[pos]));
+}
+
+static void	ft_export_default(char **list, t_env *env_head, int pos)
+{
+	if (check_duplicate_path(list[pos], env_head))
+		change_path(list[pos], get_node_pos(env_head, list[pos]));
+	else
+		node_add_back(env_head, node_new(list[pos]));
 }
 
 void	ft_export(char **list, t_env *env_head)
 {
-	int	i;
+	int		i;
 
 	if (list[1] == NULL)
-		ft_put_few_arg_err("export");
+		put_export(env_head);
 	else
 	{
 		i = 1;
@@ -59,12 +53,13 @@ void	ft_export(char **list, t_env *env_head)
 		{
 			if (check_equal(list[i]))
 			{
-				if (check_duplicate_path(list[i], env_head))
-					node_delete(get_node_pos(env_head, list[i]));
-				node_add_back(env_head, node_new(list[i]));
+				if (check_plus(list[i]))
+					ft_export_with_plus(list, env_head, i);
+				else
+					ft_export_default(list, env_head, i);
 			}
 			else
-				ft_puterr("export: error\n");
+				ft_put_not_valid("export", list[i]);
 			i++;
 		}
 	}

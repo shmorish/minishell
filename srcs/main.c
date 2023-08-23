@@ -12,15 +12,25 @@
 
 #include "../includes/minishell.h"
 
-static void	signal_handler(int signum, siginfo_t *info, void *ucontext)
+static void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext)
 {
 	(void)signum;
 	(void)ucontext;
 	(void)info;
-	printf("ctrl+c\n"); // Move to a new line
-	// rl_on_new_line(); // Regenerate the prompt on a newline
-	// rl_replace_line("", 0); // Clear the previous text
-	// rl_redisplay();
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+static void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext)
+{
+	(void)signum;
+	(void)ucontext;
+	(void)info;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -29,7 +39,8 @@ int	main(int argc, char **argv, char **envp)
 	char		*newline;
 	char		**list;
 	t_env		*env_head;
-	struct	sigaction	act1;
+	struct sigaction	act1;
+	struct sigaction	act2;
 
 	(void)argc;
 	(void)argv;
@@ -37,9 +48,13 @@ int	main(int argc, char **argv, char **envp)
 	if (env_head == NULL)
 		return (1);
 	sigemptyset(&act1.sa_mask);
-	act1.sa_sigaction = signal_handler;
+	act1.sa_sigaction = signal_handler_sigint;
 	act1.sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, &act1, NULL);
+	sigemptyset(&act2.sa_mask);
+	act2.sa_sigaction = signal_handler_sigquit;
+	act2.sa_flags = SA_SIGINFO;
+	sigaction(SIGQUIT, &act2, NULL);
 	while (1)
 	{
 		line = readline("minishell $> ");
