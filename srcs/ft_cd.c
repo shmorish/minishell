@@ -68,8 +68,6 @@ void	ft_cd(char **list, t_env *env_head)
 		ft_cd_old_pwd(env_head);
 		return ;
 	}
-	else if (list[2] != NULL)
-		ft_put_too_arg_err("cd");
 	else
 	{
 		if (!access(list[1], X_OK))

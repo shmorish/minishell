@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:25:38 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/19 16:17:18 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/22 18:50:26 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	path_free(char **path_list)
 	int	i;
 
 	i = 0;
+	if (path_list == NULL)
+		return ;
 	while (path_list[i])
 	{
 		free(path_list[i]);
@@ -78,13 +80,13 @@ char	*check_path_access(char **path_list, char *command)
 	int		i;
 	char	*joined_path;
 
-	if (path_list == NULL)
-		return (NULL);
 	if (!access(command, X_OK))
 	{
 		path_free(path_list);
 		return (command);
 	}
+	if (path_list == NULL)
+		return (NULL);
 	i = 0;
 	while (path_list[i])
 	{

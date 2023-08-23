@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/19 16:13:39 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/22 18:49:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	free_in_other_command(char **list, t_env *env_head, char *command)
 {
-	free(command);
+	if (command != list[0])
+		free(command);
 	free_all(list, env_head);
 }
 
@@ -43,7 +44,8 @@ static void	wait_in_other_command(char **list, t_env *env_head, char *command)
 		free_in_other_command(list, env_head, command);
 		exit(1);
 	}
-	free(command);
+	if (command != list[0])
+		free(command);
 }
 
 void	ft_other_command(char **list, t_env *env_head)

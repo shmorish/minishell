@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_utils.c                                   :+:      :+:    :+:   */
+/*   ft_strccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 14:29:19 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/22 19:17:31 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/22 17:01:20 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/22 18:02:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_puterr(char *s)
+char	*ft_strccpy(char *str, char c)
 {
-	ft_putstr_fd(s, STDERR_FILENO);
-}
+	unsigned int	i;
+	char			*ans;
 
-void	ft_put_command_err(char *s)
-{
-	ft_puterr(s);
-	ft_puterr(": command not found\n");
-}
-
-void	ft_put_not_valid(char *command, char *s)
-{
-	ft_puterr(command);
-	ft_puterr(": `");
-	ft_puterr(s);
-	ft_puterr("': not a valid identifier\n");
-}
-
-void	ft_puterr_env(char *s)
-{
-	ft_puterr("env: ");
-	ft_puterr(s);
-	ft_puterr(": No such file or directory\n");
+	i = 0;
+	while (str[i] != '\0' && str[i] != c)
+		i++;
+	ans = (char *)malloc(sizeof(char) * (i + 1));
+	if (ans == NULL)
+	{
+		free(str);
+		return (NULL);
+	}
+	i = 0;
+	while (str[i] != '\0' && str[i] != c)
+	{
+		ans[i] = str[i];
+		i++;
+	}
+	ans[i] = '\0';
+	free(str);
+	return (ans);
 }

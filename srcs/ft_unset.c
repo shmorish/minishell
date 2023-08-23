@@ -17,7 +17,7 @@ void	ft_unset(char **list, t_env *env_head)
 	int	i;
 
 	if (list[1] == NULL)
-		ft_put_few_arg_err("unset");
+		;
 	else
 	{
 		i = 1;

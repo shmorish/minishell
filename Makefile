@@ -8,8 +8,10 @@ SRC			= ft_cd.c \
 				ft_echo.c \
 				ft_env.c \
 				ft_env_init.c \
+				ft_env_node_operate.c \
 				ft_env_node_utils.c \
 				ft_exit.c \
+				ft_export_utils.c \
 				ft_export.c \
 				ft_free.c \
 				ft_get_list_size.c \
@@ -21,7 +23,8 @@ SRC			= ft_cd.c \
 				main.c \
 				select_commands.c \
 				ft_split_once.c \
-				ft_path_utils.c
+				ft_path_utils.c \
+				ft_strccpy.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
@@ -48,13 +51,12 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@ mkdir -p $(OBJ_PATH)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(INCS)
-
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 clean:
 	@ make clean -C $(LIB_PATH)
 	@ $(RM) $(OBJS)
