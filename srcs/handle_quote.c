@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/23 18:04:24 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/23 18:17:31 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*handle_quote(char *line, t_env *env_head)
 					while (ft_is_env(newline[i + j]))
 						j++;
 					after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
-					convert_env = get_env_var(env_head, ft_substr(newline, i, j));
+					convert_env = ft_strdup(get_env_var(env_head, ft_substr(newline, i, j)));
 					if (convert_env == NULL)
 						return (NULL);
 					newline = ft_strjoin(before_line, convert_env);
