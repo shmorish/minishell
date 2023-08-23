@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_once.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:45:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/22 18:45:01 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:23:35 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	free_all_split_once(char **array, size_t len)
 {

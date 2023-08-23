@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_number_str.c                                    :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 17:59:55 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/10 17:59:55 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/12 22:04:21 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/12 22:04:21 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	ft_is_number_str(char *s)
+void	ft_pwd(void)
 {
-	size_t	i;
+	char	*path_name;
 
-	i = 0;
-	if (s[i] == '-' || s[i] == '+')
-		i++;
-	while (s[i] >= '0' && s[i] <= '9')
-		i++;
-	if (s[i] == '\0')
-		return (1);
+	path_name = ft_calloc(PATH_MAX, sizeof(char));
+	if (path_name == NULL)
+		return ;
+	getcwd(path_name, PATH_MAX);
+	if (path_name == NULL)
+		ft_puterr(strerror(errno));
 	else
-		return (0);
+		printf("%s\n", path_name);
+	free(path_name);
 }
-
-// Error handling "-0" "+0" "-" "+" ???

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_node_operate.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:18:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/22 19:23:11 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:23:01 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	node_add_back(t_env *head, t_env *new)
 {

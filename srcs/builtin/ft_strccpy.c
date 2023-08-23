@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 17:01:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/22 18:02:40 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:23:39 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ft_strccpy(char *str, char c)
 {

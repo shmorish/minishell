@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_path_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:25:38 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/23 18:16:51 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:25:39 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*get_env_var(t_env *env_head, char *env_name)
 {

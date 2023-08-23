@@ -3,8 +3,8 @@ NAME		= minishell
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra
 
-SRC_PATH	= srcs
-SRC			= ft_cd.c \
+BUILDIN_PATH= buildin
+BUILDIN		= ft_cd.c \
 				ft_echo.c \
 				ft_env.c \
 				ft_env_init.c \
@@ -14,23 +14,28 @@ SRC			= ft_cd.c \
 				ft_export_utils.c \
 				ft_export.c \
 				ft_free.c \
-				ft_get_list_size.c \
 				ft_is_number_str.c \
 				ft_other_command.c \
-				ft_print_utils.c \
+				ft_path_utils.c \
 				ft_pwd.c \
+				ft_split_once.c \
+				ft_strccpy.c \
 				ft_unset.c \
+				select_commands.c \
+
+BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
+
+SRC_PATH	= srcs
+SRC			= ft_get_list_size.c \
+				ft_print_utils.c \
 				handle_quote.c \
 				main.c \
-				select_commands.c \
-				ft_split_once.c \
-				ft_path_utils.c \
-				ft_strccpy.c
+				minishell_split.c 
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
 OBJ_PATH	= obj
-OBJ 		= $(SRC:.c=.o)
+OBJ 		= $(SRC:.c=.o) $(BUILDIN:.c=.o)
 OBJS		= $(addprefix $(OBJ_PATH)/, $(OBJ))
 
 INC_PATH	= includes

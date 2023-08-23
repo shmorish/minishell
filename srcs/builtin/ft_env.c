@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/13 16:29:40 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/13 16:29:40 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/12 22:56:22 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/12 22:56:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	ft_unset(char **list, t_env *env_head)
+void	ft_env(char **list, t_env *env_head)
 {
-	int	i;
+	t_env	*tmp;
 
-	if (list[1] == NULL)
-		;
+	if (list[1] != NULL)
+		ft_puterr_env(list[1]);
 	else
 	{
-		i = 1;
-		while (list[i])
+		tmp = env_head->next;
+		while (tmp != env_head)
 		{
-			if (check_duplicate_path(list[i], env_head))
-				node_delete(get_node_pos(env_head, list[i]));
-			i++;
+			printf("%s=%s\n", tmp->env_name, tmp->env_var);
+			tmp = tmp->next;
 		}
 	}
 }
