@@ -3,7 +3,7 @@ NAME		= minishell
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra
 
-BUILDIN_PATH= buildin
+BUILDIN_PATH= srcs/buildin
 BUILDIN		= ft_cd.c \
 				ft_echo.c \
 				ft_env.c \
@@ -21,21 +21,24 @@ BUILDIN		= ft_cd.c \
 				ft_split_once.c \
 				ft_strccpy.c \
 				ft_unset.c \
-				select_commands.c \
-
+				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
+
+BUILDIN_OBJ_PATH	= obj_buildin
+BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
+BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 
 SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
 				ft_print_utils.c \
 				handle_quote.c \
 				main.c \
-				minishell_split.c 
+				minishell_split.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
-OBJ_PATH	= obj
-OBJ 		= $(SRC:.c=.o) $(BUILDIN:.c=.o)
+OBJ_PATH	= obj_srcs
+OBJ 		= $(SRC:%.c=%.o)
 OBJS		= $(addprefix $(OBJ_PATH)/, $(OBJ))
 
 INC_PATH	= includes
@@ -55,19 +58,23 @@ RESET		= \033[0m
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(BUILDIN_OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
-	@echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
+	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@ mkdir -p $(OBJ_PATH)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
+	@ mkdir -p $(BUILDIN_OBJ_PATH)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
 clean:
 	@ make clean -C $(LIB_PATH)
-	@ $(RM) $(OBJS)
-	@ $(RM) -r $(OBJ_PATH)
-	@echo "$(REMOVE) $(BLUE)Remove minishell objects... $(RESET)"
+	@ $(RM) -r $(OBJ_PATH) $(BUILDIN_OBJ_PATH)
+	@ echo "$(REMOVE) $(BLUE)Remove minishell objects... $(RESET)"
 
 fclean: clean
 	@ make fclean -C $(LIB_PATH)
