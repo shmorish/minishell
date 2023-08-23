@@ -71,7 +71,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		newline = handle_quote(line, env_head);
 		if (newline == NULL)
-			break ;
+		{
+			free(line);
+			continue ;
+		}
 		list = ft_split(newline, ' ');	
 		// list = ft_split(line, ' ');
 		if (list == NULL)

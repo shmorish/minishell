@@ -6,37 +6,17 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/23 17:28:08 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/23 18:04:24 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	err_message(char *message)
-{
-	printf("%s\n", message);
-	return (1);
-}
 
 int	ft_is_env(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
 	return (0);
-}
-
-char	*get_env_var(char *env_name, t_env *env_head)
-{
-	t_env	*env_node;
-
-	env_node = env_head;
-	while (env_node != NULL)
-	{
-		if (ft_strcmp(env_node->env_name, env_name) == 0)
-			return (ft_strdup(env_node->env_var));
-		env_node = env_node->next;
-	}
-	return (NULL);
 }
 
 char	*handle_quote(char *line, t_env *env_head)
@@ -63,7 +43,7 @@ char	*handle_quote(char *line, t_env *env_head)
 			}
 			if (newline[i] == '\0')
 			{
-				err_message("Error: quote is not closed.");
+				ft_puterr("Error: quote is not closed.");
 				return (NULL);
 			}
 		}
@@ -85,7 +65,7 @@ char	*handle_quote(char *line, t_env *env_head)
 					while (ft_is_env(newline[i + j]))
 						j++;
 					after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
-					convert_env = get_env_var(ft_substr(newline, i, j), env_head);
+					convert_env = get_env_var(env_head, ft_substr(newline, i, j));
 					if (convert_env == NULL)
 						return (NULL);
 					newline = ft_strjoin(before_line, convert_env);
@@ -99,7 +79,7 @@ char	*handle_quote(char *line, t_env *env_head)
 			}
 			if (newline[i] == '\0')
 			{
-				err_message("Error: quote is not closed.");
+				ft_puterr("Error: quote is not closed.");
 				return (NULL);
 			}
 			newline[i] = '\'';
