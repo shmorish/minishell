@@ -36,6 +36,7 @@ static void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
+	char		*newline;
 	char		**list;
 	t_env		*env_head;
 	struct sigaction	act1;
@@ -68,10 +69,15 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		list = ft_split(line, ' ');
+		newline = handle_quote(line, env_head);
+		if (newline == NULL)
+			break ;
+		list = ft_split(newline, ' ');	
+		// list = ft_split(line, ' ');
 		if (list == NULL)
 			break ;
 		add_history(line);
+		// add_history(line);
 		free(line);
 		select_commands(list, env_head);
 		free_list(list);
@@ -79,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-__attribute__((destructor))
-static void destructor() {
-    system("leaks -q minishell");
-}
+// __attribute__((destructor))
+// static void destructor() {
+//     system("leaks -q minishell");
+// }
