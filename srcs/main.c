@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	sigaction(SIGQUIT, &act2, NULL);
 	while (1)
 	{
-		line = readline("minishell $> ");
+		line = readline("\033[1;34mminishell \033[0m $> ");
 		if (line == NULL)
 		{
 			head_free_all(env_head);
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		list = ft_split(newline, ' ');	
+		list = ft_split(newline, ' ');
 		// list = ft_split(line, ' ');
 		if (list == NULL)
 			break ;
