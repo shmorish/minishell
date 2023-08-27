@@ -16,10 +16,11 @@ void	change_directory(char *name, t_env *env_head)
 {
 	if (!access(name, X_OK))
 	{
+		set_pwd(env_head, "OLDPWD");
 		if (chdir(name) != 0)
 			perror("cd");
 		else
-			set_pwd(env_head);
+			set_pwd(env_head, "PWD");
 	}
 	else
 		perror("cd");
@@ -34,6 +35,12 @@ void	ft_cd_home_plus(char **list, t_env *env_head)
 	substr = ft_substr(list[1], 1, ft_strlen(list[1]));
 	if (substr == NULL)
 		return ;
+	if (get_env_var(env_head, "HOME") == NULL)
+	{
+		free(substr);
+		ft_puterr("minishell: cd: HOME not set\n");
+		return ;
+	}
 	joinstr = ft_strjoin(get_env_var(env_head, "HOME"), substr);
 	if (joinstr == NULL)
 	{
@@ -69,6 +76,7 @@ void	ft_cd_old_pwd(t_env *env_head)
 	{
 		if (!access(name, X_OK))
 		{
+			set_pwd(env_head, "OLDPWD");
 			if (chdir(name) != 0)
 				perror("cd");
 			else

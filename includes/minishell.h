@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/27 17:57:38 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/27 18:17:00 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		ft_is_number_str(char *s);
 // ft_pwd.c
 void	ft_pwd(void);
 char	*get_pwd(void);
-void	set_pwd(t_env *env_head);
+void	set_pwd(t_env *env_head, char *env_name);
 // ft_split_once.c
 char	**ft_split_once(char const *s, char c);
 // ft_split_quote.c
