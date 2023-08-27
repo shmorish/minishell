@@ -43,6 +43,7 @@ void	ft_cd_home_plus(char **list, t_env *env_head)
 	str = list[1];
 	list[1] = joinstr;
 	free(str);
+	free(substr);
 	change_directory(list[1], env_head);
 }
 
