@@ -26,7 +26,7 @@ char	*get_pwd(void)
 	free(path_name);
 }
 
-void	create_pwd(t_env *env_head)
+void	create_pwd(t_env *env_head, char *env_name)
 {
 	char	*tmp_str;
 	char	*path_name;
@@ -34,10 +34,17 @@ void	create_pwd(t_env *env_head)
 	path_name = get_pwd();
 	if (path_name == NULL)
 		return ;
-	tmp_str = ft_strjoin("PWD=", path_name);
+	if (!ft_strcmp(env_name, "PWD"))
+		tmp_str = ft_strjoin("PWD=", path_name);
+	else if (!ft_strcmp(env_name, "OLDPWD"))
+		tmp_str = ft_strjoin("OLDPWD=", path_name);
+	else
+		return ;
 	if (tmp_str == NULL)
 		return ;
 	node_add_back(env_head, node_new(tmp_str));
+	free(tmp_str);
+	free(path_name);
 }
 
 void	update_pwd(t_env *node)
@@ -57,13 +64,13 @@ void	update_pwd(t_env *node)
 	free(path_name);
 }
 
-void	set_pwd(t_env *env_head)
+void	set_pwd(t_env *env_head, char *env_name)
 {
 	t_env	*tmp_node;
 
-	tmp_node = get_node_pos(env_head, "PWD");
+	tmp_node = get_node_pos(env_head, env_name);
 	if (tmp_node == NULL)
-		create_pwd(env_head);
+		create_pwd(env_head, env_name);
 	else
 		update_pwd(tmp_node);
 }
