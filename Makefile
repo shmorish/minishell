@@ -2,25 +2,30 @@ NAME		= minishell
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra
+ifeq ($(MAKECMDGOALS), debug)
+	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -g
+endif
 
 BUILDIN_PATH= srcs/buildin
-BUILDIN		= ft_cd.c \
+BUILDIN		= env_init.c \
+				env_node_operate.c \
+				env_node_new.c \
+				ft_cd.c \
 				ft_echo.c \
 				ft_env.c \
-				ft_env_init.c \
-				ft_env_node_operate.c \
-				ft_env_node_utils.c \
 				ft_exit.c \
 				ft_export_utils.c \
 				ft_export.c \
 				ft_free.c \
 				ft_is_number_str.c \
-				ft_other_command.c \
-				ft_path_utils.c \
 				ft_pwd.c \
 				ft_split_once.c \
+				ft_split_quote.c \
 				ft_strccpy.c \
 				ft_unset.c \
+				is_long_overflow.c \
+				other_commands.c \
+				path_utils.c \
 				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
 
@@ -30,10 +35,10 @@ BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 
 SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
-				ft_print_utils.c \
+				ft_puterr_utils.c \
 				handle_quote.c \
 				main.c \
-				minishell_split.c
+				signal.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
@@ -83,4 +88,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY : all clean fclean re
+run: all
+	@ clear
+	@ ./$(NAME)
+
+debug: run
+
+.PHONY : all clean fclean re run debug

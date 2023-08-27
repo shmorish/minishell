@@ -12,14 +12,14 @@
 
 #include "../../includes/minishell.h"
 
-void	put_export(t_env *env_head)
+static void	put_export(t_env *env_head)
 {
 	t_env	*tmp;
 
 	tmp = env_head->next;
 	while (tmp != env_head)
 	{
-		printf("declare -x %s=\"%s\"\n", tmp->env_name, tmp->env_var);
+		ft_printf("declare -x %s=\"%s\"\n", tmp->env_name, tmp->env_var);
 		tmp = tmp->next;
 	}
 }

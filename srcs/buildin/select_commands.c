@@ -12,12 +12,12 @@
 
 #include "../../includes/minishell.h"
 
-void	select_commands(char **list, t_env *env_head)
+void	select_commands(char **list, t_env *env_head, t_data *data)
 {
 	if (!ft_strcmp("echo", list[0]))
 		ft_echo(list);
 	else if (!ft_strcmp("exit", list[0]))
-		ft_exit(list, env_head);
+		ft_exit(list, env_head, data);
 	else if (!ft_strcmp("pwd", list[0]))
 		ft_pwd();
 	else if (!ft_strcmp("cd", list[0]))

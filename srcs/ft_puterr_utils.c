@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:29:19 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/22 19:17:31 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/27 15:58:45 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_put_command_err(char *s)
 
 void	ft_put_not_valid(char *command, char *s)
 {
+	ft_puterr("bash: ");
 	ft_puterr(command);
 	ft_puterr(": `");
 	ft_puterr(s);

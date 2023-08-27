@@ -12,27 +12,19 @@
 
 #include "../../includes/minishell.h"
 
-static void	ft_echo_option(char **list, size_t count)
+static void	check_quote(char **list, size_t count)
 {
 	size_t	i;
+	char	*str;
 
-	while (!ft_strncmp("-n", list[count], 2))
+	i = 0;
+	while (list[count][i] != '\0' && list[count][i] != '\'')
+		i++;
+	if (list[count][i] == '\'')
 	{
-		i = 2;
-		while (list[count][i] == 'n')
-			i++;
-		if (list[count][i] != '\0')
-			break ;
-		count++;
-	}
-	if (list[count] == NULL)
-		return ;
-	while (list[count])
-	{
-		printf("%s", list[count]);
-		if (count != ft_get_list_size(list) - 1)
-			printf(" ");
-		count++;
+		str = list[count];
+		list[count] = ft_strtrim(str, "'");
+		free(str);
 	}
 }
 
@@ -40,36 +32,49 @@ static void	ft_echo_no_option(char **list, size_t count)
 {
 	while (list[count])
 	{
-		printf("%s", list[count]);
+		check_quote(list, count);
+		ft_printf("%s", list[count]);
 		if (count != ft_get_list_size(list) - 1)
-			printf(" ");
+			ft_printf(" ");
 		count++;
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
-// static size_t	check_doller(char *str)
-// {
+static void	ft_echo_option(char **list, size_t count)
+{
+	size_t	i;
 
-// }
+	while (list[count] != NULL && !ft_strncmp("-n", list[count], 2))
+	{
+		i = 2;
+		while (list[count][i] == 'n')
+			i++;
+		if (list[count][i] != '\0')
+		{
+			ft_echo_no_option(list, count);
+			return ;
+		}
+		count++;
+	}
+	if (list[count] == NULL)
+		return ;
+	while (list[count])
+	{
+		check_quote(list, count);
+		ft_printf("%s", list[count]);
+		if (count != ft_get_list_size(list) - 1)
+			ft_printf(" ");
+		count++;
+	}
+}
 
-// static void	ft_put_doller(char *str)
-// {
-// 	while (*str)
-// 	{
-// 		if (*str == '$')
-// 		{
-
-// 		}
-// 		write(STDOUT_FILENO, str, 1);
-// 	}
-// }
 void	ft_echo(char **list)
 {
 	size_t	count;
 
 	count = 1;
-	if (!ft_strncmp("-n", list[count], 2))
+	if (list[count] != NULL && !ft_strncmp("-n", list[count], 2))
 		ft_echo_option(list, count);
 	else
 		ft_echo_no_option(list, count);

@@ -91,23 +91,3 @@ t_env	*node_new_with_plus(char *str)
 	new->prev = NULL;
 	return (new);
 }
-
-t_env	*get_node_pos(t_env *head, char *str)
-{
-	size_t	count;
-	t_env	*tmp;
-
-	count = 0;
-	tmp = head->next;
-	while (str[count] != '=' && str[count] != '\0')
-		count++;
-	if (str[count - 1] == '+')
-		count--;
-	while (tmp != head)
-	{
-		if (!ft_strncmp(str, tmp->env_name, count))
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
