@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/27 17:29:23 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/27 17:57:38 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_unset(char **list, t_env *env_head);
 // is_long_overflow.c
 bool	is_long_overflow(const char *str);
 // other_commands.c
-void	ft_other_command(char **list, t_env *env_head);
+void	ft_other_command(char **list, t_env *env_head, t_data *data);
 // path_utils.c
 char	**path_split(char *path);
 char	*check_path_access(char **path_list, char *command);

@@ -54,7 +54,6 @@ int	main(int argc, char **argv, char **envp)
 		if (list == NULL)
 			break ;
 		add_history(line);
-		// add_history(line);
 		free(line);
 		free(newline);
 		select_commands(list, env_head, data);

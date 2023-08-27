@@ -29,6 +29,5 @@ void	select_commands(char **list, t_env *env_head, t_data *data)
 	else if (!ft_strcmp("unset", list[0]))
 		ft_unset(list, env_head);
 	else
-		ft_other_command(list, env_head);
-		// ft_put_command_err(list[0]);
+		ft_other_command(list, env_head, data);
 }
