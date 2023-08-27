@@ -1,46 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_path_utils.c                                    :+:      :+:    :+:   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:25:38 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/23 18:25:39 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/27 17:25:56 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_env_var(t_env *env_head, char *env_name)
-{
-	t_env	*tmp;
-
-	if (env_head == NULL)
-		return (NULL);
-	tmp = env_head->next;
-	while (tmp != env_head)
-	{
-		if (!ft_strcmp(tmp->env_name, env_name))
-			return (tmp->env_var);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char	**path_split(char *path)
-{
-	char	**path_list;
-
-	if (path == NULL)
-		return (NULL);
-	path_list = ft_split(path, ':');
-	if (path_list == NULL)
-		return (NULL);
-	return (path_list);
-}
-
-void	path_free(char **path_list)
+static void	path_free(char **path_list)
 {
 	int	i;
 
@@ -57,7 +29,7 @@ void	path_free(char **path_list)
 	path_list = NULL;
 }
 
-char	*path_join(char **path_list, char *command, int pos)
+static char	*path_join(char **path_list, char *command, int pos)
 {
 	char	*path_join;
 	char	*slash_join;
@@ -73,6 +45,18 @@ char	*path_join(char **path_list, char *command, int pos)
 		return (NULL);
 	}
 	return (path_join);
+}
+
+char	**path_split(char *path)
+{
+	char	**path_list;
+
+	if (path == NULL)
+		return (NULL);
+	path_list = ft_split(path, ':');
+	if (path_list == NULL)
+		return (NULL);
+	return (path_list);
 }
 
 char	*check_path_access(char **path_list, char *command)

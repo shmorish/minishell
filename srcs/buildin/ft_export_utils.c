@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:23:51 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/23 18:23:15 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/27 15:05:02 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool	check_duplicate_path(char *str, t_env *env_head)
 	tmp = env_head->next;
 	while (str[count] != '=' && str[count] != '\0')
 		count++;
+	if (str[count - 1] == '+')
+		count--;
 	while (tmp != env_head)
 	{
 		if (!ft_strncmp(str, tmp->env_name, count))
