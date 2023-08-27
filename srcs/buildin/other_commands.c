@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_other_command.c                                 :+:      :+:    :+:   */
+/*   other_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/23 18:23:28 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/27 17:59:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ static void	free_in_other_command(char **list, t_env *env_head, char *command)
 	free_all(list, env_head);
 }
 
-static void	exe_command(char *command, char **list, t_env *env_head)
+static void	exe_command(char *command, char **list, t_data *data)
 {
 	int	exe_ans;
 
-	exe_ans = execve(command, list, NULL);
+	exe_ans = execve(command, list, data->envp);
 	if (exe_ans < 0)
 	{
 		perror(command);
-		free_in_other_command(list, env_head, command);
+		free_in_other_command(list, data->env_head, command);
 		exit(1);
 	}
-	free_in_other_command(list, env_head, command);
+	free_in_other_command(list, data->env_head, command);
 	exit(0);
 }
 
@@ -48,7 +48,7 @@ static void	wait_in_other_command(char **list, t_env *env_head, char *command)
 		free(command);
 }
 
-void	ft_other_command(char **list, t_env *env_head)
+void	ft_other_command(char **list, t_env *env_head, t_data *data)
 {
 	pid_t	pid;
 	char	*command;
@@ -68,7 +68,7 @@ void	ft_other_command(char **list, t_env *env_head)
 		exit(1);
 	}
 	if (pid == 0)
-		exe_command(command, list, env_head);
+		exe_command(command, list, data);
 	else
 		wait_in_other_command(list, env_head, command);
 }

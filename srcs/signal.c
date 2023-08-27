@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 15:12:41 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/27 15:16:35 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/27 17:55:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	signal_init(void)
 {
 	struct sigaction	act1;
 	struct sigaction	act2;
-	
+
 	sigemptyset(&act1.sa_mask);
 	act1.sa_sigaction = signal_handler_sigint;
 	act1.sa_flags = SA_SIGINFO;

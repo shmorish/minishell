@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static void exit_numeric_error(char *str, t_data *data)
+static void	exit_numeric_error(char *str, t_data *data)
 {
 	ft_puterr("exit\n");
 	ft_puterr("bash: exit: ");

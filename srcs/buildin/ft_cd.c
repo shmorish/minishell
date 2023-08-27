@@ -27,9 +27,10 @@ void	change_directory(char *name, t_env *env_head)
 
 void	ft_cd_home_plus(char **list, t_env *env_head)
 {
-	char *str;
-	char *substr;
-	char *joinstr;
+	char	*str;
+	char	*substr;
+	char	*joinstr;
+
 	substr = ft_substr(list[1], 1, ft_strlen(list[1]));
 	if (substr == NULL)
 		return ;
