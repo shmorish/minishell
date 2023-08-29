@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/29 14:49:52 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/29 15:13:28 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ typedef enum e_token_type {
 	EMPTY,
 	PIPE,
 	S_QUOTE,
+	LSP_S_QUOTE,
 	D_QUOTE,
+	LSP_D_QUOTE,
 	S_GREATER,
 	D_GREATER,
 	S_LESSER,
