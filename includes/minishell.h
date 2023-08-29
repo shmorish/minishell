@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/29 13:52:38 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:49:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	expansion_quote(t_token *node);
 void expansion_check(t_token *token_head, t_env *env_head);
 // lexer_boolean.c
 bool	is_token(char c);
+bool	is_only_space_before(char *line, size_t index);
 bool	is_only_space_or_end(char *line, size_t index);
 bool	is_valid_greater(char *line, size_t index);
 bool	is_valid_lesser(char *line, size_t index);

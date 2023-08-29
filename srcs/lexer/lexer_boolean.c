@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:40:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 10:41:11 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:51:10 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 bool	is_token(char c)
 {
 	if (c == '\'' || c == '\"' || c == '>' || c == '<' || c == '|')
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_only_space_before(char *line, size_t index)
+{
+	if (index == 0)
+		return (true);
+	index--;
+	while (index && line[index] == ' ')
+		index--;
+	if (index == 0)
 		return (true);
 	else
 		return (false);

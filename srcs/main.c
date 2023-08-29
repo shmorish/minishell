@@ -51,14 +51,14 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		token_head = lexer(line, env_head);
+		token_head = lexer(newline, env_head);
 		(void)token_head;
 		// list = ft_split_quote(newline, ' ');
 		list = ft_split(newline, ' ');
 		if (list == NULL)
 			break ;
 		free(line);
-		// free(newline);
+		free(newline);
 		select_commands(list, env_head, data);
 		free_list(list);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_quote2.c                                    :+:      :+:    :+:   */
+/*   handle_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/29 13:09:29 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/29 14:30:02 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,8 +230,9 @@ char	*handle_quote(char *line, t_env *env_head, t_data *data)
 					j++;
 				if (newline[i] == '$' || newline[i] == '?')
 				{
+						// env_line = ft_itoa(PROCESS_ID);
 					if (newline[i] == '$')
-						env_line = ft_itoa(PROCESS_ID);
+						env_line = ft_strdup("$$");
 					else
 						env_line = ft_itoa(data->exit_status);
 					after_line = ft_substr(newline, i + 1, ft_strlen(newline) - (i + 1));
@@ -291,4 +292,3 @@ char	*handle_quote(char *line, t_env *env_head, t_data *data)
 	}
 	return (newline);
 }
-

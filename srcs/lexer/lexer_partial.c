@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:21 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 11:36:55 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/29 14:50:27 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ bool	lexer_double_quote(char *line, size_t *index)
 
 bool	lexer_pipe(char *line, size_t *index)
 {
-	if (is_only_space_or_end(line, *index + 1))
+	if (is_only_space_before(line, *index))
+	{
+		ft_puterr("minishell: syntax error near unexpected token `|'\n");
+		return (false);
+	}
+	else if (is_only_space_or_end(line, *index + 1))
 	{
 		ft_puterr("minishell: syntax error near unexpected token `|'\n");
 		return (false);
