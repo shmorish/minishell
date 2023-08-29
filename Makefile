@@ -20,7 +20,6 @@ BUILDIN		= env_init.c \
 				ft_is_number_str.c \
 				ft_pwd.c \
 				ft_split_once.c \
-				ft_split_quote.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
@@ -28,10 +27,25 @@ BUILDIN		= env_init.c \
 				path_utils.c \
 				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
-
 BUILDIN_OBJ_PATH	= obj_buildin
 BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
 BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
+
+LEXER_PATH= srcs/lexer
+LEXER		= expansion_utils.c \
+				expansion.c \
+				lexer_boolean.c \
+				lexer_node_init.c \
+				lexer_node.c \
+				lexer_partial.c \
+				lexer_print.c \
+				lexer.c
+
+LEXERS	= $(addprefix $(LEXER_PATH)/, $(LEXER))
+
+LEXER_OBJ_PATH	= obj_lexer
+LEXER_OBJ 		= $(LEXER:%.c=%.o)
+LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
 
 SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
@@ -63,9 +77,9 @@ RESET		= \033[0m
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) $(BUILDIN_OBJS)
+$(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
@@ -74,6 +88,10 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 
 $(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
 	@ mkdir -p $(BUILDIN_OBJ_PATH)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
+	@ mkdir -p $(LEXER_OBJ_PATH)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 clean:
