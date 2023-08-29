@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	// char		*newline;
+	char		*newline;
 	char		**list;
 	t_env		*env_head;
 	t_data		*data;
@@ -44,18 +44,19 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		// newline = handle_quote(line, env_head);
-		// if (newline == NULL)
-		// {
-		// 	free(line);
-		// 	continue ;
-		// }
+		add_history(line);
+		newline = handle_quote(line, env_head, data);
+		if (newline == NULL)
+		{
+			free(line);
+			continue ;
+		}
 		token_head = lexer(line, env_head);
 		(void)token_head;
-		list = ft_split(line, ' ');
+		// list = ft_split_quote(newline, ' ');
+		list = ft_split(newline, ' ');
 		if (list == NULL)
 			break ;
-		add_history(line);
 		free(line);
 		// free(newline);
 		select_commands(list, env_head, data);
