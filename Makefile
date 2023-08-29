@@ -80,6 +80,8 @@ all : $(NAME)
 $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS)
 	@ make -C $(LIB_PATH)
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
+	@ mkdir -p ./obj
+	@ mv $(LEXER_OBJ_PATH) $(BUILDIN_OBJ_PATH) $(OBJ_PATH) ./obj
 	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
@@ -96,7 +98,7 @@ $(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
 
 clean:
 	@ make clean -C $(LIB_PATH)
-	@ $(RM) -r $(OBJ_PATH) $(BUILDIN_OBJ_PATH)
+	@ $(RM) -r ./obj/
 	@ echo "$(REMOVE) $(BLUE)Remove minishell objects... $(RESET)"
 
 fclean: clean
