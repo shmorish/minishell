@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		newline = handle_quote(line, env_head);
+		newline = handle_quote(line, env_head, data);
 		if (newline == NULL)
 		{
 			free(line);
