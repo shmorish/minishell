@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_quote.c                                     :+:      :+:    :+:   */
+/*   handle_quote2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/27 18:43:06 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/29 13:09:29 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,47 @@ char	*convert_env_to_newline(char *newline, t_env *env_head, char *env_line, cha
 	// i = ft_strlen(before_line) + ft_strlen(convert_env);
 }
 
-char	*handle_quote(char *line, t_env *env_head)
+char	*ft_strjoin_three(char *str1, char *str2, char *str3)
+{
+	int		strlen1;
+	int		strlen2;
+	int		strlen3;
+	char	*newstr;
+
+	if (str1 == NULL)
+		strlen1 = 0;
+	else
+		strlen1 = ft_strlen(str1);
+	if (str2 == NULL)
+		strlen2 = 0;
+	else
+		strlen2 = ft_strlen(str2);
+	if (str3 == NULL)
+		strlen3 = 0;
+	else
+		strlen3 = ft_strlen(str3);
+	newstr = (char *)malloc(sizeof(char) * (strlen1 + strlen2 + strlen3 + 1));
+	if (newstr == NULL)
+		return (NULL);
+	ft_strlcpy(newstr, str1, strlen1 + 1);
+	ft_strlcpy(newstr + strlen1, str2, strlen2 + 1);
+	ft_strlcpy(newstr + strlen1 + strlen2, str3, strlen3 + 1);
+	return (newstr);
+}
+
+char	*handle_quote(char *line, t_env *env_head, t_data *data)
 {
 	char	*newline;
 	char	*before_line;
 	char	*after_line;
-	char	*convert_env;
+	// char	*convert_env;
+	char	*env_value;
 	char	*env_line;
 	char	*tmp;
 	int		i;
 	int		j;
 
+	(void)env_head;
 	i = 0;
 	newline = ft_strdup(line);
 	while (newline[i] != '\0')
@@ -109,7 +139,6 @@ char	*handle_quote(char *line, t_env *env_head)
 		}
 		else if (newline[i] == '\"')
 		{
-			newline[i] = '\'';
 			i++;
 			while (newline[i] != '\0')
 			{
@@ -124,11 +153,30 @@ char	*handle_quote(char *line, t_env *env_head)
 					i++;
 					while (ft_is_env(newline[i + j]))
 						j++;
-					if (newline[i] == '$')
+					if (newline[i] == '$' || newline[i] == '?')
 					{
-						newline = convert_process_id(newline, &i);
-						if (newline == NULL)
+						if (newline[i] == '$')
+							env_line = ft_itoa(PROCESS_ID);
+						else
+							env_line = ft_itoa(data->exit_status);
+						after_line = ft_substr(newline, i + 1, ft_strlen(newline) - (i + 1));
+						printf("after_line :[%s]\n", after_line);
+						if (env_line == NULL || after_line == NULL)
 							return (NULL);
+						tmp = ft_strjoin_three(before_line, env_line, after_line);
+						if (tmp == NULL)
+							return (NULL);
+						i = ft_strlen(before_line) + ft_strlen(env_line) - 1;
+						// printf("before_line :[%s]\n", before_line);
+						// printf("env_line :[%s]\n", env_line);
+						free(newline);
+						free(before_line);
+						free(after_line);
+						free(env_line);
+						newline = tmp;
+						// printf("i :[%d]\n", i);
+						// printf("newline :[%s]\n", newline);
+						// printf("newline[i] :[%c]\n", newline[i]);
 					}
 					else if (j == 0)
 					{
@@ -137,36 +185,36 @@ char	*handle_quote(char *line, t_env *env_head)
 					}
 					else
 					{
-						after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
 						env_line = ft_substr(newline, i, j);
-						if (after_line == NULL || env_line == NULL)
+						// printf("env_line :[%s]\n", env_line);
+						env_value = ft_strdup(get_env_var(env_head, env_line));
+						// printf("env_value :[%s]\n", env_value);
+						after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
+						// printf("after_line :[%s]\n", after_line);
+						if (env_line == NULL || after_line == NULL || env_value == NULL)
 							return (NULL);
-						if (get_env_var(env_head, env_line) == NULL)
-						{
-							newline = ft_strjoin(before_line, after_line);
-							i = i - 2;
-						}
-						else
-						{
-							// newline = convert_env_to_newline(newline, env_head, env_line, before_line, after_line);
-							convert_env = ft_strdup(get_env_var(env_head, env_line));
-							if (convert_env == NULL)
-								return (NULL);
-							newline = ft_strjoin(before_line, convert_env);
-							newline = ft_strjoin(newline, after_line);
-							free(before_line);
-							free(after_line);
-							free(env_line);
-							free(convert_env);
-							i = ft_strlen(before_line) + ft_strlen(convert_env);
-						}
+						tmp = ft_strjoin_three(before_line, env_value, after_line);
+						if (tmp == NULL)
+							return (NULL);
+						free(newline);
+						newline = tmp;
+						i = ft_strlen(before_line) + ft_strlen(env_value) - 1;
+						printf("before_line :[%s]\n", before_line);
+						printf("env_value :[%s]\n", env_value);
+						printf("after_line :[%s]\n", after_line);
+						printf("i :[%d]\n", i);
+						printf("newline :[%s]\n", newline);
+						printf("newline[i] :[%c]\n", newline[i]);
+						free(before_line);
+						free(after_line);
+						free(env_line);
+						free(env_value);
 					}
 				}
 				i++;
 			}
 			if (newline[i] == '\0')
 				return (puterr_null_return());
-			newline[i] = '\'';
 			i++;
 		}
 		else
@@ -175,24 +223,35 @@ char	*handle_quote(char *line, t_env *env_head)
 			{
 				j = 0;
 				before_line = ft_substr(newline, 0, i);
+				if (before_line == NULL)
+					return (NULL);
 				i++;
 				while (ft_is_env(newline[i + j]))
 					j++;
-				if (newline[i] == '$')
+				if (newline[i] == '$' || newline[i] == '?')
 				{
-					tmp = ft_itoa(PROCESS_ID);
-					// tmp = ft_itoa(getpid());
-					convert_env = ft_strdup(tmp);
-					free(tmp);
+					if (newline[i] == '$')
+						env_line = ft_itoa(PROCESS_ID);
+					else
+						env_line = ft_itoa(data->exit_status);
 					after_line = ft_substr(newline, i + 1, ft_strlen(newline) - (i + 1));
-					if (convert_env == NULL || before_line == NULL || after_line == NULL)
+					printf("after_line :[%s]\n", after_line);
+					if (env_line == NULL || after_line == NULL)
 						return (NULL);
-					newline = ft_strjoin(before_line, convert_env);
-					newline = ft_strjoin(newline, after_line);
+					tmp = ft_strjoin_three(before_line, env_line, after_line);
+					if (tmp == NULL)
+						return (NULL);
+					i = ft_strlen(before_line) + ft_strlen(env_line) - 1;
+					// printf("before_line :[%s]\n", before_line);
+					// printf("env_line :[%s]\n", env_line);
+					free(newline);
 					free(before_line);
 					free(after_line);
-					free(convert_env);
-					i = ft_strlen(before_line) + ft_strlen(convert_env);
+					free(env_line);
+					newline = tmp;
+					// printf("i :[%d]\n", i);
+					// printf("newline :[%s]\n", newline);
+					// printf("newline[i] :[%c]\n", newline[i]);
 				}
 				else if (j == 0)
 				{
@@ -201,26 +260,30 @@ char	*handle_quote(char *line, t_env *env_head)
 				}
 				else
 				{
-					after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
 					env_line = ft_substr(newline, i, j);
-					if (get_env_var(env_head, env_line) == NULL)
-					{
-						newline = ft_strjoin(before_line, after_line);
-						i = i - 2;
-					}
-					else
-					{
-						convert_env = ft_strdup(get_env_var(env_head, env_line)); // segmantation fault
-						if (convert_env == NULL || before_line == NULL || after_line == NULL)
-							return (NULL);
-						newline = ft_strjoin(before_line, convert_env);
-						newline = ft_strjoin(newline, after_line);
-						free(before_line);
-						free(after_line);
-						free(env_line);
-						free(convert_env);
-						i = ft_strlen(before_line) + ft_strlen(convert_env);
-					}
+					// printf("env_line :[%s]\n", env_line);
+					env_value = ft_strdup(get_env_var(env_head, env_line));
+					// printf("env_value :[%s]\n", env_value);
+					after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
+					// printf("after_line :[%s]\n", after_line);
+					if (env_line == NULL || after_line == NULL || env_value == NULL)
+						return (NULL);
+					tmp = ft_strjoin_three(before_line, env_value, after_line);
+					if (tmp == NULL)
+						return (NULL);
+					free(newline);
+					newline = tmp;
+					i = ft_strlen(before_line) + ft_strlen(env_value) - 1;
+					printf("before_line :[%s]\n", before_line);
+					printf("env_value :[%s]\n", env_value);
+					printf("after_line :[%s]\n", after_line);
+					printf("i :[%d]\n", i);
+					printf("newline :[%s]\n", newline);
+					printf("newline[i] :[%c]\n", newline[i]);
+					free(before_line);
+					free(after_line);
+					free(env_line);
+					free(env_value);
 				}
 			}
 		}
