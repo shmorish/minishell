@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/30 04:03:30 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/31 16:49:10 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ char	*handle_processid_exitstatus(char *newline, char *before_line, int *i,
 	char	*tmp;
 
 	if (newline[*i] == '$')
-		env_line = ft_itoa(PROCESS_ID);
-		// env_line = ft_strdup("$$");
+		env_line = ft_strdup("$$");
+		// env_line = ft_itoa(PROCESS_ID);
 	else
 		env_line = ft_itoa(data->exit_status);
 	printf("env_line: %s\n", env_line);
@@ -91,7 +91,7 @@ char	*handle_processid_exitstatus(char *newline, char *before_line, int *i,
 	tmp = ft_strjoin_three(before_line, env_line, after_line);
 	if (tmp == NULL)
 		return (NULL);
-	*i = ft_strlen(before_line) + ft_strlen(env_line) - 2;
+	*i = ft_strlen(before_line) + ft_strlen(env_line) - 1;
 	free(after_line);
 	free(env_line);
 	free(newline);
