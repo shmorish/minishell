@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/31 16:54:05 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:55:44 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ char	*handle_env(char *newline, int *i, int *j, t_env *env_head)
 	char	*env_value;
 
 	env_line = ft_substr(newline, *i, *j);
-	if (get_env_var(env_head, env_line) == NULL)
+	if (get_env_val(env_head, env_line) == NULL)
 		env_value = ft_strdup("");
 	else
-		env_value = ft_strdup(get_env_var(env_head, env_line));
+		env_value = ft_strdup(get_env_val(env_head, env_line));
 	if (env_line == NULL || env_value == NULL)
 		return (NULL);
 	free(env_line);
