@@ -12,92 +12,98 @@
 
 #include "../../includes/minishell.h"
 
-void	change_directory(char *name, t_env *env_head)
+static void	change_directory(char *name, t_env *env_head, t_data *data)
 {
 	if (!access(name, X_OK))
 	{
 		set_pwd(env_head, "OLDPWD");
 		if (chdir(name) != 0)
-			perror("cd");
+			ft_perror_set_status("cd", 1, data);
 		else
+		{
 			set_pwd(env_head, "PWD");
+			data->exit_status = 0;
+		}
 	}
 	else
-		perror("cd");
+		ft_perror_set_status("cd", 1, data);
 }
 
-void	ft_cd_home_plus(char **list, t_env *env_head)
+static void	ft_cd_home_plus(char **array, t_env *env_head, t_data *data)
 {
 	char	*str;
 	char	*substr;
 	char	*joinstr;
 
-	substr = ft_substr(list[1], 1, ft_strlen(list[1]));
+	substr = ft_substr(array[1], 1, ft_strlen(array[1]));
 	if (substr == NULL)
 		return ;
-	if (get_env_var(env_head, "HOME") == NULL)
+	if (get_env_val(env_head, "HOME") == NULL)
 	{
 		free(substr);
-		ft_puterr("minishell: cd: HOME not set\n");
+		ft_puterr_set_status("minishell: cd: HOME not set\n", data, 1);
 		return ;
 	}
-	joinstr = ft_strjoin(get_env_var(env_head, "HOME"), substr);
+	joinstr = ft_strjoin(get_env_val(env_head, "HOME"), substr);
 	if (joinstr == NULL)
 	{
 		free(substr);
 		return ;
 	}
-	str = list[1];
-	list[1] = joinstr;
+	str = array[1];
+	array[1] = joinstr;
 	free(str);
 	free(substr);
-	change_directory(list[1], env_head);
+	change_directory(array[1], env_head, data);
 }
 
-void	ft_cd_home(t_env *env_head)
+static void	ft_cd_home(t_env *env_head, t_data *data)
 {
 	char	*name;
 
-	name = get_env_var(env_head, "HOME");
+	name = get_env_val(env_head, "HOME");
 	if (name == NULL)
-		ft_puterr("bash: cd: HOME not set\n");
+		ft_puterr_set_status("bash: cd: HOME not set\n", data, 1);
 	else
-		change_directory(name, env_head);
+		change_directory(name, env_head, data);
 }
 
-void	ft_cd_old_pwd(t_env *env_head)
+static void	ft_cd_old_pwd(t_env *env_head, t_data *data)
 {
 	char	*name;
 
-	name = get_env_var(env_head, "OLDPWD");
+	name = get_env_val(env_head, "OLDPWD");
 	if (name == NULL)
-		ft_puterr("bash: cd: OLDPWD not set\n");
+		ft_puterr_set_status("bash: cd: OLDPWD not set\n", data, 1);
 	else
 	{
 		if (!access(name, X_OK))
 		{
 			set_pwd(env_head, "OLDPWD");
 			if (chdir(name) != 0)
-				perror("cd");
+				ft_perror_set_status("cd", 1, data);
 			else
+			{
 				ft_printf("%s\n", name);
+				data->exit_status = 0;
+			}
 		}
 		else
-			perror("cd");
+			ft_perror_set_status("cd", 1, data);
 	}
 }
 
-void	ft_cd(char **list, t_env *env_head)
+void	ft_cd(char **array, t_env *env_head, t_data *data)
 {
-	if (list[1] == NULL || (!ft_strncmp(list[1], "~", 1) && list[2] == NULL))
+	if (array[1] == NULL || (!ft_strncmp(array[1], "~", 1) && array[2] == NULL))
 	{
-		if (list[1][1] != '\0')
-			ft_cd_home_plus(list, env_head);
+		if (array[1][1] != '\0')
+			ft_cd_home_plus(array, env_head, data);
 		else
-			ft_cd_home(env_head);
+			ft_cd_home(env_head, data);
 	}
-	else if (!ft_strcmp(list[1], "-") && list[2] == NULL)
-		ft_cd_old_pwd(env_head);
+	else if (!ft_strcmp(array[1], "-") && array[2] == NULL)
+		ft_cd_old_pwd(env_head, data);
 	else
-		change_directory(list[1], env_head);
+		change_directory(array[1], env_head, data);
 }

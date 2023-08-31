@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_init.c                                      :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/12 23:56:06 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/12 23:56:06 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/31 15:15:19 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/31 15:15:19 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_env	*env_init(char **envp)
 		new = node_new(envp[i]);
 		if (new == NULL)
 		{
-			head_free_all(head);
+			free_env_head_all(head);
 			return (NULL);
 		}
 		node_add_back(head, new);

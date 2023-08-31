@@ -52,7 +52,7 @@ void	update_pwd(t_env *node)
 	char	*tmp_str;
 	char	*path_name;
 
-	free(node->env_var);
+	free(node->env_val);
 	path_name = get_pwd();
 	if (path_name == NULL)
 		return ;
@@ -60,7 +60,7 @@ void	update_pwd(t_env *node)
 	if (tmp_str == NULL)
 		;
 	else
-		node->env_var = tmp_str;
+		node->env_val = tmp_str;
 	free(path_name);
 }
 
@@ -75,7 +75,7 @@ void	set_pwd(t_env *env_head, char *env_name)
 		update_pwd(tmp_node);
 }
 
-void	ft_pwd(void)
+void	ft_pwd(t_data *data)
 {
 	char	*path_name;
 
@@ -86,8 +86,12 @@ void	ft_pwd(void)
 	{
 		ft_puterr(strerror(errno));
 		ft_puterr("\n");
+		data->exit_status = 1;
 	}
 	else
+	{
 		ft_printf("%s\n", path_name);
+		data->exit_status = 0;
+	}
 	free(path_name);
 }

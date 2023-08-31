@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:24:16 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 11:21:54 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:09:12 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ t_token	*token_node_new(char *str)
 	if (new == NULL)
 		return (NULL);
 	if (ft_strlen(str) == 0)
-		new->data = NULL;
+		new->str = NULL;
 	else
 	{
-		new->data = ft_strdup(str);
-		if (new->data == NULL)
+		new->str = ft_strdup(str);
+		if (new->str == NULL)
 			return (NULL);
 	}
 	set_token_type(new);
@@ -62,8 +62,8 @@ void	token_node_delete(t_token *target)
 	target_prev = target->prev;
 	target_prev->next = target_next;
 	target_next->prev = target_prev;
-	free(target->data);
-	target->data = NULL;
+	free(target->str);
+	target->str = NULL;
 	free(target);
 	target = NULL;
 }

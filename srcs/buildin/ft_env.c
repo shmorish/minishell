@@ -12,19 +12,23 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_env(char **list, t_env *env_head)
+void	ft_env(char **array, t_env *env_head, t_data *data)
 {
 	t_env	*tmp;
 
-	if (list[1] != NULL)
-		ft_puterr_env(list[1]);
+	if (array[1] != NULL)
+	{
+		ft_puterr_env(array[1]);
+		data->exit_status = 127;
+	}
 	else
 	{
 		tmp = env_head->next;
 		while (tmp != env_head)
 		{
-			ft_printf("%s=%s\n", tmp->env_name, tmp->env_var);
+			ft_printf("%s=%s\n", tmp->env_name, tmp->env_val);
 			tmp = tmp->next;
 		}
+		data->exit_status = 0;
 	}
 }

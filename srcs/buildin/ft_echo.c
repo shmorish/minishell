@@ -12,70 +12,76 @@
 
 #include "../../includes/minishell.h"
 
-static void	check_quote(char **list, size_t count)
+static void	check_quote(char **array, size_t count)
 {
 	size_t	i;
 	char	*str;
 
 	i = 0;
-	while (list[count][i] != '\0' && list[count][i] != '\'')
+	while (array[count][i] != '\0' && array[count][i] != '\'')
 		i++;
-	if (list[count][i] == '\'')
+	if (array[count][i] == '\'')
 	{
-		str = list[count];
-		list[count] = ft_strtrim(str, "'");
+		str = array[count];
+		array[count] = ft_strtrim(str, "'");
 		free(str);
 	}
 }
 
-static void	ft_echo_no_option(char **list, size_t count)
+static void	ft_echo_no_option(char **array, size_t count)
 {
-	while (list[count])
+	while (array[count])
 	{
-		check_quote(list, count);
-		ft_printf("%s", list[count]);
-		if (count != ft_get_list_size(list) - 1)
+		check_quote(array, count);
+		ft_printf("%s", array[count]);
+		if (count != ft_get_list_size(array) - 1)
 			ft_printf(" ");
 		count++;
 	}
 	ft_printf("\n");
 }
 
-static void	ft_echo_option(char **list, size_t count)
+static void	ft_echo_option(char **array, size_t count)
 {
 	size_t	i;
 
-	while (list[count] != NULL && !ft_strncmp("-n", list[count], 2))
+	while (array[count] != NULL && !ft_strncmp("-n", array[count], 2))
 	{
 		i = 2;
-		while (list[count][i] == 'n')
+		while (array[count][i] == 'n')
 			i++;
-		if (list[count][i] != '\0')
+		if (array[count][i] != '\0')
 		{
-			ft_echo_no_option(list, count);
+			ft_echo_no_option(array, count);
 			return ;
 		}
 		count++;
 	}
-	if (list[count] == NULL)
+	if (array[count] == NULL)
 		return ;
-	while (list[count])
+	while (array[count])
 	{
-		check_quote(list, count);
-		ft_printf("%s", list[count]);
-		if (count != ft_get_list_size(list) - 1)
+		check_quote(array, count);
+		ft_printf("%s", array[count]);
+		if (count != ft_get_list_size(array) - 1)
 			ft_printf(" ");
 		count++;
 	}
 }
 
-void	ft_echo(char **list)
+void	ft_echo(char **array, t_data *data)
 {
 	size_t	count;
 
 	count = 1;
-	if (list[count] != NULL && !ft_strncmp("-n", list[count], 2))
-		ft_echo_option(list, count);
+	if (array[count] != NULL && !ft_strncmp("-n", array[count], 2))
+	{
+		ft_echo_option(array, count);
+		data->exit_status = 0;
+	}
 	else
-		ft_echo_no_option(list, count);
+	{
+		ft_echo_no_option(array, count);
+		data->exit_status = 0;
+	}
 }

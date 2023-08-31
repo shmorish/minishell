@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 13:26:46 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:11:06 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ void	expansion_free(char *before_str, char *after_str, char *env_str)
 
 void	expansion_join(t_token *node, char *before, char *after, char *env_str)
 {
-	char	*tmp_data;
+	char	*tmp_str;
 
-	tmp_data = node->data;
-	node->data = ft_strjoin(before, env_str);
-	free(tmp_data);
-	if (node->data == NULL)
+	tmp_str = node->str;
+	node->str = ft_strjoin(before, env_str);
+	free(tmp_str);
+	if (node->str == NULL)
 	{
 		expansion_free(before, after, env_str);
 		return ;
 	}
-	tmp_data = node->data;
-	node->data = ft_strjoin(tmp_data, after);
-	free(tmp_data);
-	if (node->data == NULL)
+	tmp_str = node->str;
+	node->str = ft_strjoin(tmp_str, after);
+	free(tmp_str);
+	if (node->str == NULL)
 	{
 		expansion_free(before, after, env_str);
 		return ;
@@ -58,12 +58,12 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_str)
 	expansion_free(before, after, env_str);
 }
 
-bool	count_doller(char *data, size_t *index)
+bool	count_doller(char *str, size_t *index)
 {
 	size_t	count_dollar;
 
 	count_dollar = 0;
-	while (data[*index] == '$')
+	while (str[*index] == '$')
 	{
 		(*index)++;
 		count_dollar++;

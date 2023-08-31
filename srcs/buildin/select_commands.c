@@ -15,19 +15,19 @@
 void	select_commands(char **list, t_env *env_head, t_data *data)
 {
 	if (!ft_strcmp("echo", list[0]))
-		ft_echo(list);
+		ft_echo(list, data);
 	else if (!ft_strcmp("exit", list[0]))
 		ft_exit(list, env_head, data);
 	else if (!ft_strcmp("pwd", list[0]))
-		ft_pwd();
+		ft_pwd(data);
 	else if (!ft_strcmp("cd", list[0]))
-		ft_cd(list, env_head);
+		ft_cd(list, env_head, data);
 	else if (!ft_strcmp("env", list[0]))
-		ft_env(list, env_head);
+		ft_env(list, env_head, data);
 	else if (!ft_strcmp("export", list[0]))
-		ft_export(list, env_head);
+		ft_export(list, env_head, data);
 	else if (!ft_strcmp("unset", list[0]))
-		ft_unset(list, env_head);
+		ft_unset(list, env_head, data);
 	else
 		ft_other_command(list, env_head, data);
 }

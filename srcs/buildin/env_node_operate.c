@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:18:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/27 17:26:01 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:13:33 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	node_delete(t_env *target)
 	target_prev = target->prev;
 	target_prev->next = target_next;
 	target_next->prev = target_prev;
-	node_free(target);
+	free_env_node(target);
 }
 
 t_env	*get_node_pos(t_env *head, char *str)
@@ -64,7 +64,7 @@ t_env	*get_node_pos(t_env *head, char *str)
 	return (NULL);
 }
 
-char	*get_env_var(t_env *env_head, char *env_name)
+char	*get_env_val(t_env *env_head, char *env_name)
 {
 	t_env	*tmp;
 
@@ -74,7 +74,7 @@ char	*get_env_var(t_env *env_head, char *env_name)
 	while (tmp != env_head)
 	{
 		if (!ft_strcmp(tmp->env_name, env_name))
-			return (tmp->env_var);
+			return (tmp->env_val);
 		tmp = tmp->next;
 	}
 	return (NULL);

@@ -23,8 +23,8 @@ BUILDIN		= env_init.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
+				other_commands_utils.c \
 				other_commands.c \
-				path_utils.c \
 				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
 BUILDIN_OBJ_PATH	= obj_buildin
@@ -50,6 +50,7 @@ LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
 SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
 				ft_puterr_utils.c \
+				ft_puterr_utils2.c \
 				handle_quote.c \
 				main.c \
 				signal.c

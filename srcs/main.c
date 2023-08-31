@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	char		*newline;
-	char		**list;
+	char		**array;
 	t_env		*env_head;
 	t_data		*data;
 	t_token		*token_head;
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("\033[1;34mminishell \033[0m $> ");
 		if (line == NULL)
 		{
-			head_free_all(env_head);
+			free_env_head_all(env_head);
 			free(line);
 			break ;
 		}
@@ -57,13 +57,13 @@ int	main(int argc, char **argv, char **envp)
 		(void)token_head;
 		// (void)parse_head;
 		// list = ft_split_quote(newline, ' ');
-		list = ft_split(newline, ' ');
-		if (list == NULL)
+		array = ft_split(newline, ' ');
+		if (array == NULL)
 			break ;
 		free(line);
 		free(newline);
-		select_commands(list, env_head, data);
-		free_list(list);
+		select_commands(array, env_head, data);
+		free_char_array(array);
 	}
 	return (0);
 }

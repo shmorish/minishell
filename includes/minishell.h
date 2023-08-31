@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/31 11:18:36 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/31 16:56:43 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_data
 typedef struct s_env
 {
 	char	*env_name;
-	char	*env_var;
+	char	*env_val;
 	t_env	*next;
 	t_env	*prev;
 }	t_env;
@@ -71,7 +71,7 @@ typedef struct s_token
 	t_token			*next;
 	t_token			*prev;
 	t_token_type	type;
-	char			*data;
+	char			*str;
 } t_token;
 
 // buildin --------------------------------------------------------
@@ -86,15 +86,15 @@ void	node_add_front(t_env *head, t_env *new);
 void	node_add_back(t_env *head, t_env *new);
 void	node_delete(t_env *target);
 t_env	*get_node_pos(t_env *head, char *str);
-char	*get_env_var(t_env *env_head, char *env_name);
+char	*get_env_val(t_env *env_head, char *env_name);
 // ft_cd.c
-void	ft_cd(char **list, t_env *env_head);
+void	ft_cd(char **array, t_env *env_head, t_data *data);
 // ft_echo.c
-void	ft_echo(char **list);
+void	ft_echo(char **array, t_data *data);
 // ft_env.c
-void	ft_env(char **list, t_env *env_head);
+void	ft_env(char **array, t_env *env_head, t_data *data);
 // ft_exit.c
-void	ft_exit(char **list, t_env *env_head, t_data *data);
+void	ft_exit(char **array, t_env *env_head, t_data *data);
 // ft_export_utils.c
 bool	check_equal(char *str);
 bool	check_duplicate_path(char *str, t_env *env_head);
@@ -102,16 +102,16 @@ void	change_path(char *str, t_env *target);
 bool	check_plus(char *str);
 void	join_path(char *str, t_env *target);
 // ft_export.c
-void	ft_export(char **list, t_env *env_head);
+void	ft_export(char **list, t_env *env_head, t_data *data);
 // ft_free.c
-void	free_list(char **list);
-void	head_free_all(t_env *head);
-void	free_all(char **list, t_env *head);
-void	node_free(t_env *node);
+void	free_char_array(char **array);
+void	free_env_node(t_env *node);
+void	free_env_head_all(t_env *head);
+void	free_all(char **array, t_env *head);
 // ft_is_number_str.c
 int		ft_is_number_str(char *s);
 // ft_pwd.c
-void	ft_pwd(void);
+void	ft_pwd(t_data *data);
 char	*get_pwd(void);
 void	set_pwd(t_env *env_head, char *env_name);
 // ft_split_once.c
@@ -119,15 +119,14 @@ char	**ft_split_once(char const *s, char c);
 // ft_strccpy.c
 char	*ft_strccpy(char *str, char c);
 // ft_unset.c
-void	ft_unset(char **list, t_env *env_head);
+void	ft_unset(char **array, t_env *env_head, t_data *data);
 // is_long_overflow.c
 bool	is_long_overflow(const char *str);
 // other_commands.c
-void	ft_other_command(char **list, t_env *env_head, t_data *data);
-// path_utils.c
+void	ft_other_command(char **array, t_env *env_head, t_data *data);
+// other_commands_utils.c
 char	**path_split(char *path);
-char	*check_path_access(char **path_list, char *command);
-char	*get_env_var(t_env *env_head, char *env_name);
+char	*check_path_access(char **path_list, char *command, t_data *data);
 // select_commands.c
 void	select_commands(char **list, t_env *env_head, t_data *data);
 
@@ -153,7 +152,7 @@ bool	is_valid_lesser(char *line, size_t index);
 // lexer_node_init.c
 t_token	*token_head_init(void);
 t_token	*token_init(char **envp);
-void	token_head_free_all(t_token *head);
+void	free_token_head_all(t_token *head);
 // lexer_node.c
 t_token	*token_node_new(char *str);
 void	token_node_add_back(t_token *head, t_token *new);
@@ -179,9 +178,13 @@ t_token *lexer(char *line, t_env *env_head);
 size_t	ft_get_list_size(char **list);
 // ft_puterr_utils.c
 void	ft_puterr(char *s);
-void	ft_put_command_err(char *s);
+void	ft_puterr_set_status(char *s, t_data *data, int number);
+void	ft_puterr_command(char *s, t_data *data);
+void	ft_puterr_permit(char *s);
+void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
+// ft_puterr_utils2.c
 void	ft_puterr_env(char *s);
-void	ft_put_not_valid(char *command, char *s);
+void	ft_perror_set_status(char *str, int number, t_data *data);
 // handle_quote.c
 char	*handle_quote(char *line, t_env *env_head, t_data *data);
 // signal.c
