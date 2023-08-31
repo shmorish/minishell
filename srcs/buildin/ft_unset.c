@@ -12,6 +12,25 @@
 
 #include "../../includes/minishell.h"
 
+static bool	unset_check_name(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (str[i] == '_' || ft_isalpha(str[i]))
+	{
+		i++;
+		while (str[i] && ft_isalnum(str[i]))
+			i++;
+		if (str[i] == '\0')
+			return (true);
+		else
+			return (false);
+	}
+	else
+		return (false);
+}
+
 void	ft_unset(char **array, t_env *env_head, t_data *data)
 {
 	int		i;
@@ -25,13 +44,13 @@ void	ft_unset(char **array, t_env *env_head, t_data *data)
 		i = 1;
 		while (array[i])
 		{
-			if (check_duplicate_path(array[i], env_head))
-				node_delete(get_node_pos(env_head, array[i]));
-			else
+			if (!unset_check_name(array[i]))
 			{
 				ft_puterr_valid_identifer("unset", array[i], data);
 				error_flag = true;
 			}
+			else if (check_duplicate_path(array[i], env_head))
+				node_delete(get_node_pos(env_head, array[i]));
 			i++;
 		}
 	}
