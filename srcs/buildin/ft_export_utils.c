@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:23:51 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/27 15:05:02 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:14:11 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	change_path(char *str, t_env *target)
 	path_list = ft_split_once(str, '=');
 	if (path_list == NULL)
 		return ;
-	free(target->env_var);
+	free(target->env_val);
 	if (path_list[1] == NULL)
 	{
 		free(path_list[1]);
-		target->env_var = ft_strdup("");
+		target->env_val = ft_strdup("");
 	}
 	else
-		target->env_var = path_list[1];
+		target->env_val = path_list[1];
 	free(path_list[0]);
 	free(path_list);
 }
@@ -63,12 +63,12 @@ void	join_path(char *str, t_env *target)
 		free(path_list[1]);
 	else
 	{
-		join_str = ft_strjoin(target->env_var, path_list[1]);
-		free(target->env_var);
+		join_str = ft_strjoin(target->env_val, path_list[1]);
+		free(target->env_val);
 		free(path_list[1]);
 		if (join_str == NULL)
 			return ;
-		target->env_var = join_str;
+		target->env_val = join_str;
 	}
 	free(path_list[0]);
 	free(path_list);

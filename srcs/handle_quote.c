@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 21:00:32 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/29 14:30:02 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:34:56 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ char	*convert_env_to_newline(char *newline, t_env *env_head, char *env_line, cha
 {
 	char	*convert_env;
 
-	convert_env = ft_strdup(get_env_var(env_head, env_line));
+	convert_env = ft_strdup(get_env_val(env_head, env_line));
 	if (convert_env == NULL)
 		return (NULL);
 	newline = ft_strjoin(before_line, convert_env);
 	newline = ft_strjoin(newline, after_line);
 	return (newline);
 
-	// convert_env = ft_strdup(get_env_var(env_head, env_line));
+	// convert_env = ft_strdup(get_env_val(env_head, env_line));
 	// if (convert_env == NULL || before_line == NULL || after_line == NULL)
 	// 	return (NULL);
 	// newline = ft_strjoin(before_line, convert_env);
@@ -156,7 +156,7 @@ char	*handle_quote(char *line, t_env *env_head, t_data *data)
 					if (newline[i] == '$' || newline[i] == '?')
 					{
 						if (newline[i] == '$')
-							env_line = ft_itoa(PROCESS_ID);
+							env_line = ft_strdup("$$");
 						else
 							env_line = ft_itoa(data->exit_status);
 						after_line = ft_substr(newline, i + 1, ft_strlen(newline) - (i + 1));
@@ -187,7 +187,7 @@ char	*handle_quote(char *line, t_env *env_head, t_data *data)
 					{
 						env_line = ft_substr(newline, i, j);
 						// printf("env_line :[%s]\n", env_line);
-						env_value = ft_strdup(get_env_var(env_head, env_line));
+						env_value = ft_strdup(get_env_val(env_head, env_line));
 						// printf("env_value :[%s]\n", env_value);
 						after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
 						// printf("after_line :[%s]\n", after_line);
@@ -263,7 +263,7 @@ char	*handle_quote(char *line, t_env *env_head, t_data *data)
 				{
 					env_line = ft_substr(newline, i, j);
 					// printf("env_line :[%s]\n", env_line);
-					env_value = ft_strdup(get_env_var(env_head, env_line));
+					env_value = ft_strdup(get_env_val(env_head, env_line));
 					// printf("env_value :[%s]\n", env_value);
 					after_line = ft_substr(newline, i + j, ft_strlen(newline) - (i + j));
 					// printf("after_line :[%s]\n", after_line);

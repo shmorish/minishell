@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:08:44 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 13:22:12 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:08:51 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_lexer(t_token *token_head)
 	tmp = token_head->next;
 	while (tmp != token_head)
 	{
-		ft_printf("%s:", tmp->data);
+		ft_printf("%s:", tmp->str);
 		print_enum(tmp);
 		tmp = tmp->next;
 	}

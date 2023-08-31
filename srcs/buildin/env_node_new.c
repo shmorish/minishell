@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_utils.c                                     :+:      :+:    :+:   */
+/*   env_node_new.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/12 23:16:01 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/12 23:16:01 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/31 15:15:24 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/31 15:15:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_env	*node_new_utils(t_env *new, char *str)
+static t_env	*node_new_set(t_env *new, char *str)
 {
 	char	**path_list;
 
@@ -21,9 +21,9 @@ static t_env	*node_new_utils(t_env *new, char *str)
 		return (NULL);
 	new->env_name = path_list[0];
 	if (path_list[1] == NULL)
-		new->env_var = ft_strdup("");
+		new->env_val = ft_strdup("");
 	else
-		new->env_var = path_list[1];
+		new->env_val = path_list[1];
 	free(path_list);
 	return (new);
 }
@@ -38,11 +38,11 @@ t_env	*node_new(char *str)
 	if (ft_strlen(str) == 0)
 	{
 		new->env_name = NULL;
-		new->env_var = NULL;
+		new->env_val = NULL;
 	}
 	else
 	{
-		new = node_new_utils(new, str);
+		new = node_new_set(new, str);
 		if (new == NULL)
 			return (NULL);
 	}
@@ -51,7 +51,7 @@ t_env	*node_new(char *str)
 	return (new);
 }
 
-static t_env	*node_new_with_plus_utils(t_env *new, char *str)
+static t_env	*node_new_set_with_plus(t_env *new, char *str)
 {
 	char	**path_list;
 
@@ -64,7 +64,7 @@ static t_env	*node_new_with_plus_utils(t_env *new, char *str)
 		free(path_list);
 		return (NULL);
 	}
-	new->env_var = path_list[1];
+	new->env_val = path_list[1];
 	free(path_list);
 	return (new);
 }
@@ -79,11 +79,11 @@ t_env	*node_new_with_plus(char *str)
 	if (ft_strlen(str) == 0)
 	{
 		new->env_name = NULL;
-		new->env_var = NULL;
+		new->env_val = NULL;
 	}
 	else
 	{
-		new = node_new_with_plus_utils(new, str);
+		new = node_new_set_with_plus(new, str);
 		if (new == NULL)
 			return (NULL);
 	}

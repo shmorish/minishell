@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:31:17 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 10:31:46 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:09:25 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*token_init(char **envp)
 		new = token_node_new(envp[i]);
 		if (new == NULL)
 		{
-			token_head_free_all(head);
+			free_token_head_all(head);
 			return (NULL);
 		}
 		token_node_add_back(head, new);
@@ -46,7 +46,7 @@ t_token	*token_init(char **envp)
 	return (head);
 }
 
-void	token_head_free_all(t_token *head)
+void	free_token_head_all(t_token *head)
 {
 	t_token	*tmp;
 	t_token	*delete;
@@ -60,13 +60,13 @@ void	token_head_free_all(t_token *head)
 		head->next = tmp->next;
 		tmp->next->prev = head;
 		tmp = tmp->next;
-		free(delete->data);
-		delete->data = NULL;
+		free(delete->str);
+		delete->str = NULL;
 		free(delete);
 		delete = NULL;
 	}
-	free(head->data);
-	head->data = NULL;
+	free(head->str);
+	head->str = NULL;
 	free(head);
 	head = NULL;
 }

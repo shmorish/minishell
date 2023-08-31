@@ -29,16 +29,16 @@ static void	exit_arg_error(t_data *data)
 	data->exit_status = 1;
 }
 
-static void	exit_number(char **list, t_env *env_head, t_data *data)
+static void	exit_number(char **array, t_env *env_head, t_data *data)
 {
 	int	exit_code;
 
-	if (is_long_overflow(list[1]))
-		exit_numeric_error(list[1], data);
+	if (is_long_overflow(array[1]))
+		exit_numeric_error(array[1], data);
 	else
 	{
-		exit_code = ft_atoi(list[1]);
-		free_all(list, env_head);
+		exit_code = ft_atoi(array[1]);
+		free_all(array, env_head);
 		if (exit_code < 0)
 		{
 			while (exit_code < 0)
@@ -52,19 +52,19 @@ static void	exit_number(char **list, t_env *env_head, t_data *data)
 	}
 }
 
-void	ft_exit(char **list, t_env *env_head, t_data *data)
+void	ft_exit(char **array, t_env *env_head, t_data *data)
 {
-	if (list[1] == NULL)
+	if (array[1] == NULL)
 	{
-		free_all(list, env_head);
+		free_all(array, env_head);
 		ft_puterr("exit\n");
 		data->exit_status = 0;
 		exit(0);
 	}
-	if (!ft_is_number_str(list[1]))
-		exit_numeric_error(list[1], data);
-	if (list[2] != NULL)
+	if (!ft_is_number_str(array[1]))
+		exit_numeric_error(array[1], data);
+	if (array[2] != NULL)
 		exit_arg_error(data);
 	else
-		exit_number(list, env_head, data);
+		exit_number(array, env_head, data);
 }

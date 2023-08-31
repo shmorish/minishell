@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_utils.c                                       :+:      :+:    :+:   */
+/*   other_commands_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/19 14:25:38 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/27 17:25:56 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/31 15:51:03 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,34 @@ char	**path_split(char *path)
 	return (path_list);
 }
 
-char	*check_path_access(char **path_list, char *command)
+static bool	check_simple_access(char **path_list, char *command, t_data *data)
+{
+	if (!access(command, F_OK))
+	{
+		if (access(command, X_OK))
+			data->exit_status = 126;
+		path_free(path_list);
+		return (true);
+	}
+	else
+		return (false);
+}
+
+char	*check_path_access(char **path_list, char *command, t_data *data)
 {
 	int		i;
 	char	*joined_path;
 
-	if (!access(command, X_OK))
-	{
-		path_free(path_list);
+	if (check_simple_access(path_list, command, data))
 		return (command);
-	}
 	if (path_list == NULL)
 		return (NULL);
 	i = 0;
 	while (path_list[i])
 	{
 		joined_path = path_join(path_list, command, i);
-		if (!access(joined_path, X_OK))
-		{
-			path_free(path_list);
+		if (check_simple_access(path_list, joined_path, data))
 			return (joined_path);
-		}
 		i++;
 		free(joined_path);
 	}
