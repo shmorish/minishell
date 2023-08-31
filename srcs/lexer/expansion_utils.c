@@ -6,45 +6,29 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:11:06 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:53:35 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	is_expansion(t_token_type type)
-{
-	if (type == D_QUOTE || type == S_QUOTE || type == STRING || type == R_SPACE_STR)
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_str_token(t_token_type type)
-{
-	if (type == STRING || type == R_SPACE_STR || type == L_SPACE_STR)
-		return (true);
-	else
-		return (false);
-}
-
-void	expansion_free(char *before_str, char *after_str, char *env_str)
+void	expansion_free(char *before_str, char *after_str, char *env_val)
 {
 	free(before_str);
 	free(after_str);
-	free(env_str);
+	free(env_val);
 }
 
-void	expansion_join(t_token *node, char *before, char *after, char *env_str)
+void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 {
 	char	*tmp_str;
 
 	tmp_str = node->str;
-	node->str = ft_strjoin(before, env_str);
+	node->str = ft_strjoin(before, env_val);
 	free(tmp_str);
 	if (node->str == NULL)
 	{
-		expansion_free(before, after, env_str);
+		expansion_free(before, after, env_val);
 		return ;
 	}
 	tmp_str = node->str;
@@ -52,10 +36,10 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_str)
 	free(tmp_str);
 	if (node->str == NULL)
 	{
-		expansion_free(before, after, env_str);
+		expansion_free(before, after, env_val);
 		return ;
 	}
-	expansion_free(before, after, env_str);
+	expansion_free(before, after, env_val);
 }
 
 bool	count_doller(char *str, size_t *index)
@@ -72,4 +56,13 @@ bool	count_doller(char *str, size_t *index)
 		return (false);
 	else
 		return (true);
+}
+
+bool	expansion_check_doll_end(char *str, size_t *index)
+{
+	if (!count_doller(str, index))
+		return (true);
+	if (str[*index] == '\0')
+		return (true);
+	return (false);
 }

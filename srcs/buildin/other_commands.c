@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:14:33 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 18:59:54 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	exe_command(char *command, char **array, t_data *data)
 {
 	int	exe_ans;
 
-	exe_ans = execve(command, array, data->envp);
+	exe_ans = execve(command, array, env_list_to_char_arr(data->env_head));
 	if (exe_ans < 0)
 	{
 		perror(command);
