@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	t_env		*env_head;
 	t_data		*data;
 	t_token		*token_head;
+	// t_parse		*parse_head;
 
 	(void)argc;
 	(void)argv;
@@ -52,7 +53,9 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		token_head = lexer(newline, env_head);
+		// parse_head = parser(token_head);
 		(void)token_head;
+		// (void)parse_head;
 		// list = ft_split_quote(newline, ' ');
 		array = ft_split(newline, ' ');
 		if (array == NULL)
