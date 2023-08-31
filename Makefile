@@ -8,6 +8,7 @@ endif
 
 BUILDIN_PATH= srcs/buildin
 BUILDIN		= env_init.c \
+				env_list_to_array.c \
 				env_node_operate.c \
 				env_node_new.c \
 				ft_cd.c \
@@ -35,6 +36,7 @@ LEXER_PATH= srcs/lexer
 LEXER		= expansion_utils.c \
 				expansion.c \
 				lexer_boolean.c \
+				lexer_boolean2.c \
 				lexer_node_init.c \
 				lexer_node.c \
 				lexer_partial.c \

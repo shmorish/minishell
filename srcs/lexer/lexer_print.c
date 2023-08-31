@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:08:44 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:08:51 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:35:57 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	print_enum_utils(t_token *node)
 		ft_printf(" %s\n", "L_SPACE_STR");
 	else if (node->type == SEMICOLON)
 		ft_printf(" %s\n", "SEMICOLON");
+	else if (node->type == LSP_D_QUOTE)
+		ft_printf(" %s\n", "LSP_D_QUOTE");
+	else if (node->type == LSP_S_QUOTE)
+		ft_printf(" %s\n", "LSP_D_QUOTE");
+	else
+		ft_printf("NotSet type = %d\n", node->type);
 }
 
 void	print_enum(t_token *node)

@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:40:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 14:51:10 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:24:09 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,61 +20,28 @@ bool	is_token(char c)
 		return (false);
 }
 
-bool	is_only_space_before(char *line, size_t index)
+bool	is_expansion(t_token_type type)
 {
-	if (index == 0)
-		return (true);
-	index--;
-	while (index && line[index] == ' ')
-		index--;
-	if (index == 0)
+	if (type == D_QUOTE || type == S_QUOTE || type == STRING
+		|| type == R_SPACE_STR)
 		return (true);
 	else
 		return (false);
 }
 
-bool	is_only_space_or_end(char *line, size_t index)
+bool	is_str_token(t_token_type type)
 {
-	while (line[index] && line[index] == ' ')
-		index++;
-	if (line[index] == '\0')
+	if (type == STRING || type == R_SPACE_STR || type == L_SPACE_STR)
 		return (true);
 	else
 		return (false);
 }
 
-bool	is_valid_greater(char *line, size_t index)
+bool	is_quote(t_token_type type)
 {
-	if (line[index] == '>')
-		index++;
-	else if (line[index] == '<')
-	{
-		ft_puterr("minishell: syntax error near unexpected token `<'\n");
-		return (false);
-	}
-	if (line[index] == '>')
-	{
-		ft_puterr("minishell: syntax error near unexpected token `>'\n");
-		return (false);
-	}
-	else
+	if (type == D_QUOTE || type == S_QUOTE || type == LSP_D_QUOTE
+		|| type == LSP_S_QUOTE)
 		return (true);
-}
-
-bool	is_valid_lesser(char *line, size_t index)
-{
-	if (line[index] == '<')
-		index++;
-	else if (line[index] == '>')
-	{
-		ft_puterr("minishell: syntax error near unexpected token `newline'\n");
-		return (false);
-	}
-	if (line[index] == '<')
-	{
-		ft_puterr("minishell: syntax error near unexpected token `newline'\n");
-		return (false);
-	}
 	else
-		return (true);
+		return (false);
 }

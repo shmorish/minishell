@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/31 16:56:43 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 18:45:39 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,20 @@ typedef struct s_token
 	t_token			*prev;
 	t_token_type	type;
 	char			*str;
-} t_token;
+}	t_token;
+
+typedef enum e_while_type {
+	BREAK,
+	CONTINUE,
+	THROUGH
+}			t_while_type;
 
 // buildin --------------------------------------------------------
 // env_init.c
 t_env	*head_init(void);
 t_env	*env_init(char **envp);
+// env_list_to_array.c
+char	**env_list_to_char_arr(t_env *env_head);
 // env_node_new.c
 t_env	*node_new(char *str);
 t_env	*node_new_with_plus(char *str);
@@ -132,19 +140,22 @@ void	select_commands(char **list, t_env *env_head, t_data *data);
 
 // lexer --------------------------------------------------------
 // expansion_utils.c
-bool	is_expansion(t_token_type type);
 void	expansion_free(char *before_str, char *after_str, char *env_str);
 void	expansion_join(t_token *node, char *before, char *after, char *env_str);
 bool	count_doller(char *data, size_t *index);
+bool	expansion_check_doll_end(char *str, size_t *index);
 // expansion.c
-bool	is_expansion(t_token_type type);
-bool	is_str_token(t_token_type type);
-void	expansion(char *str, t_token *node, size_t start, size_t end, t_env *env_head);
-void	expansion_env(char *data, t_token *node, size_t *index, t_env *env_head);
+void	expansion(char *env_val, t_token *node, size_t start, size_t end);
+char	*expansion_get_env_val(char *env_name, t_env *env_head);
+void	expansion_env(char *data, t_token *node, size_t *index, t_env *head);
 void	expansion_quote(t_token *node);
-void expansion_check(t_token *token_head, t_env *env_head);
+void	expansion_check(t_token *token_head, t_env *env_head);
 // lexer_boolean.c
 bool	is_token(char c);
+bool	is_expansion(t_token_type type);
+bool	is_str_token(t_token_type type);
+bool	is_quote(t_token_type type);
+// lexer_boolean2.c
 bool	is_only_space_before(char *line, size_t index);
 bool	is_only_space_or_end(char *line, size_t index);
 bool	is_valid_greater(char *line, size_t index);
@@ -171,7 +182,7 @@ void	print_lexer(t_token *token_head);
 void	set_token_type(t_token *new);
 void	lexer_normal(char *line, size_t *index, t_token *token_head);
 bool	lexer_token(char *line, size_t *index, t_token *token_head);
-t_token *lexer(char *line, t_env *env_head);
+t_token	*lexer(char *line, t_env *env_head);
 
 // srcs ---------------------------------------------------------------------
 // ft_get_list_size.c

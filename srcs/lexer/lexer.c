@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:08:40 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:26:57 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	if (tmp == NULL)
 		return (false);
 	token_node_add_back(token_head, token_node_new(tmp));
-	if (line[*index] == ' ' && token_head->prev->type == STRING)
-		token_head->prev->type = R_SPACE_STR;
+	if (line[start - 1] == ' ' && token_head->prev->type == D_QUOTE)
+		token_head->prev->type = LSP_D_QUOTE;
+	else if (line[start - 1] == ' ' && token_head->prev->type == S_QUOTE)
+		token_head->prev->type = LSP_S_QUOTE;
 	free(tmp);
 	return (true);
 }
@@ -113,7 +115,7 @@ t_token	*lexer(char *line, t_env *env_head)
 		else
 			lexer_normal(line, &index, token_head);
 	}
-	ft_printf("\n----------- lexer ------------------\n");
+	ft_printf("\n----------- lexer start-------------\n");
 	print_lexer(token_head);
 	ft_printf("---------- expansion start ---------\n");
 	expansion_check(token_head, env_head);
@@ -121,6 +123,6 @@ t_token	*lexer(char *line, t_env *env_head)
 		token_head->next->type = COMMAND;
 	print_lexer(token_head);
 	free_token_head_all(token_head);
-	ft_printf("----------- lexer ------------------\n\n");
+	ft_printf("----------- lexer end --------------\n\n");
 	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/31 11:24:37 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/08/31 18:12:41 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	parser_node_add_back(t_parser **head, t_parser *new)
 	new->prev = last;
 }
 
-
 t_parser	*parser(t_token *token_head)
 {
 	t_parser	*parse_head;
@@ -118,7 +117,7 @@ t_parser	*parser(t_token *token_head)
 		}
 		else if (token_head->type == STRING)
 		{
-			tmp = ft_strdup(token_head->data);
+			tmp = ft_strdup(token_head->str);
 			if (tmp == NULL)
 				return (NULL);
 			parser_node_add_back(&parse_head, parser_node_new(tmp, STRING));

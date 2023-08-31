@@ -12,31 +12,48 @@
 
 #include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+t_data	*data_init(int argc, char **argv, char **envp)
 {
-	char		*line;
-	char		*newline;
-	char		**array;
-	t_env		*env_head;
-	t_data		*data;
-	t_token		*token_head;
-	// t_parse		*parse_head;
+	t_data	*data;
+	t_env	*env_head;
 
 	(void)argc;
 	(void)argv;
 	env_head = env_init(envp);
 	if (env_head == NULL)
-		return (1);
+		return (NULL);
 	data = (t_data *)malloc(sizeof(t_data));
+	if (data == NULL)
+		return (NULL);
 	data->env_head = env_head;
 	data->envp = envp;
+	return (data);
+}
+
+void	free_line_newline(char *line, char *newline)
+{
+	free(line);
+	free(newline);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*line;
+	char			*newline;
+	char			**array;
+	t_data			*data;
+	// t_parse		*parse_head;
+
+	data = data_init(argc, argv, envp);
+	if (data == NULL)
+		return (1);
 	signal_init();
 	while (1)
 	{
 		line = readline("\033[1;34mminishell \033[0m $> ");
 		if (line == NULL)
 		{
-			free_env_head_all(env_head);
+			free_env_head_all(data->env_head);
 			free(line);
 			break ;
 		}
@@ -46,23 +63,20 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		newline = handle_quote(line, env_head, data);
+		newline = handle_quote(line, data->env_head, data);
 		if (newline == NULL)
 		{
 			free(line);
 			continue ;
 		}
-		token_head = lexer(newline, env_head);
-		// parse_head = parser(token_head);
-		(void)token_head;
+		data->token_head = lexer(newline, data->env_head);
+		// parse_head = parser(data->token_head);
 		// (void)parse_head;
-		// list = ft_split_quote(newline, ' ');
 		array = ft_split(newline, ' ');
 		if (array == NULL)
 			break ;
-		free(line);
-		free(newline);
-		select_commands(array, env_head, data);
+		free_line_newline(line, newline);
+		select_commands(array, data->env_head, data);
 		free_char_array(array);
 	}
 	return (0);
