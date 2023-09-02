@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	char			*newline;
 	char			**array;
 	t_data			*data;
-	// t_parse		*parse_head;
+	t_parser		*parse_head;
 
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
@@ -70,8 +70,10 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		data->token_head = lexer(newline, data->env_head);
-		// parse_head = parser(data->token_head);
-		// (void)parse_head;
+		ft_printf("data->token_head->str = %s\n", data->token_head->str);
+		ft_printf("data->token_head->type = %d\n", data->token_head->type);
+		parse_head = parser(data->token_head);
+		(void)parse_head;
 		array = ft_split(newline, ' ');
 		if (array == NULL)
 			break ;

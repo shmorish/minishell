@@ -49,6 +49,16 @@ LEXER_OBJ_PATH	= obj_lexer
 LEXER_OBJ 		= $(LEXER:%.c=%.o)
 LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
 
+PARSER_PATH= srcs/parser
+PARSER		= parser.c \
+				free_parser.c \
+
+PARSER_OBJ_PATH	= obj_parser
+PARSER_OBJ 		= $(PARSER:%.c=%.o)
+PARSER_OBJS		= $(addprefix $(PARSER_OBJ_PATH)/, $(PARSER_OBJ))
+
+PARSERS	= $(addprefix $(PARSER_PATH)/, $(PARSER))
+
 SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
 				ft_puterr_utils.c \
@@ -80,11 +90,11 @@ RESET		= \033[0m
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS)
+$(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ mkdir -p ./obj
-	@ mv $(LEXER_OBJ_PATH) $(BUILDIN_OBJ_PATH) $(OBJ_PATH) ./obj
+	@ mv $(PARSER_OBJ_PATH) $(LEXER_OBJ_PATH) $(BUILDIN_OBJ_PATH) $(OBJ_PATH) ./obj
 	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
@@ -97,6 +107,10 @@ $(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
 
 $(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
 	@ mkdir -p $(LEXER_OBJ_PATH)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(PARSER_OBJ_PATH)/%.o: $(PARSER_PATH)/%.c $(INCS)
+	@ mkdir -p $(PARSER_OBJ_PATH)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 clean:
