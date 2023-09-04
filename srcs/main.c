@@ -32,31 +32,6 @@ t_data	*data_init(int argc, char **argv, char **envp)
 	return (data);
 }
 
-t_token	*generate_token_example(void)
-{
-	t_token *example;
-
-	example = (t_token *)malloc(sizeof(t_token));
-	if (example == NULL)
-		return (NULL);
-	example->str = ft_strdup("aaa");
-	example->type = STRING;
-	example->next = (t_token *)malloc(sizeof(t_token));
-	if (example->next == NULL)
-		return (NULL);
-	example->next->prev = example;
-	example->next->str = ft_strdup("\"bbb\"");
-	example->next->type = D_GREATER;
-	example->next->next = (t_token *)malloc(sizeof(t_token));
-	if (example->next->next == NULL)
-		return (NULL);
-	example->next->next->str = ft_strdup("ccc");
-	example->next->next->type = STRING;
-	example->next->next->next = NULL;
-	example->next->next->prev = example->next;
-	return (example);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
