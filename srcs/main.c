@@ -94,9 +94,14 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		data->token_head = lexer(newline, data->env_head);
-		ft_printf("data->token_head->str = %s\n", data->token_head->str);
-		ft_printf("data->token_head->type = %d\n", data->token_head->type);
+		if (ft_strlen(newline) == 0)
+		{
+			free(newline);
+			continue ;
+		}
+		data->token_head = lexer(newline, data->env_head, data);
+		if (data->exit_status == 258)
+			continue ;
 		// parse_head = parser(data->token_head);
 		parse_head = parser(generate_token_example());
 		(void)parse_head;

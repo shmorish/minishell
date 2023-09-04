@@ -30,6 +30,7 @@ BUILDIN		= env_init.c \
 				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
 BUILDIN_OBJ_PATH	= obj/obj_buildin
+BUILDIN_OBJ_PATH	= obj/obj_buildin
 BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
 BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 
@@ -46,6 +47,7 @@ LEXER		= expansion_utils.c \
 
 LEXERS	= $(addprefix $(LEXER_PATH)/, $(LEXER))
 
+LEXER_OBJ_PATH	= obj/obj_lexer
 LEXER_OBJ_PATH	= obj/obj_lexer
 LEXER_OBJ 		= $(LEXER:%.c=%.o)
 LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
@@ -131,4 +133,7 @@ run: all
 
 debug: re run
 
-.PHONY : all clean fclean re run debug
+leak:
+	while [ 1 ]; do leaks -q minishell; sleep 2; done
+
+.PHONY : all clean fclean re run debug leak

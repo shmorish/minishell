@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 15:51:03 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 13:04:26 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	int		i;
 	char	*joined_path;
 
-	if (check_simple_access(path_list, command, data))
+	if (!ft_strncmp(command, "./", 2) && check_simple_access(path_list, command, data))
 		return (command);
 	if (path_list == NULL)
 		return (NULL);
