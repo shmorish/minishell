@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 18:39:08 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/04 20:37:55 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,7 @@ void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
 // ft_puterr_utils2.c
 void	ft_puterr_env(char *s);
 void	ft_perror_set_status(char *str, int number, t_data *data);
+void	*ft_puterr_malloc(void);
 // handle_quote.c
 char	*handle_quote(char *line, t_env *env_head, t_data *data);
 // signal.c

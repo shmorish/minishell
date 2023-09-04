@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 20:25:07 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/04 20:40:03 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	evoluve_token(t_token *token_head)
 			tmp->str = ft_strjoin(tmp_str, tmp->next->str);
 			if (tmp->str == NULL)
 			{
-				ft_printf("\033[31m malloc error\n \033[0m");
+				ft_puterr_malloc();
 				return ;
 			}
 			free(tmp_str);

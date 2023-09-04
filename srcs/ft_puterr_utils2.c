@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:52:32 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 15:53:02 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 20:37:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,10 @@ void	ft_perror_set_status(char *str, int number, t_data *data)
 {
 	perror(str);
 	data->exit_status = number;
+}
+
+void	*ft_puterr_malloc(void)
+{
+	ft_puterr("\033[31m malloc error\n \033[0m");
+	return (NULL);
 }

@@ -69,13 +69,12 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		parse_head = parser(data->token_head);
+		// parse_head = parser(data->token_head);
 		free_token_head_all(data->token_head);
 		(void)parse_head;
 		array = ft_split(line, ' ');
 		if (array == NULL)
 			break ;
-
 		free(line);
 		select_commands(array, data->env_head, data);
 		free_char_array(array);
