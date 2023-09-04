@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+int g_signal = 0;
+
 t_data	*data_init(int argc, char **argv, char **envp)
 {
 	t_data	*data;
@@ -28,12 +30,6 @@ t_data	*data_init(int argc, char **argv, char **envp)
 	data->env_head = env_head;
 	data->envp = envp;
 	return (data);
-}
-
-void	free_line_newline(char *line, char *newline)
-{
-	free(line);
-	free(newline);
 }
 
 t_token	*generate_token_example(void)
@@ -64,7 +60,6 @@ t_token	*generate_token_example(void)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char			*newline;
 	char			**array;
 	t_data			*data;
 	t_parser		*parse_head;
@@ -72,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
 		return (1);
-	signal_init();
+	signal_main_init();
 	while (1)
 	{
 		line = readline("\033[1;34mminishell \033[0m $> ");
@@ -88,27 +83,25 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		newline = handle_quote(line, data->env_head, data);
-		if (newline == NULL)
+		data->token_head = lexer(line, data->env_head, data);
+		if (data->exit_status == 258)
 		{
 			free(line);
 			continue ;
 		}
-		if (ft_strlen(newline) == 0)
+		else if (data->token_head == NULL)
 		{
-			free(newline);
+			free(line);
 			continue ;
 		}
-		data->token_head = lexer(newline, data->env_head, data);
-		if (data->exit_status == 258)
-			continue ;
 		parse_head = parser(data->token_head);
-		// parse_head = parser(generate_token_example());
+		free_token_head_all(data->token_head);
 		(void)parse_head;
-		array = ft_split(newline, ' ');
+		array = ft_split(line, ' ');
 		if (array == NULL)
 			break ;
-		free_line_newline(line, newline);
+
+		free(line);
 		select_commands(array, data->env_head, data);
 		free_char_array(array);
 	}

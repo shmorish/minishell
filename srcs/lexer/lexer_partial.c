@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:21 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/29 14:50:27 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 17:31:00 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ bool	lexer_greater(char *line, size_t *index)
 	{
 		if (line[*index + 1] == '>')
 			(*index)++;
+		if (is_only_space_or_end(line, *index + 1))
+		{
+			ft_puterr("minishell: syntax error near unexpected token `newline'\n");
+			return (false);
+		}
 		return (true);
 	}
 	else
@@ -88,6 +93,11 @@ bool	lexer_lesser(char *line, size_t *index)
 	{
 		if (line[*index + 1] == '<')
 			(*index)++;
+		if (is_only_space_or_end(line, *index + 1))
+		{
+			ft_puterr("minishell: syntax error near unexpected token `newline'\n");
+			return (false);
+		}
 		return (true);
 	}
 	else

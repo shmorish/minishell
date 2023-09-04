@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 15:28:50 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/04 20:19:26 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,47 @@ bool	is_connectable_quote(t_token *token_head)
 void	evoluve_token(t_token	*token_head)
 {
 	t_token	*tmp;
-	t_token	*new_token;
-
+	// t_token	*new_token;
+	char	*tmp_str;
+	t_token *a;
 	tmp = token_head->next;
-	while (tmp != token_head)
+	while (tmp != token_head && tmp->next != token_head)
 	{
 		if (can_connect_start(tmp) == true && can_connect(tmp->next) == true)
 		{
-			new_token = (t_token *)malloc(sizeof(t_token));
-			if (new_token == NULL)
+			// new_token = (t_token *)malloc(sizeof(t_token));
+			// if (new_token == NULL)
+			// {
+			// 	free_token_head_all(token_head);
+			// 	return ;
+			// }
+			tmp_str = tmp->str;
+			tmp->str = ft_strjoin(tmp_str, tmp->next->str);
+			if (tmp->str == NULL)
 			{
-				free_token_head_all(token_head);
+				ft_printf("@@@@@@@@@@@@@@@@@@@@@@ malloc erro r@@@@@@@@@@@@@@@@@@@@@@-\n");
 				return ;
 			}
-			new_token->str = ft_strjoin(tmp->str, tmp->next->str);
-			new_token->type = INCLUDE_QUOTE;
-			new_token->prev = tmp->prev;
-			new_token->next = tmp->next->next;
-			tmp->prev->next = new_token;
-			tmp->next->next->prev = new_token;
-			free(tmp->next->str);
-			free(tmp->str);
-			free(tmp->next);
-			free(tmp);
-			tmp = new_token;
+			free(tmp_str);
+			tmp->type = INCLUDE_QUOTE;
+			token_node_delete(tmp->next);
+			// new_token->prev = tmp->prev;
+			// new_token->next = tmp->next->next;
+			// tmp->prev->next = new_token;
+			// tmp->next->next->prev = new_token;
+			// free(tmp->next->str);
+			// free(tmp->str);
+			// free(tmp->next);
+			// free(tmp);
+			// tmp = new_token;
+
+			printf("------------------");
+			a = token_head->next;
+			while (a != token_head)
+			{
+				printf("tmp %s tmp->next %s\n", a->str, a->next->str);
+				a = a->next;
+			}
 		}
 		else
 			tmp = tmp->next;
@@ -116,8 +133,6 @@ t_parser	*parser(t_token *token_head)
 
 	ft_printf("---------- parser start ---------\n");
 	evoluve_token(token_head);
-	if (token_head == NULL)
-		return (NULL);
 	ft_printf("------ finish evoluve_token ------\n");
 	tmp = token_head->next;
 	while (tmp != token_head)

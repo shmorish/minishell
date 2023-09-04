@@ -3,37 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 04:10:05 by morishitash       #+#    #+#             */
-/*   Updated: 2023/07/31 17:40:06 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/04 20:24:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_string.h"
 
-char	*ft_strtrim(const char *s1, const char *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	start;
-	size_t	end;
+	char	*ans;
+	size_t	i;
+	size_t	tail;
 
 	if (s1 == NULL || set == NULL)
 		return (NULL);
-	start = 0;
-	if (ft_strlen(s1) == 0)
-		return (ft_strdup(""));
-	end = ft_strlen(s1) - 1;
-	while (ft_strchr(set, s1[start]) != NULL)
-	{
-		start++;
-	}
-	while (ft_strrchr(set, s1[end]) != NULL)
-	{
-		end--;
-	}
-	if (start > end)
-		return (ft_strdup(""));
-	return (ft_substr(s1, start, end - start + 1));
+	i = 0;
+	while (s1[i] != '\0' && ft_strchr(set, s1[i]))
+		i++;
+	tail = ft_strlen(s1);
+	while (tail > i && ft_strchr(set, s1[tail - 1]))
+		tail--;
+	ans = (char *)malloc(sizeof(char) * (tail - i + 1));
+	if (!ans)
+		return (NULL);
+	ft_strlcpy(ans, &s1[i], (tail - i + 1));
+	return (ans);
 }
 
 // #include <stdio.h>

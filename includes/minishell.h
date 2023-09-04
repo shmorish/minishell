@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 14:34:23 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 18:38:57 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <string.h>
 # include <unistd.h>
 
+extern int g_signal;
 typedef struct s_token	t_token;
 typedef struct s_env	t_env;
 
@@ -259,7 +260,11 @@ void	ft_perror_set_status(char *str, int number, t_data *data);
 // handle_quote.c
 char	*handle_quote(char *line, t_env *env_head, t_data *data);
 // signal.c
-void	signal_init(void);
+void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
+void	signal_main_init(void);
+void	signal_exe_init(void);
 
 // parser --------------------------------------------------------
 // free_parser.c
