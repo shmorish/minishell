@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/04 13:36:17 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 14:34:35 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ t_token	*lexer(char *line, t_env *env_head, t_data *data)
 		token_head->next->type = COMMAND;
 	data->exit_status = 0;
 	print_lexer(token_head);
-	free_token_head_all(token_head);
+	// free_token_head_all(token_head);
 	ft_printf("----------- lexer end --------------\n\n");
-	return (NULL);
+	return (token_head);
+	// return (NULL);
 }

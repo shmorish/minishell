@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 12:39:32 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 14:34:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ typedef struct s_env
 	t_env	*prev;
 }	t_env;
 
+// 	EMPTY, // 0
+//	PIPE, // 1
+//	S_QUOTE, // 2
+//	LSP_S_QUOTE, // 3
+//	D_QUOTE, // 4
+//	LSP_D_QUOTE, // 5
+// S_GREATER, // 6
+// D_GREATER, // 7
+// S_LESSER, // 8
+// D_LESSER, // 9
+// COMMAND, // 10
+// FILE_OR_DIR, // 11
+// STRING, // 12
+// R_SPACE_STR, // 13
+// L_SPACE_STR, // 14
+// SEMICOLON, // 15
+// INCLUDE_QUOTE // 16
 typedef enum e_token_type {
 	EMPTY,
 	PIPE,
@@ -63,7 +80,8 @@ typedef enum e_token_type {
 	STRING,
 	R_SPACE_STR,
 	L_SPACE_STR,
-	SEMICOLON
+	SEMICOLON,
+	INCLUDE_QUOTE
 }			t_token_type;
 
 typedef struct s_token
@@ -79,6 +97,48 @@ typedef enum e_while_type {
 	CONTINUE,
 	THROUGH
 }			t_while_type;
+
+typedef struct s_parser	t_parser;
+typedef struct s_input	t_input;
+typedef struct s_output	t_output;
+
+// 	QUOTE_HEREDOC << "" or << ''
+//  HEREDOC <<
+//  IN_FILE <
+//  OUT_FILE >
+//  APPEND >>
+typedef enum e_redirect_type {
+	QUOTE_HEREDOC,
+	HEREDOC,
+	IN_FILE,
+	OUT_FILE,
+	APPEND
+}	t_redirect_type;
+
+typedef struct s_input
+{
+	char			*file_name;
+	char			*end_heredoc;
+	char			*heredoc;
+	t_redirect_type	type;
+	t_input			*next;
+}	t_input;
+
+typedef struct s_output
+{
+	char			*file_name;
+	t_redirect_type	type;
+	t_output		*next;
+}	t_output;
+
+typedef struct s_parser
+{
+	char			**cmd;
+	t_input			*input;
+	t_output		*output;
+	struct s_parser	*next;
+	struct s_parser	*prev;
+}	t_parser;
 
 // buildin --------------------------------------------------------
 // env_init.c
@@ -200,5 +260,11 @@ void	ft_perror_set_status(char *str, int number, t_data *data);
 char	*handle_quote(char *line, t_env *env_head, t_data *data);
 // signal.c
 void	signal_init(void);
+
+// parser --------------------------------------------------------
+// free_parser.c
+void		free_parser(t_parser *parser_head);
+// parser.c
+t_parser	*parser(t_token *token_head);
 
 #endif
