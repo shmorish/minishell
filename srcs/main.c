@@ -71,6 +71,11 @@ int	main(int argc, char **argv, char **envp)
 		}
 		parse_head = parser(data->token_head);
 		free_token_head_all(data->token_head);
+		if (parse_head == NULL)
+		{
+			free(line);
+			continue ;
+		}
 		(void)parse_head;
 		array = ft_split(line, ' ');
 		if (array == NULL)
