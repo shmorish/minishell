@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 15:28:50 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/04 20:25:07 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,92 +41,223 @@ bool	is_connectable_quote(t_token *token_head)
 	return (false);
 }
 
-void	evoluve_token(t_token	*token_head)
+bool	is_redirect(t_token *token_head)
+{
+	if (token_head->type == S_GREATER || token_head->type == D_GREATER
+		|| token_head->type == S_LESSER || token_head->type == D_LESSER)
+		return (true);
+	return (false);
+}
+
+void	evoluve_token(t_token *token_head)
 {
 	t_token	*tmp;
-	t_token	*new_token;
+	char	*tmp_str;
 
 	tmp = token_head->next;
-	while (tmp != token_head)
+	while (tmp != token_head && tmp->next != token_head)
 	{
 		if (can_connect_start(tmp) == true && can_connect(tmp->next) == true)
 		{
-			new_token = (t_token *)malloc(sizeof(t_token));
-			if (new_token == NULL)
+			tmp_str = tmp->str;
+			tmp->str = ft_strjoin(tmp_str, tmp->next->str);
+			if (tmp->str == NULL)
 			{
-				free_token_head_all(token_head);
+				ft_printf("\033[31m malloc error\n \033[0m");
 				return ;
 			}
-			new_token->str = ft_strjoin(tmp->str, tmp->next->str);
-			new_token->type = INCLUDE_QUOTE;
-			new_token->prev = tmp->prev;
-			new_token->next = tmp->next->next;
-			tmp->prev->next = new_token;
-			tmp->next->next->prev = new_token;
-			free(tmp->next->str);
-			free(tmp->str);
-			free(tmp->next);
-			free(tmp);
-			tmp = new_token;
+			free(tmp_str);
+			tmp->type = INCLUDE_QUOTE;
+			token_node_delete(tmp->next);
 		}
 		else
 			tmp = tmp->next;
 	}
 }
 
-// t_parser	*parser_node_new(char *str)
-// {
-// 	t_token	*new;
+t_parser	*parser_node_new(void)
+{
+	t_parser	*new;
 
-// 	new = (t_token *)malloc(sizeof(t_token));
-// 	if (new == NULL)
-// 		return (NULL);
-// 	if (ft_strlen(str) == 0)
-// 		new->str = NULL;
-// 	else
-// 	{
-// 		new->str = ft_strdup(str);
-// 		if (new->str == NULL)
-// 			return (NULL);
-// 	}
-// 	set_token_type(new);
-// 	new->next = NULL;
-// 	new->prev = NULL;
-// 	return (new);
-// }
+	new = (t_parser *)malloc(sizeof(t_parser));
+	if (new == NULL)
+		return (NULL);
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
 
-// t_parser	*parser_init(t_parser *parser_head)
-// {
-// 	t_token	*head;
+t_parser	*parser_init(void)
+{
+	t_parser	*head;
 
-// 	head = token_node_new("");
-// 	if (head == NULL)
-// 		return (NULL);
-// 	head->next = head;
-// 	head->prev = head;
-// 	return (head);
-// }
+	head = parser_node_new();
+	if (head == NULL)
+		return (NULL);
+	head->next = head;
+	head->prev = head;
+	return (head);
+}
+
+void	free_parser_head_all(t_parser *head)
+{
+	t_parser	*tmp;
+	int			i;
+
+	if (head == NULL)
+		return ;
+	tmp = head->next;
+	while (tmp != head)
+		tmp = tmp->next;
+	i = 0;
+	if (tmp->cmd != NULL)
+	{
+		while (tmp->cmd[i] != NULL)
+		{
+			free(tmp->cmd[i]);
+			i++;
+		}
+		free(tmp->cmd);
+	}
+	if (tmp->input != NULL)
+	{
+		while (tmp->input != NULL)
+		{
+			free(tmp->input->file_name);
+			free(tmp->input->end_heredoc);
+			tmp->input = tmp->input->next;
+		}
+	}
+	if (tmp->output != NULL)
+	{
+		while (tmp->output != NULL)
+		{
+			free(tmp->output->file_name);
+			tmp->output = tmp->output->next;
+		}
+	}
+	free(tmp);
+}
 
 t_parser	*parser(t_token *token_head)
 {
-	// t_parser	*parser_head;
-	// t_token		*new_token;
-	t_token		*tmp;
-	// t_parser	*tmp;
+	t_parser	*parser_head;
+	t_parser	*tmp;
+	t_token		*tmp_token;
+	int			i;
+	char		**tmp_cmd;
 
 	ft_printf("---------- parser start ---------\n");
 	evoluve_token(token_head);
 	if (token_head == NULL)
 		return (NULL);
 	ft_printf("------ finish evoluve_token ------\n");
-	tmp = token_head->next;
-	while (tmp != token_head)
+	parser_head = parser_init();
+	if (parser_head == NULL)
+		return (NULL);
+	tmp = parser_head;
+	tmp_token = token_head->next;
+	i = 0;
+	while (tmp_token != token_head)
 	{
-		printf("type:	%d\n", tmp->type);
-		printf("str:	%s\n", tmp->str);
-		tmp = tmp->next;
+		if (tmp_token->type == PIPE)
+		{
+			tmp->next = parser_node_new();
+			if (tmp->next == NULL)
+			{
+				free_parser_head_all(parser_head);
+				return (NULL);
+			}
+			tmp->next->prev = tmp;
+			tmp = tmp->next;
+		}
+		else if (is_redirect(tmp_token) == true)
+		{
+			if (tmp_token->type == D_GREATER || tmp_token->type == S_GREATER)
+			{
+				if (tmp->output == NULL)
+					tmp->output = (t_output *)malloc(sizeof(t_output));
+				else
+				{
+					while (tmp->output->next != NULL)
+						tmp->output = tmp->output->next;
+				}
+				if (tmp->output == NULL)
+				{
+					free_parser_head_all(parser_head);
+					return (NULL);
+				}
+				if (tmp_token->type == D_GREATER)
+					tmp->output->type = APPEND;
+				else
+					tmp->output->type = OUT_FILE;
+				tmp->output->file_name = ft_strdup(tmp_token->next->str);
+			}
+			else if (tmp_token->type == D_LESSER || tmp_token->type == S_LESSER)
+			{
+				if (tmp->input == NULL)
+					tmp->input = (t_input *)malloc(sizeof(t_input));
+				else
+				{
+					while (tmp->input->next != NULL)
+						tmp->input = tmp->input->next;
+				}
+				if (tmp->input == NULL)
+				{
+					free_parser_head_all(parser_head);
+					return (NULL);
+				}
+				if (tmp_token->type == D_LESSER && tmp_token->next->type == INCLUDE_QUOTE)
+					tmp->input->type = QUOTE_HEREDOC;
+				else if (tmp_token->type == D_LESSER)
+					tmp->input->type = HEREDOC;
+				else
+					tmp->input->type = IN_FILE;
+				tmp->input->file_name = ft_strdup(tmp_token->next->str);
+			}
+			tmp = tmp->next->next;
+		}
+		else
+		{
+			if (tmp->cmd == NULL)
+			{
+				tmp->cmd = (char **)malloc(sizeof(char *) * 2);
+				tmp->cmd[0] = ft_strdup(tmp_token->str);
+			}
+			else
+			{
+				i = 0;
+				while (tmp->cmd[i] != NULL)
+					i++;
+				tmp_cmd = (char **)malloc(sizeof(char *) * (i + 1));
+				i = 0;
+				while (tmp->cmd[i] != NULL)
+				{
+					tmp_cmd[i] = ft_strdup(tmp->cmd[i]);
+					free(tmp->cmd[i]);
+					i++;
+				}
+				if (tmp_cmd == NULL)
+				{
+					free_parser_head_all(parser_head);
+					return (NULL);
+				}
+				free(tmp->cmd);
+				tmp_cmd[i] = ft_strdup(tmp_token->str);
+				tmp_cmd[i + 1] = NULL;
+				tmp->cmd = tmp_cmd;
+			}
+		}
+		tmp_token = tmp_token->next;
+		if (tmp->cmd != NULL)
+		{
+			ft_printf("tmp_cmd[0]: %s\n", tmp->cmd[0]);
+			ft_printf("tmp_cmd[1]: %s\n", tmp->cmd[1]);
+		}
 	}
-	ft_printf("--------------------\n");
-	// tmp = parser_init(parser_head);
-	return (NULL);
+	ft_printf("---------- parser end ---------\n");
+	parser_head->next = tmp;
+	return (parser_head);
 }
+
+//free_parser_head_all
