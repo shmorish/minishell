@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 01:10:06 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 01:32:33 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ t_parser	*parser(t_token *token_head)
 					if (tmp_token->type == D_LESSER && tmp_token->next->type == INCLUDE_QUOTE)
 						tmp->input->type = QUOTE_HEREDOC;
 					else if (tmp_token->type == D_LESSER)
-						tmp->output->type = HEREDOC;
+						tmp->input->type = HEREDOC;
 					else
 						tmp->input->type = IN_FILE;
 				}
