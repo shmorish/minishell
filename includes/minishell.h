@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/31 18:45:39 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 12:39:32 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ void	print_lexer(t_token *token_head);
 void	set_token_type(t_token *new);
 void	lexer_normal(char *line, size_t *index, t_token *token_head);
 bool	lexer_token(char *line, size_t *index, t_token *token_head);
-t_token	*lexer(char *line, t_env *env_head);
+t_token	*lexer(char *line, t_env *env_head, t_data *data);
 
 // srcs ---------------------------------------------------------------------
 // ft_get_list_size.c

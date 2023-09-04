@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_once.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 13:45:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/23 18:23:35 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/04 12:34:00 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	**do_split_once(char **array, char *str, char c, size_t arr_len)
 	size_t	j;
 
 	j = 0;
-	while (*str && arr_len--)
+	while (j < 2 && *str && arr_len--)
 	{
 		i = skip_delimiter(str, c, arr_len);
 		array[j] = (char *)malloc(sizeof(char) * (i + 1));
@@ -58,7 +58,8 @@ static char	**do_split_once(char **array, char *str, char c, size_t arr_len)
 			free_all_split_once(array, j);
 			return (NULL);
 		}
-		ft_strlcpy(array[j++], str, (i + 1));
+		ft_strlcpy(array[j], str, (i + 1));
+		j++;
 		str += (i + 1);
 	}
 	array[j] = NULL;

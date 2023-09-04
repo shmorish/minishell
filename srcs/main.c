@@ -69,7 +69,14 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		data->token_head = lexer(newline, data->env_head);
+		if (ft_strlen(newline) == 0)
+		{
+			free(newline);
+			continue ;
+		}
+		data->token_head = lexer(newline, data->env_head, data);
+		if (data->exit_status == 258)
+			continue ;
 		// parse_head = parser(data->token_head);
 		// (void)parse_head;
 		array = ft_split(newline, ' ');

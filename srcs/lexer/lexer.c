@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 17:26:57 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 13:36:17 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head)
 	token_node_add_back(token_head, token_node_new(tmp));
 	if (line[*index] == ' ' && is_str_token(token_head->prev->type))
 		token_head->prev->type = R_SPACE_STR;
-	if (line[start - 1] == ' ' && is_str_token(token_head->prev->type))
+	if (start > 0 && line[start - 1] == ' ' && is_str_token(token_head->prev->type))
 		token_head->prev->type = L_SPACE_STR;
 	free(tmp);
 }
@@ -88,13 +88,15 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	return (true);
 }
 
-t_token	*lexer(char *line, t_env *env_head)
+t_token	*lexer(char *line, t_env *env_head, t_data *data)
 {
 	size_t	index;
 	t_token	*token_head;
 
 	index = 0;
 	token_head = token_head_init();
+	if (line[index] == '\0')
+		return (NULL);
 	while (line[index])
 	{
 		if (is_token(line[index]))
@@ -103,6 +105,7 @@ t_token	*lexer(char *line, t_env *env_head)
 				index++;
 			else
 			{
+				data->exit_status = 258;
 				free_token_head_all(token_head);
 				return (NULL);
 			}
@@ -121,6 +124,7 @@ t_token	*lexer(char *line, t_env *env_head)
 	expansion_check(token_head, env_head);
 	if (is_str_token(token_head->next->type))
 		token_head->next->type = COMMAND;
+	data->exit_status = 0;
 	print_lexer(token_head);
 	free_token_head_all(token_head);
 	ft_printf("----------- lexer end --------------\n\n");
