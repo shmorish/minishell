@@ -102,8 +102,8 @@ int	main(int argc, char **argv, char **envp)
 		data->token_head = lexer(newline, data->env_head, data);
 		if (data->exit_status == 258)
 			continue ;
-		// parse_head = parser(data->token_head);
-		parse_head = parser(generate_token_example());
+		parse_head = parser(data->token_head);
+		// parse_head = parser(generate_token_example());
 		(void)parse_head;
 		array = ft_split(newline, ' ');
 		if (array == NULL)
