@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/03 02:02:36 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/03 14:08:15 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ typedef struct s_env
 	t_env	*prev;
 }	t_env;
 
+// 	EMPTY, // 0
+//	PIPE, // 1
+//	S_QUOTE, // 2
+//	LSP_S_QUOTE, // 3
+//	D_QUOTE, // 4
+//	LSP_D_QUOTE, // 5
+// S_GREATER, // 6
+// D_GREATER, // 7
+// S_LESSER, // 8
+// D_LESSER, // 9
+// COMMAND, // 10
+// FILE_OR_DIR, // 11
+// STRING, // 12
+// R_SPACE_STR, // 13
+// L_SPACE_STR, // 14
+// SEMICOLON, // 15
+// INCLUDE_QUOTE // 16
 typedef enum e_token_type {
 	EMPTY,
 	PIPE,

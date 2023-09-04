@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/03 02:35:25 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/03 19:13:13 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ t_token	*evoluve_token(t_token	*token_head)
 	// if (new == NULL)
 	// 	return (NULL);
 	new = NULL;
-	ft_printf("token_head->str: %s\n", token_head->str);
-	ft_printf("token_head->type: %d\n", token_head->type);
-	ft_printf("evoluve_token\n");
+	// ft_printf("token_head->str : %s\n", token_head->str);
+	// ft_printf("token_head->type: %d\n", token_head->type);
+	// ft_printf("evoluve_token\n");
 	while (token_head != NULL)
 	{
 		tmp = (t_token *)malloc(sizeof(t_token));
@@ -133,10 +133,10 @@ t_token	*evoluve_token(t_token	*token_head)
 				str = ft_strjoin(token_head->str, token_head->next->str);
 				new->str = str;
 				if (is_connectable_quote(token_head) == true)
-					new->type = token_head->type;
+					new->type = INCLUDE_QUOTE;
 				else
 					new->type = STRING;
-				token_head = token_head->next;
+				token_head = token_head->next->next;
 			}
 			else
 			{
@@ -168,11 +168,11 @@ t_parser	*parser(t_token *token_head)
 	new_token = evoluve_token(token_head);
 	if (new_token == NULL)
 		return (NULL);
-	ft_printf("evoluve_token\n");
+	ft_printf("---------- finish evoluve_token ---------\n");
 	while (new_token != NULL)
 	{
-		printf("type: %d\n", new_token->type);
-		printf("str: %s\n", new_token->str);
+		printf("type:	%d\n", new_token->type);
+		printf("str:	%s\n", new_token->str);
 		new_token = new_token->next;
 	}
 	ft_printf("--------------------\n");

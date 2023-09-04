@@ -1,7 +1,8 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -MMD -MP
+
 ifeq ($(MAKECMDGOALS), debug)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -g
 endif
@@ -28,7 +29,7 @@ BUILDIN		= env_init.c \
 				other_commands.c \
 				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
-BUILDIN_OBJ_PATH	= obj_buildin
+BUILDIN_OBJ_PATH	= obj/obj_buildin
 BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
 BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 
@@ -45,7 +46,7 @@ LEXER		= expansion_utils.c \
 
 LEXERS	= $(addprefix $(LEXER_PATH)/, $(LEXER))
 
-LEXER_OBJ_PATH	= obj_lexer
+LEXER_OBJ_PATH	= obj/obj_lexer
 LEXER_OBJ 		= $(LEXER:%.c=%.o)
 LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
 
@@ -53,7 +54,7 @@ PARSER_PATH= srcs/parser
 PARSER		= parser.c \
 				free_parser.c \
 
-PARSER_OBJ_PATH	= obj_parser
+PARSER_OBJ_PATH	= obj/obj_parser
 PARSER_OBJ 		= $(PARSER:%.c=%.o)
 PARSER_OBJS		= $(addprefix $(PARSER_OBJ_PATH)/, $(PARSER_OBJ))
 
@@ -69,7 +70,7 @@ SRC			= ft_get_list_size.c \
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
-OBJ_PATH	= obj_srcs
+OBJ_PATH	= obj
 OBJ 		= $(SRC:%.c=%.o)
 OBJS		= $(addprefix $(OBJ_PATH)/, $(OBJ))
 
@@ -94,23 +95,22 @@ $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS)
 	@ make -C $(LIB_PATH)
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ mkdir -p ./obj
-	@ mv $(PARSER_OBJ_PATH) $(LEXER_OBJ_PATH) $(BUILDIN_OBJ_PATH) $(OBJ_PATH) ./obj
 	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
-	@ mkdir -p $(OBJ_PATH)
+	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 $(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
-	@ mkdir -p $(BUILDIN_OBJ_PATH)
+	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 $(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
-	@ mkdir -p $(LEXER_OBJ_PATH)
+	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 $(PARSER_OBJ_PATH)/%.o: $(PARSER_PATH)/%.c $(INCS)
-	@ mkdir -p $(PARSER_OBJ_PATH)
+	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 clean:
@@ -129,6 +129,6 @@ run: all
 	@ clear
 	@ ./$(NAME)
 
-debug: run
+debug: re run
 
 .PHONY : all clean fclean re run debug
