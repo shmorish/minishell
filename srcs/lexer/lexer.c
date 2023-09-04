@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 17:26:57 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/03 02:22:23 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ t_token	*lexer(char *line, t_env *env_head)
 	if (is_str_token(token_head->next->type))
 		token_head->next->type = COMMAND;
 	print_lexer(token_head);
-	free_token_head_all(token_head);
+	// free_token_head_all(token_head);
 	ft_printf("----------- lexer end --------------\n\n");
-	return (NULL);
+	return (token_head);
+	// return (NULL);
 }
