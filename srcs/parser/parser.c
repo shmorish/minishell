@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
 /*   Updated: 2023/09/04 20:25:07 by morishitash      ###   ########.fr       */
@@ -149,8 +149,6 @@ t_parser	*parser(t_token *token_head)
 
 	ft_printf("---------- parser start ---------\n");
 	evoluve_token(token_head);
-	if (token_head == NULL)
-		return (NULL);
 	ft_printf("------ finish evoluve_token ------\n");
 	parser_head = parser_init();
 	if (parser_head == NULL)

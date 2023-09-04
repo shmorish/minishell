@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/04 14:34:35 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/04 19:56:56 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	set_token_type(t_token *new)
 {
 	if (new->str == NULL)
 		return ;
+	else if (ft_strlen(new->str) == 0)
+		new->type = EMPTY;
 	else if (!ft_strncmp(new->str, ">>", 2))
 		new->type = D_GREATER;
 	else if (!ft_strncmp(new->str, ">", 1))
@@ -80,9 +82,9 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	if (tmp == NULL)
 		return (false);
 	token_node_add_back(token_head, token_node_new(tmp));
-	if (line[start - 1] == ' ' && token_head->prev->type == D_QUOTE)
+	if (start > 0 && line[start - 1] == ' ' && token_head->prev->type == D_QUOTE)
 		token_head->prev->type = LSP_D_QUOTE;
-	else if (line[start - 1] == ' ' && token_head->prev->type == S_QUOTE)
+	else if (start > 0 && line[start - 1] == ' ' && token_head->prev->type == S_QUOTE)
 		token_head->prev->type = LSP_S_QUOTE;
 	free(tmp);
 	return (true);
