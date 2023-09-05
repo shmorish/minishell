@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 01:32:33 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 09:38:20 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,41 +100,50 @@ t_parser	*parser_init(void)
 void	free_parser_head_all(t_parser *head)
 {
 	t_parser	*tmp;
+	t_input		*delete_input;
+	t_output	*delete_output;
+	t_parser	*delete;
 	int			i;
 
 	if (head == NULL)
 		return ;
-	tmp = head->next;
-	while (tmp != head)
+	tmp = head;
+	while (tmp != NULL)
+	{
+		i = 0;
+		if (tmp->cmd != NULL)
+		{
+			while (tmp->cmd[i] != NULL)
+			{
+				free(tmp->cmd[i]);
+				i++;
+			}
+			free(tmp->cmd);
+		}
+		if (tmp->input != NULL)
+		{
+			while (tmp->input != NULL)
+			{
+				free(tmp->input->file_name);
+				delete_input = tmp->input;
+				tmp->input = tmp->input->next;
+				free(delete_input);
+			}
+		}
+		if (tmp->output != NULL)
+		{
+			while (tmp->output != NULL)
+			{
+				free(tmp->output->file_name);
+				delete_output = tmp->output;
+				tmp->output = tmp->output->next;
+				free(delete_output);
+			}
+		}
+		delete = tmp;
 		tmp = tmp->next;
-	i = 0;
-	if (tmp->cmd != NULL)
-	{
-		while (tmp->cmd[i] != NULL)
-		{
-			free(tmp->cmd[i]);
-			i++;
-		}
-		free(tmp->cmd);
+		free(delete);
 	}
-	if (tmp->input != NULL)
-	{
-		while (tmp->input != NULL)
-		{
-			free(tmp->input->file_name);
-			free(tmp->input->end_heredoc);
-			tmp->input = tmp->input->next;
-		}
-	}
-	if (tmp->output != NULL)
-	{
-		while (tmp->output != NULL)
-		{
-			free(tmp->output->file_name);
-			tmp->output = tmp->output->next;
-		}
-	}
-	free(tmp);
 }
 
 t_parser	*parser(t_token *token_head)
@@ -149,7 +158,6 @@ t_parser	*parser(t_token *token_head)
 
 	ft_printf("---------- parser start ---------\n");
 	evoluve_token(token_head);
-	ft_printf("------ finish evoluve_token ------\n");
 	parser_head = parser_init();
 	if (parser_head == NULL)
 		return (NULL);
@@ -352,7 +360,6 @@ t_parser	*parser(t_token *token_head)
 		}
 		tmp_token = tmp_token->next;
 	}
-	ft_printf("---------- parser end ---------\n");
 	while (tmp->prev != NULL)
 		tmp = tmp->prev;
 	parser_head = tmp;
@@ -382,7 +389,10 @@ t_parser	*parser(t_token *token_head)
 			}
 		}
 		tmp = tmp->next;
+		ft_printf("----------\n");
 	}
 	ft_printf("---------- parser result end ---------\n");
-	return (parser_head);
+	free_parser_head_all(parser_head);
+	return (NULL);
+	// return (parser_head);
 }
