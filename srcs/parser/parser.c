@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 09:38:20 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 10:34:42 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ t_parser	*parser_node_new(void)
 		return (NULL);
 	new->next = NULL;
 	new->prev = NULL;
+	new->cmd = NULL;
+	new->input = NULL;
+	new->output = NULL;
 	return (new);
 }
 
@@ -141,6 +144,8 @@ void	free_parser_head_all(t_parser *head)
 			}
 		}
 		delete = tmp;
+		if (tmp->prev != NULL)
+			free(tmp->prev);
 		tmp = tmp->next;
 		free(delete);
 	}

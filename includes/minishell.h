@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 18:39:08 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 10:32:47 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef enum e_redirect_type {
 typedef struct s_input
 {
 	char			*file_name;
-	char			*end_heredoc;
+	// char			*end_heredoc;
 	t_redirect_type	type;
 	t_input			*next;
 }	t_input;
@@ -136,8 +136,8 @@ typedef struct s_parser
 	char			**cmd;
 	t_input			*input;
 	t_output		*output;
-	struct s_parser	*next;
-	struct s_parser	*prev;
+	t_parser		*next;
+	t_parser		*prev;
 }	t_parser;
 
 // buildin --------------------------------------------------------
