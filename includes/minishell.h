@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 18:14:00 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 18:50:47 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,7 @@ void	signal_exe_init(void);
 // parser --------------------------------------------------------
 // free_parser.c
 void	free_parser_head_all(t_parser *head);
+void	*free_parser_null(t_parser *parser_head);
 // parser.c
 t_parser	*parser(t_token *token_head);
 // parser_bool.c

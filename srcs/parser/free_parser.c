@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 11:29:28 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 18:38:07 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 18:50:00 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ void	free_parser_head_all(t_parser *head)
 		tmp = tmp->next;
 		free(delete);
 	}
+}
+
+void	*free_parser_null(t_parser *parser_head)
+{
+	free_parser_head_all(parser_head);
+	return (NULL);
 }
