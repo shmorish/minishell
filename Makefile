@@ -55,6 +55,9 @@ LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
 PARSER_PATH= srcs/parser
 PARSER		= parser.c \
 				free_parser.c \
+				parser_bool.c \
+				parser_node.c \
+				token_evolver.c \
 
 PARSER_OBJ_PATH	= obj/obj_parser
 PARSER_OBJ 		= $(PARSER:%.c=%.o)
