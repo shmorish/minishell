@@ -57,6 +57,8 @@ PARSER		= parser.c \
 				free_parser.c \
 				parser_bool.c \
 				parser_node.c \
+				parser_pipe.c \
+				print_parser.c \
 				token_evolver.c \
 
 PARSER_OBJ_PATH	= obj/obj_parser

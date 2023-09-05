@@ -6,11 +6,13 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 18:54:02 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 20:25:08 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
 
 t_parser	*parser(t_token *token_head)
 {
@@ -37,13 +39,8 @@ t_parser	*parser(t_token *token_head)
 			continue ;
 		}
 		if (tmp_token->type == PIPE)
-		{
-			tmp->next = parser_node_new();
-			if (tmp->next == NULL)
-				return (free_parser_null(parser_head));
-			tmp->next->prev = tmp;
-			tmp = tmp->next;
-		}
+			if (parser_pipe(&tmp, parser_head) == NULL)
+				return (NULL);
 		else if (is_redirect(tmp_token) == true)
 		{
 			if (tmp_token->type == D_GREATER || tmp_token->type == S_GREATER)
@@ -181,6 +178,7 @@ t_parser	*parser(t_token *token_head)
 		tmp = tmp->prev;
 	parser_head = tmp;
 	ft_printf("---------- parser result ---------\n");
+	print_parser(parser_head);
 	ft_printf("---------- parser result end ---------\n");
 	free_parser_head_all(parser_head);
 	return (parser_head);

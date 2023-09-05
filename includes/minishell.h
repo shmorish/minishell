@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 18:50:47 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 20:23:59 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,5 +286,9 @@ void	evoluve_token(t_token *token_head);
 // parser_node.c
 t_parser	*parser_node_new(void);
 t_parser	*parser_init(void);
+// print_parser.c
+void	print_parser(t_parser *parser_head);
+// parser_pipe.c
+void	*parser_pipe(t_parser **tmp, t_parser *parser_head);
 
 #endif
