@@ -6,7 +6,7 @@
 /*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 10:34:42 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:17:15 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,6 @@ void	free_parser_head_all(t_parser *head)
 			}
 		}
 		delete = tmp;
-		if (tmp->prev != NULL)
-			free(tmp->prev);
 		tmp = tmp->next;
 		free(delete);
 	}
@@ -171,6 +169,7 @@ t_parser	*parser(t_token *token_head)
 	i = 0;
 	while (tmp_token != token_head)
 	{
+		ft_printf("tmp_token ; %s\n", tmp_token->str);
 		if (tmp_token->str == NULL)
 		{
 			tmp_token = tmp_token->next;
@@ -363,6 +362,8 @@ t_parser	*parser(t_token *token_head)
 				free(tmp_cmd);
 			}
 		}
+		// if (tmp_token->next == NULL)
+		// 	break ;
 		tmp_token = tmp_token->next;
 	}
 	while (tmp->prev != NULL)
@@ -372,10 +373,13 @@ t_parser	*parser(t_token *token_head)
 	while (tmp != NULL)
 	{
 		i = 0;
-		while (tmp->cmd[i] != NULL)
+		if (tmp->cmd != NULL)
 		{
-			ft_printf("cmd[%d]: %s\n", i, tmp->cmd[i]);
-			i++;
+			while (tmp->cmd[i] != NULL)
+			{
+				ft_printf("cmd[%d]: %s\n", i, tmp->cmd[i]);
+				i++;
+			}
 		}
 		if (tmp->input != NULL)
 		{
