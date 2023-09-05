@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 11:17:15 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:35:25 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,46 +362,13 @@ t_parser	*parser(t_token *token_head)
 				free(tmp_cmd);
 			}
 		}
-		// if (tmp_token->next == NULL)
-		// 	break ;
 		tmp_token = tmp_token->next;
 	}
 	while (tmp->prev != NULL)
 		tmp = tmp->prev;
 	parser_head = tmp;
 	ft_printf("---------- parser result ---------\n");
-	while (tmp != NULL)
-	{
-		i = 0;
-		if (tmp->cmd != NULL)
-		{
-			while (tmp->cmd[i] != NULL)
-			{
-				ft_printf("cmd[%d]: %s\n", i, tmp->cmd[i]);
-				i++;
-			}
-		}
-		if (tmp->input != NULL)
-		{
-			while (tmp->input != NULL)
-			{
-				ft_printf("input: %s\n", tmp->input->file_name);
-				tmp->input = tmp->input->next;
-			}
-		}
-		if (tmp->output != NULL)
-		{
-			while (tmp->output != NULL)
-			{
-				ft_printf("output: %s\n", tmp->output->file_name);
-				tmp->output = tmp->output->next;
-			}
-		}
-		tmp = tmp->next;
-		ft_printf("----------\n");
-	}
 	ft_printf("---------- parser result end ---------\n");
 	free_parser_head_all(parser_head);
-	return (NULL);
-	// return (parser_head);
+	return (parser_head);
 }
