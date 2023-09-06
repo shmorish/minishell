@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 20:23:59 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/05 23:23:19 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,5 +290,9 @@ t_parser	*parser_init(void);
 void	print_parser(t_parser *parser_head);
 // parser_pipe.c
 void	*parser_pipe(t_parser **tmp, t_parser *parser_head);
+// parser_redirect.c
+void	*parser_redirect(t_token **tmp_token, t_parser **tmp);
+// parser_cmd.c
+void	*parser_cmd(t_token **tmp_token, t_parser **tmp);
 
 #endif
