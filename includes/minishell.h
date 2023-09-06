@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 23:23:19 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/06 19:00:54 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_file	t_file;
 //  OUT_FILE >
 //  APPEND >>
 typedef enum e_redirect_type {
+	UNKNOWN,
 	QUOTE_HEREDOC,
 	HEREDOC,
 	IN_FILE,

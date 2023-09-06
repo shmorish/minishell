@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:37:21 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 23:07:52 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/06 19:00:49 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ static void	*parser_redirect_input(t_token **tmp_token, t_parser **tmp)
 		(*tmp)->input->type = QUOTE_HEREDOC;
 	else if ((*tmp_token)->type == D_LESSER)
 		(*tmp)->input->type = HEREDOC;
-	else
+	else if ((*tmp_token)->type == S_LESSER)
 		(*tmp)->input->type = IN_FILE;
+	else
+		(*tmp)->input->type = UNKNOWN;
 	return (tmp_token);
 }
 
@@ -78,8 +80,10 @@ static void	*parser_redirect_output(t_token **tmp_token, t_parser **tmp)
 	}
 	if ((*tmp_token)->type == D_GREATER)
 		(*tmp)->output->type = APPEND;
-	else
+	else if ((*tmp_token)->type == S_GREATER)
 		(*tmp)->output->type = OUT_FILE;
+	else
+		(*tmp)->output->type = UNKNOWN;
 	return (tmp_token);
 }
 
