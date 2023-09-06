@@ -35,7 +35,7 @@ t_data	*data_init(int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char			**array;
+	// char			**array;
 	t_data			*data;
 	t_parser		*parse_head;
 
@@ -76,14 +76,15 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		// free_parser_head_all(parser_head);
 		// array = ft_split(line, ' ');
 		// if (array == NULL)
 		// 	break ;
-		array = parse_head->cmd;
+		// array = parse_head->cmd;
 		free(line);
-		select_commands(array, data->env_head, data);
-		free_char_array(array);
+		// select_commands(array, data->env_head, data);
+		// free_char_array(array);
+		select_commands(parse_head->cmd, data->env_head, data);
+		free_parser_head_all(parse_head);
 	}
 	return (0);
 }
