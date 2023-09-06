@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/06 12:39:38 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/06 16:08:25 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_parser	*parser(t_token *token_head)
 	t_parser	*tmp;
 	t_token		*tmp_token;
 
-	ft_printf("---------- parser start ---------\n");
+	ft_printf("------------ parser start -----------\n");
 	evoluve_token(token_head);
 	parser_head = parser_init();
 	if (parser_head == NULL)
@@ -55,9 +55,8 @@ t_parser	*parser(t_token *token_head)
 	while (tmp->prev != NULL)
 		tmp = tmp->prev;
 	parser_head = tmp;
-	ft_printf("---------- parser result ---------\n");
+	ft_printf("------------ parser result -----------\n");
 	print_parser(parser_head);
 	ft_printf("---------- parser result end ---------\n");
-	free_parser_head_all(parser_head);
 	return (parser_head);
 }

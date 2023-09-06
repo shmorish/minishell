@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 23:19:54 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/06 12:28:17 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/06 16:31:21 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	*parser_cmd_init(t_parser **tmp, t_token **tmp_token)
 }
 
 
-static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd)
+static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd,
+			t_token **tmp_token)
 {
 	int	i;
 
@@ -62,13 +63,24 @@ static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd)
 	while ((*tmp)->cmd[i] != NULL)
 	{
 		tmp_cmd[i] = ft_strdup((*tmp)->cmd[i]);
-		if (tmp_cmd[i] == NULL)
+		if (tmp_cmd[i++] == NULL)
 			return (free_dup_null(tmp_cmd, tmp));
-		i++;
 	}
+	tmp_cmd[i] = ft_strdup((*tmp_token)->str);
+	tmp_cmd[i + 1] = NULL;
 	free_parser_cmd(tmp);
-	tmp_cmd[i] = NULL;
-	(*tmp)->cmd = tmp_cmd;
+	(*tmp)->cmd = (char **)malloc(sizeof(char *) * (i + 2));
+	i = 0;
+	while (tmp_cmd[i] != NULL)
+	{
+		(*tmp)->cmd[i] = ft_strdup(tmp_cmd[i]);
+		if ((*tmp)->cmd[i++] == NULL)
+			return (free_parser_cmd(tmp));
+	}
+	(*tmp)->cmd[i] = NULL;
+	i = 0;
+	while (tmp_cmd[i] != NULL)
+		free(tmp_cmd[i++]);
 	return (tmp);
 }
 
@@ -90,8 +102,7 @@ void	*parser_cmd(t_token **tmp_token, t_parser **tmp)
 		tmp_cmd = (char **)malloc(sizeof(char *) * (i + 2));
 		if (tmp_cmd == NULL)
 			return (free_parser_cmd(tmp));
-		i = 0;
-		if (put_cmd_to_parser(tmp, tmp_cmd) == NULL)
+		if (put_cmd_to_parser(tmp, tmp_cmd, tmp_token) == NULL)
 			return (NULL);
 	}
 	return (tmp);
