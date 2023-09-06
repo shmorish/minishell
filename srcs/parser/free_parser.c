@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 11:29:28 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 18:50:00 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/07 00:10:41 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	free_parser_head_all(t_parser *head)
 		tmp = tmp->next;
 		free(delete);
 	}
+	free(tmp);
 }
 
 void	*free_parser_null(t_parser *parser_head)

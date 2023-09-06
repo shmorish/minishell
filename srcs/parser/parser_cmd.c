@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 23:19:54 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/06 16:31:21 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/07 00:14:29 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd,
 	i = 0;
 	while (tmp_cmd[i] != NULL)
 		free(tmp_cmd[i++]);
+	free(tmp_cmd);
 	return (tmp);
 }
 
