@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	int			**pipe_fd;
+	int			pid;
 	t_data		*data;
 	t_parser	*parse_head;
 
@@ -77,8 +78,12 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		free(line);
-		pipe_fd = make_pipefd();
-		select_commands(parse_head->cmd, data->env_head, data);
+		pipe_fd = make_pipefd(parse_head);
+		while (1)
+		{
+			pid = fork();
+			select_commands(parse_head->cmd, data->env_head, data);
+		}
 		free_parser_head_all(parse_head);
 	}
 	return (0);
