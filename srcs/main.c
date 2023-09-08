@@ -81,11 +81,12 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 		pipe_fd = make_pipefd(parse_head);
 		tmp_parser = parse_head;
-		while (tmp_parser != NULL)
+		select_commands(tmp_parser->cmd, data->env_head, data);
+		while (tmp_parser->next != NULL)
 		{
+			tmp_parser = tmp_parser->next;
 			pid = fork();
 			select_commands(tmp_parser->cmd, data->env_head, data);
-			tmp_parser = tmp_parser->next;
 		}
 		free_parser_head_all(parse_head);
 	}
