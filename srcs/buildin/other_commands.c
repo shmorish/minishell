@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/04 18:57:30 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:04:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ static void	exe_command(char *command, char **array, t_data *data)
 	exit(0);
 }
 
-static void	wait_in_other_command(char **array, t_data *data, char *command, pid_t pid)
+static void	wait_other_command(char **array, t_data *data, char *cmd, pid_t pid)
 {
 	int	status;
 
 	if (waitpid(pid, &status, 0) < 0)
 	{
 		perror("wait");
-		free_in_other_command(array, data->env_head, command);
+		free_in_other_command(array, data->env_head, cmd);
 		data->exit_status = 1;
 		exit(1);
 	}
-	if (command != array[0])
-		free(command);
+	if (cmd != array[0])
+		free(cmd);
 	if (WIFEXITED(status))
 		data->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -72,7 +72,7 @@ static void	exe_main(char *command, char **array, t_env *env_head, t_data *data)
 	if (pid == 0)
 		exe_command(command, array, data);
 	else
-		wait_in_other_command(array, data, command, pid);
+		wait_other_command(array, data, command, pid);
 }
 
 void	ft_other_command(char **array, t_env *env_head, t_data *data)

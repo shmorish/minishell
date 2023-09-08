@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		data->token_head = lexer(line, data->env_head, data);
+		data->token_head = lexer(line, data);
 		if (data->exit_status == 258)
 		{
 			free(line);
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		// parse_head = parser(data->token_head);
+		parse_head = parser(data->token_head);
 		free_token_head_all(data->token_head);
 		if (parse_head == NULL)
 		{
