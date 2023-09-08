@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 23:19:54 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 14:52:52 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 17:29:20 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	*free_parser_cmd(t_parser **tmp)
-{
-	int	i;
-
-	i = 0;
-	while ((*tmp)->cmd[i] != NULL)
-	{
-		free((*tmp)->cmd[i]);
-		i++;
-	}
-	free((*tmp)->cmd);
-	return (NULL);
-}
-
-static void	*free_dup_null(char **tmp_cmd, t_parser **tmp)
-{
-	int	i;
-
-	i = 0;
-	while (tmp_cmd[i] != NULL)
-	{
-		free(tmp_cmd[i]);
-		i++;
-	}
-	free(tmp_cmd);
-	free_parser_cmd(tmp);
-	return (NULL);
-}
 
 static void	*parser_cmd_init(t_parser **tmp, t_token **tmp_token)
 {
@@ -63,7 +34,7 @@ static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd,
 	{
 		tmp_cmd[i] = ft_strdup((*tmp)->cmd[i]);
 		if (tmp_cmd[i++] == NULL)
-			return (free_dup_null(tmp_cmd, tmp));
+			return (free_dup_cmd_null(tmp_cmd, tmp));
 	}
 	tmp_cmd[i] = ft_strdup((*tmp_token)->str);
 	tmp_cmd[i + 1] = NULL;
@@ -77,10 +48,7 @@ static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd,
 			return (free_parser_cmd(tmp));
 	}
 	(*tmp)->cmd[i] = NULL;
-	i = 0;
-	while (tmp_cmd[i] != NULL)
-		free(tmp_cmd[i++]);
-	free(tmp_cmd);
+	free_dup_null(tmp_cmd);
 	return (tmp);
 }
 

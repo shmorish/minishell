@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:52:32 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:48:28 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:54:37 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,11 @@ void	*ft_puterr_malloc(void)
 {
 	ft_puterr("\033[31m malloc error\n \033[0m");
 	return (NULL);
+}
+
+void	ft_puterr_nofile(char *s)
+{
+	ft_puterr("minishell: ");
+	ft_puterr(s);
+	ft_puterr(": No such file or directory\n");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 15:17:36 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/08 16:59:03 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "./buildin.h"
 # include "./lexer.h"
 # include "./parser.h"
+# include "./pipe.h"
 # include <errno.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -123,30 +124,24 @@ typedef struct s_parser
 
 // srcs ---------------------------------------------------------------------
 // ft_get_list_size.c
-size_t					ft_get_list_size(char **list);
+size_t	ft_get_list_size(char **list);
 // ft_puterr_utils.c
-void					ft_puterr(char *s);
-void					ft_puterr_set_status(char *s, t_data *data, int number);
-void					ft_puterr_command(char *s, t_data *data);
-void					ft_puterr_permit(char *s);
-void					ft_puterr_valid_identifer(char *command, char *s,
-							t_data *data);
+void	ft_puterr(char *s);
+void	ft_puterr_set_status(char *s, t_data *data, int number);
+void	ft_puterr_command(char *s, t_data *data);
+void	ft_puterr_permit(char *s);
+void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
 // ft_puterr_utils2.c
-void					ft_puterr_env(char *s);
-void					ft_perror_set_status(char *str, int number,
-							t_data *data);
-void					*ft_puterr_malloc(void);
-// handle_quote.c
-char					*handle_quote(char *line, t_env *env_head,
-							t_data *data);
+void	ft_puterr_env(char *s);
+void	ft_perror_set_status(char *str, int number, t_data *data);
+void	*ft_puterr_malloc(void);
+void	ft_puterr_nofile(char *s);
 // signal.c
-void					signal_handler_sigint(int signum, siginfo_t *info,
-							void *ucontext);
-void					signal_handler_sigquit(int signum, siginfo_t *info,
-							void *ucontext);
-void					signal_handler_child(int signum, siginfo_t *info,
-							void *ucontext);
-void					signal_main_init(void);
-void					signal_exe_init(void);
+void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
+void	signal_main_init(void);
+void	signal_child_init(void);
+void	signal_parent_init(void);
 
 #endif

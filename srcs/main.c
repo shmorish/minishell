@@ -29,22 +29,25 @@ t_data	*data_init(int argc, char **argv, char **envp)
 		return (NULL);
 	data->env_head = env_head;
 	data->envp = envp;
+	data->exit_status = 0;
 	return (data);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	// char			**array;
-	t_data			*data;
-	t_parser		*parse_head;
+	char		*line;
+	// int			**pipe_fd;
+	// int			pid;
+	t_data		*data;
+	t_parser	*parse_head;
+	t_parser	*tmp_parser;
 
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
 		return (1);
-	signal_main_init();
 	while (1)
 	{
+		signal_main_init();
 		line = readline("\033[1;34mminishell \033[0m $> ");
 		if (line == NULL)
 		{
@@ -59,12 +62,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		data->token_head = lexer(line, data);
-		if (data->exit_status == 258)
-		{
-			free(line);
-			continue ;
-		}
-		else if (data->token_head == NULL)
+		if (data->token_head == NULL)
 		{
 			free(line);
 			continue ;
@@ -76,14 +74,20 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		// array = ft_split(line, ' ');
-		// if (array == NULL)
-		// 	break ;
-		// array = parse_head->cmd;
 		free(line);
-		// select_commands(array, data->env_head, data);
-		// free_char_array(array);
-		select_commands(parse_head->cmd, data->env_head, data);
+		// pipe_fd = make_pipefd(parse_head);
+		tmp_parser = parse_head;
+		select_commands(tmp_parser->cmd, data->env_head, data);
+		while (tmp_parser->next != NULL)
+		{
+<<<<<<< HEAD
+			tmp_parser = tmp_parser->next;
+			pid = fork();
+=======
+			// pid = fork();
+>>>>>>> 9d5d3b713ffe700dccf2e5aa0f50515eae6cae51
+			select_commands(tmp_parser->cmd, data->env_head, data);
+		}
 		free_parser_head_all(parse_head);
 	}
 	return (0);
