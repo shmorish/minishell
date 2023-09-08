@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 15:11:39 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:54:53 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,7 @@ void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
 void	ft_puterr_env(char *s);
 void	ft_perror_set_status(char *str, int number, t_data *data);
 void	*ft_puterr_malloc(void);
-// handle_quote.c
-char	*handle_quote(char *line, t_env *env_head, t_data *data);
+void	ft_puterr_nofile(char *s);
 // signal.c
 void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);

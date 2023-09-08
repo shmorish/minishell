@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:50:57 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 16:11:25 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,26 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	int		i;
 	char	*joined_path;
 
-	if (!ft_strncmp(command, "./", 2)
-		&& check_simple_access(path_list, command, data))
-		return (command);
 	if (path_list == NULL)
 		return (NULL);
+	if (!ft_strncmp(command, "./", 2))
+	{
+		if (check_simple_access(path_list, command, data))
+			return (command);
+		data->exit_status = 127;
+		path_free(path_list);
+		return (NULL);
+	}
 	i = 0;
 	while (path_list[i])
 	{
-		joined_path = path_join(path_list, command, i);
+		joined_path = path_join(path_list, command, i++);
 		if (check_simple_access(path_list, joined_path, data))
 			return (joined_path);
-		i++;
 		free(joined_path);
 	}
+	if (check_simple_access(path_list, command, data))
+		return (command);
 	path_free(path_list);
 	return (NULL);
 }

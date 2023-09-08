@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 15:04:22 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:55:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 
 	command = check_path_access(path_split(get_env_val(env_head, "PATH")),
 			array[0], data);
+	if (data->exit_status == 127)
+	{
+		ft_puterr_nofile(array[0]);
+		return ;
+	}
 	if (data->exit_status == 126)
 	{
 		ft_puterr_permit(array[0]);
