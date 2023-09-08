@@ -30,7 +30,6 @@ BUILDIN		= env_init.c \
 				select_commands.c
 BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
 BUILDIN_OBJ_PATH	= obj/obj_buildin
-BUILDIN_OBJ_PATH	= obj/obj_buildin
 BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
 BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 
@@ -44,10 +43,7 @@ LEXER		= expansion_utils.c \
 				lexer_partial.c \
 				lexer_print.c \
 				lexer.c
-
 LEXERS	= $(addprefix $(LEXER_PATH)/, $(LEXER))
-
-LEXER_OBJ_PATH	= obj/obj_lexer
 LEXER_OBJ_PATH	= obj/obj_lexer
 LEXER_OBJ 		= $(LEXER:%.c=%.o)
 LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
@@ -61,13 +57,18 @@ PARSER		= parser.c \
 				parser_pipe.c \
 				parser_redirect.c \
 				print_parser.c \
-				token_evolver.c \
-
+				token_evolver.c
+PARSERS	= $(addprefix $(PARSER_PATH)/, $(PARSER))
 PARSER_OBJ_PATH	= obj/obj_parser
 PARSER_OBJ 		= $(PARSER:%.c=%.o)
 PARSER_OBJS		= $(addprefix $(PARSER_OBJ_PATH)/, $(PARSER_OBJ))
 
-PARSERS	= $(addprefix $(PARSER_PATH)/, $(PARSER))
+PIPE_PATH= srcs/PIPE
+PIPE		= make_pipefd.c
+PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
+PIPE_OBJ_PATH	= obj/obj_pipe
+PIPE_OBJ 		= $(PIPE:%.c=%.o)
+PIPE_OBJS		= $(addprefix $(PIPE_OBJ_PATH)/, $(PIPE_OBJ))
 
 SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
@@ -99,9 +100,9 @@ RESET		= \033[0m
 
 all : $(NAME)
 
-$(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS)
+$(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ mkdir -p ./obj
 	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
@@ -118,6 +119,10 @@ $(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 $(PARSER_OBJ_PATH)/%.o: $(PARSER_PATH)/%.c $(INCS)
+	@ mkdir -p $(@D)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(PIPE_OBJ_PATH)/%.o: $(PIPE_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
