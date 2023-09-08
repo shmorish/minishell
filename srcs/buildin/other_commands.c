@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 15:55:24 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 17:55:00 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	exe_command(char *command, char **array, t_data *data)
 {
 	int	exe_ans;
 
+	signal_child_init();
 	exe_ans = execve(command, array, env_list_to_char_arr(data->env_head));
 	if (exe_ans < 0)
 	{
@@ -40,6 +41,7 @@ static void	wait_other_command(char **array, t_data *data, char *cmd, pid_t pid)
 {
 	int	status;
 
+	signal_parent_init();
 	if (waitpid(pid, &status, 0) < 0)
 	{
 		perror("wait");
@@ -79,6 +81,11 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 {
 	char	*command;
 
+	if (array[0][0] == '\0')
+	{
+		ft_puterr_command(array[0], data);
+		return ;
+	}
 	command = check_path_access(path_split(get_env_val(env_head, "PATH")),
 			array[0], data);
 	if (data->exit_status == 127)

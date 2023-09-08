@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:57:22 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 17:52:15 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ t_token	*lexer(char *line, t_data *data)
 
 	index = 0;
 	token_head = token_head_init();
-	if (line[index] == '\0')
-		return (NULL);
 	while (line[index])
 	{
 		if (is_token(line[index]))
@@ -123,14 +121,6 @@ t_token	*lexer(char *line, t_data *data)
 		else
 			lexer_normal(line, &index, token_head);
 	}
-	ft_printf("\n----------- lexer start-------------\n");
-	print_lexer(token_head);
-	ft_printf("---------- expansion start ---------\n");
 	expansion_check(token_head, data);
-	if (is_str_token(token_head->next->type))
-		token_head->next->type = COMMAND;
-	data->exit_status = 0;
-	print_lexer(token_head);
-	ft_printf("----------- lexer end --------------\n\n");
 	return (token_head);
 }

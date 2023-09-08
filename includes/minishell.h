@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 16:27:26 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:59:03 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
 void	signal_main_init(void);
-void	signal_exe_init(void);
+void	signal_child_init(void);
+void	signal_parent_init(void);
 
 #endif
