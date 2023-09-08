@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 20:37:55 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 14:04:05 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ typedef enum e_while_type {
 }			t_while_type;
 
 typedef struct s_parser	t_parser;
-typedef struct s_input	t_input;
-typedef struct s_output	t_output;
+typedef struct s_file	t_file;
 
 // 	QUOTE_HEREDOC << "" or << ''
 //  HEREDOC <<
@@ -109,6 +108,7 @@ typedef struct s_output	t_output;
 //  OUT_FILE >
 //  APPEND >>
 typedef enum e_redirect_type {
+	UNKNOWN,
 	QUOTE_HEREDOC,
 	HEREDOC,
 	IN_FILE,
@@ -116,28 +116,34 @@ typedef enum e_redirect_type {
 	APPEND
 }	t_redirect_type;
 
-typedef struct s_input
-{
-	char			*file_name;
-	char			*end_heredoc;
-	t_redirect_type	type;
-	t_input			*next;
-}	t_input;
+// typedef struct s_input
+// {
+// 	char			*file_name;
+// 	t_redirect_type	type;
+// 	t_input			*next;
+// }	t_input;
 
-typedef struct s_output
+// typedef struct s_output
+// {
+// 	char			*file_name;
+// 	t_redirect_type	type;
+// 	t_output		*next;
+// }	t_output;
+
+typedef struct s_file
 {
 	char			*file_name;
 	t_redirect_type	type;
-	t_output		*next;
-}	t_output;
+	t_file			*next;
+}	t_file;
 
 typedef struct s_parser
 {
 	char			**cmd;
-	t_input			*input;
-	t_output		*output;
-	struct s_parser	*next;
-	struct s_parser	*prev;
+	t_file			*input;
+	t_file			*output;
+	t_parser		*next;
+	t_parser		*prev;
 }	t_parser;
 
 // buildin --------------------------------------------------------
@@ -268,8 +274,27 @@ void	signal_exe_init(void);
 
 // parser --------------------------------------------------------
 // free_parser.c
-void		free_parser(t_parser *parser_head);
+void	free_parser_head_all(t_parser *head);
+void	*free_parser_null(t_parser *parser_head);
 // parser.c
 t_parser	*parser(t_token *token_head);
+// parser_bool.c
+bool	can_connect_start(t_token *token_head);
+bool	can_connect(t_token *token_head);
+bool	is_connectable_quote(t_token *token_head);
+bool	is_redirect(t_token *token_head);
+// token_evoluver.c
+void	evoluve_token(t_token *token_head);
+// parser_node.c
+t_parser	*parser_node_new(void);
+t_parser	*parser_init(void);
+// print_parser.c
+void	print_parser(t_parser *parser_head);
+// parser_pipe.c
+void	*parser_pipe(t_parser **tmp, t_parser *parser_head);
+// parser_redirect.c
+void	*parser_redirect(t_token **tmp_token, t_parser **tmp);
+// parser_cmd.c
+void	*parser_cmd(t_token **tmp_token, t_parser **tmp);
 
 #endif

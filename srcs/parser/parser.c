@@ -6,137 +6,31 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/04 20:40:03 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 14:04:50 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	can_connect_start(t_token *token_head)
+void	*parser_loop(t_token **tmp_token, t_parser **tmp,
+		t_parser **parser_head)
 {
-	if (token_head->type == LSP_S_QUOTE || token_head->type == LSP_D_QUOTE
-		|| token_head->type == S_QUOTE || token_head->type == D_QUOTE
-		|| token_head->type == COMMAND || token_head->type == FILE_OR_DIR
-		|| token_head->type == STRING || token_head->type == INCLUDE_QUOTE
-		|| token_head->type == R_SPACE_STR || token_head->type == L_SPACE_STR)
-		return (true);
-	return (false);
-}
-
-bool	can_connect(t_token *token_head)
-{
-	if (token_head->type == S_QUOTE || token_head->type == D_QUOTE
-		|| token_head->type == COMMAND || token_head->type == FILE_OR_DIR
-		|| token_head->type == STRING || token_head->type == INCLUDE_QUOTE
-		|| token_head->type == R_SPACE_STR)
-		return (true);
-	return (false);
-}
-
-bool	is_connectable_quote(t_token *token_head)
-{
-	if (token_head->type == S_QUOTE || token_head->type == D_QUOTE
-		|| token_head->type == INCLUDE_QUOTE)
-		return (true);
-	return (false);
-}
-
-bool	is_redirect(t_token *token_head)
-{
-	if (token_head->type == S_GREATER || token_head->type == D_GREATER
-		|| token_head->type == S_LESSER || token_head->type == D_LESSER)
-		return (true);
-	return (false);
-}
-
-void	evoluve_token(t_token *token_head)
-{
-	t_token	*tmp;
-	char	*tmp_str;
-
-	tmp = token_head->next;
-	while (tmp != token_head && tmp->next != token_head)
+	if ((*tmp_token)->type == PIPE)
 	{
-		if (can_connect_start(tmp) == true && can_connect(tmp->next) == true)
-		{
-			tmp_str = tmp->str;
-			tmp->str = ft_strjoin(tmp_str, tmp->next->str);
-			if (tmp->str == NULL)
-			{
-				ft_puterr_malloc();
-				return ;
-			}
-			free(tmp_str);
-			tmp->type = INCLUDE_QUOTE;
-			token_node_delete(tmp->next);
-		}
-		else
-			tmp = tmp->next;
+		if (parser_pipe(tmp, *parser_head) == NULL)
+			return (NULL);
 	}
-}
-
-t_parser	*parser_node_new(void)
-{
-	t_parser	*new;
-
-	new = (t_parser *)malloc(sizeof(t_parser));
-	if (new == NULL)
-		return (NULL);
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-t_parser	*parser_init(void)
-{
-	t_parser	*head;
-
-	head = parser_node_new();
-	if (head == NULL)
-		return (NULL);
-	head->next = head;
-	head->prev = head;
-	return (head);
-}
-
-void	free_parser_head_all(t_parser *head)
-{
-	t_parser	*tmp;
-	int			i;
-
-	if (head == NULL)
-		return ;
-	tmp = head->next;
-	while (tmp != head)
-		tmp = tmp->next;
-	i = 0;
-	if (tmp->cmd != NULL)
+	else if (is_redirect(*tmp_token) == true)
 	{
-		while (tmp->cmd[i] != NULL)
-		{
-			free(tmp->cmd[i]);
-			i++;
-		}
-		free(tmp->cmd);
+		if (parser_redirect(tmp_token, tmp) == NULL)
+			return (free_parser_null(*parser_head));
 	}
-	if (tmp->input != NULL)
+	else
 	{
-		while (tmp->input != NULL)
-		{
-			free(tmp->input->file_name);
-			free(tmp->input->end_heredoc);
-			tmp->input = tmp->input->next;
-		}
+		if (parser_cmd(tmp_token, tmp) == NULL)
+			return (free_parser_null(*parser_head));
 	}
-	if (tmp->output != NULL)
-	{
-		while (tmp->output != NULL)
-		{
-			free(tmp->output->file_name);
-			tmp->output = tmp->output->next;
-		}
-	}
-	free(tmp);
+	return (tmp);
 }
 
 t_parser	*parser(t_token *token_head)
@@ -144,118 +38,25 @@ t_parser	*parser(t_token *token_head)
 	t_parser	*parser_head;
 	t_parser	*tmp;
 	t_token		*tmp_token;
-	int			i;
-	char		**tmp_cmd;
 
-	ft_printf("---------- parser start ---------\n");
+	ft_printf("------------ parser start -----------\n");
 	evoluve_token(token_head);
-	ft_printf("------ finish evoluve_token ------\n");
 	parser_head = parser_init();
 	if (parser_head == NULL)
 		return (NULL);
 	tmp = parser_head;
 	tmp_token = token_head->next;
-	i = 0;
 	while (tmp_token != token_head)
 	{
-		if (tmp_token->type == PIPE)
-		{
-			tmp->next = parser_node_new();
-			if (tmp->next == NULL)
-			{
-				free_parser_head_all(parser_head);
-				return (NULL);
-			}
-			tmp->next->prev = tmp;
-			tmp = tmp->next;
-		}
-		else if (is_redirect(tmp_token) == true)
-		{
-			if (tmp_token->type == D_GREATER || tmp_token->type == S_GREATER)
-			{
-				if (tmp->output == NULL)
-					tmp->output = (t_output *)malloc(sizeof(t_output));
-				else
-				{
-					while (tmp->output->next != NULL)
-						tmp->output = tmp->output->next;
-				}
-				if (tmp->output == NULL)
-				{
-					free_parser_head_all(parser_head);
-					return (NULL);
-				}
-				if (tmp_token->type == D_GREATER)
-					tmp->output->type = APPEND;
-				else
-					tmp->output->type = OUT_FILE;
-				tmp->output->file_name = ft_strdup(tmp_token->next->str);
-			}
-			else if (tmp_token->type == D_LESSER || tmp_token->type == S_LESSER)
-			{
-				if (tmp->input == NULL)
-					tmp->input = (t_input *)malloc(sizeof(t_input));
-				else
-				{
-					while (tmp->input->next != NULL)
-						tmp->input = tmp->input->next;
-				}
-				if (tmp->input == NULL)
-				{
-					free_parser_head_all(parser_head);
-					return (NULL);
-				}
-				if (tmp_token->type == D_LESSER && tmp_token->next->type == INCLUDE_QUOTE)
-					tmp->input->type = QUOTE_HEREDOC;
-				else if (tmp_token->type == D_LESSER)
-					tmp->input->type = HEREDOC;
-				else
-					tmp->input->type = IN_FILE;
-				tmp->input->file_name = ft_strdup(tmp_token->next->str);
-			}
-			tmp = tmp->next->next;
-		}
-		else
-		{
-			if (tmp->cmd == NULL)
-			{
-				tmp->cmd = (char **)malloc(sizeof(char *) * 2);
-				tmp->cmd[0] = ft_strdup(tmp_token->str);
-			}
-			else
-			{
-				i = 0;
-				while (tmp->cmd[i] != NULL)
-					i++;
-				tmp_cmd = (char **)malloc(sizeof(char *) * (i + 1));
-				i = 0;
-				while (tmp->cmd[i] != NULL)
-				{
-					tmp_cmd[i] = ft_strdup(tmp->cmd[i]);
-					free(tmp->cmd[i]);
-					i++;
-				}
-				if (tmp_cmd == NULL)
-				{
-					free_parser_head_all(parser_head);
-					return (NULL);
-				}
-				free(tmp->cmd);
-				tmp_cmd[i] = ft_strdup(tmp_token->str);
-				tmp_cmd[i + 1] = NULL;
-				tmp->cmd = tmp_cmd;
-			}
-		}
+		if (parser_loop(&tmp_token, &tmp, &parser_head) == NULL)
+			return (NULL);
 		tmp_token = tmp_token->next;
-		if (tmp->cmd != NULL)
-		{
-			ft_printf("tmp_cmd[0]: %s\n", tmp->cmd[0]);
-			ft_printf("tmp_cmd[1]: %s\n", tmp->cmd[1]);
-		}
 	}
-	ft_printf("---------- parser end ---------\n");
-	parser_head->next = tmp;
+	while (tmp->prev != NULL)
+		tmp = tmp->prev;
+	parser_head = tmp;
+	ft_printf("------------ parser result -----------\n");
+	print_parser(parser_head);
+	ft_printf("---------- parser result end ---------\n");
 	return (parser_head);
 }
-
-//free_parser_head_all
