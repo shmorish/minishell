@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 15:11:39 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 15:17:36 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
+# include "./buildin.h"
+# include "./lexer.h"
+# include "./parser.h"
 # include <errno.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -25,34 +28,31 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-#include "./buildin.h"
-#include "./lexer.h"
-#include "./parser.h"
 
-
-extern int g_signal;
+extern int				g_signal;
 typedef struct s_token	t_token;
 typedef struct s_env	t_env;
 
 typedef struct s_data
 {
-	t_env	*env_head;
-	t_token	*token_head;
-	char	**list;
-	char	**envp;
-	int		exit_status;
-	int		process_id;
-}					t_data;
+	t_env				*env_head;
+	t_token				*token_head;
+	char				**list;
+	char				**envp;
+	int					exit_status;
+	int					process_id;
+}						t_data;
 
 typedef struct s_env
 {
-	char	*env_name;
-	char	*env_val;
-	t_env	*next;
-	t_env	*prev;
-}	t_env;
+	char				*env_name;
+	char				*env_val;
+	t_env				*next;
+	t_env				*prev;
+}						t_env;
 
-typedef enum e_token_type {
+typedef enum e_token_type
+{
 	EMPTY,
 	PIPE,
 	S_QUOTE,
@@ -70,21 +70,22 @@ typedef enum e_token_type {
 	L_SPACE_STR,
 	SEMICOLON,
 	INCLUDE_QUOTE
-}			t_token_type;
+}						t_token_type;
 
 typedef struct s_token
 {
-	t_token			*next;
-	t_token			*prev;
-	t_token_type	type;
-	char			*str;
-}	t_token;
+	t_token				*next;
+	t_token				*prev;
+	t_token_type		type;
+	char				*str;
+}						t_token;
 
-typedef enum e_while_type {
+typedef enum e_while_type
+{
 	BREAK,
 	CONTINUE,
 	THROUGH
-}			t_while_type;
+}						t_while_type;
 
 typedef struct s_parser	t_parser;
 typedef struct s_file	t_file;
@@ -94,54 +95,58 @@ typedef struct s_file	t_file;
 //  IN_FILE <
 //  OUT_FILE >
 //  APPEND >>
-typedef enum e_redirect_type {
+typedef enum e_redirect_type
+{
 	UNKNOWN,
 	QUOTE_HEREDOC,
 	HEREDOC,
 	IN_FILE,
 	OUT_FILE,
 	APPEND
-}	t_redirect_type;
+}						t_redirect_type;
 
 typedef struct s_file
 {
-	char			*file_name;
-	t_redirect_type	type;
-	t_file			*next;
-}	t_file;
+	char				*file_name;
+	t_redirect_type		type;
+	t_file				*next;
+}						t_file;
 
 typedef struct s_parser
 {
-	char			**cmd;
-	t_file			*input;
-	t_file			*output;
-	t_parser		*next;
-	t_parser		*prev;
-}	t_parser;
-
+	char				**cmd;
+	t_file				*input;
+	t_file				*output;
+	t_parser			*next;
+	t_parser			*prev;
+}						t_parser;
 
 // srcs ---------------------------------------------------------------------
 // ft_get_list_size.c
-size_t	ft_get_list_size(char **list);
+size_t					ft_get_list_size(char **list);
 // ft_puterr_utils.c
-void	ft_puterr(char *s);
-void	ft_puterr_set_status(char *s, t_data *data, int number);
-void	ft_puterr_command(char *s, t_data *data);
-void	ft_puterr_permit(char *s);
-void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
+void					ft_puterr(char *s);
+void					ft_puterr_set_status(char *s, t_data *data, int number);
+void					ft_puterr_command(char *s, t_data *data);
+void					ft_puterr_permit(char *s);
+void					ft_puterr_valid_identifer(char *command, char *s,
+							t_data *data);
 // ft_puterr_utils2.c
-void	ft_puterr_env(char *s);
-void	ft_perror_set_status(char *str, int number, t_data *data);
-void	*ft_puterr_malloc(void);
+void					ft_puterr_env(char *s);
+void					ft_perror_set_status(char *str, int number,
+							t_data *data);
+void					*ft_puterr_malloc(void);
 // handle_quote.c
-char	*handle_quote(char *line, t_env *env_head, t_data *data);
+char					*handle_quote(char *line, t_env *env_head,
+							t_data *data);
 // signal.c
-void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
-void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
-void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
-void	signal_main_init(void);
-void	signal_exe_init(void);
-
-
+void					signal_handler_sigint(int signum, siginfo_t *info,
+							void *ucontext);
+void					signal_handler_sigquit(int signum, siginfo_t *info,
+							void *ucontext);
+void					signal_handler_child(int signum, siginfo_t *info,
+							void *ucontext);
+void					signal_main_init(void);
+void					signal_exe_init(void);
 
 #endif
