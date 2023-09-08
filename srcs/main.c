@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		data->token_head = lexer(line, data->env_head, data);
+		data->token_head = lexer(line, data);
 		if (data->exit_status == 258)
 		{
 			free(line);

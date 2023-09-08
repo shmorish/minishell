@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 23:19:54 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/07 00:14:29 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:52:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	*parser_cmd_init(t_parser **tmp, t_token **tmp_token)
 	(*tmp)->cmd[1] = NULL;
 	return (tmp);
 }
-
 
 static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd,
 			t_token **tmp_token)

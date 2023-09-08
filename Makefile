@@ -73,7 +73,6 @@ SRC_PATH	= srcs
 SRC			= ft_get_list_size.c \
 				ft_puterr_utils.c \
 				ft_puterr_utils2.c \
-				handle_quote.c \
 				main.c \
 				signal.c
 
