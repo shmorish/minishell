@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	int			pid;
 	t_data		*data;
 	t_parser	*parse_head;
+	t_parser	*tmp_parser;
 
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
@@ -59,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		data->token_head = lexer(line, data->env_head, data);
+		data->token_head = lexer(line, data);
 		if (data->exit_status == 258)
 		{
 			free(line);
@@ -79,10 +80,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(line);
 		pipe_fd = make_pipefd(parse_head);
-		while (1)
+		tmp_parser = parse_head;
+		while (tmp_parser != NULL)
 		{
 			pid = fork();
-			select_commands(parse_head->cmd, data->env_head, data);
+			select_commands(tmp_parser->cmd, data->env_head, data);
+			tmp_parser = tmp_parser->next;
 		}
 		free_parser_head_all(parse_head);
 	}
