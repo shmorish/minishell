@@ -35,7 +35,7 @@ t_data	*data_init(int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char			**array;
+	// char			**array;
 	t_data			*data;
 	t_parser		*parse_head;
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		data->token_head = lexer(line, data->env_head, data);
+		data->token_head = lexer(line, data);
 		if (data->exit_status == 258)
 		{
 			free(line);
@@ -71,14 +71,20 @@ int	main(int argc, char **argv, char **envp)
 		}
 		parse_head = parser(data->token_head);
 		free_token_head_all(data->token_head);
-		(void)parse_head;
-		array = ft_split(line, ' ');
-		if (array == NULL)
-			break ;
-
+		if (parse_head == NULL)
+		{
+			free(line);
+			continue ;
+		}
+		// array = ft_split(line, ' ');
+		// if (array == NULL)
+		// 	break ;
+		// array = parse_head->cmd;
 		free(line);
-		select_commands(array, data->env_head, data);
-		free_char_array(array);
+		// select_commands(array, data->env_head, data);
+		// free_char_array(array);
+		select_commands(parse_head->cmd, data->env_head, data);
+		free_parser_head_all(parse_head);
 	}
 	return (0);
 }

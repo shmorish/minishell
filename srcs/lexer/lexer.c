@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/04 19:56:56 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/08 14:57:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head)
 	char	*tmp;
 
 	start = *index;
-	while (line[*index] && !is_token(line[*index]) && line[*index] != ' ')
+	while (line[*index] && !is_token(line[*index]) && !ft_isspace(line[*index]))
 		(*index)++;
 	tmp = ft_substr(line, start, *index - start);
 	if (tmp == NULL)
 		return ;
 	token_node_add_back(token_head, token_node_new(tmp));
-	if (line[*index] == ' ' && is_str_token(token_head->prev->type))
+	if (ft_isspace(line[*index]) && is_str_token(token_head->prev->type))
 		token_head->prev->type = R_SPACE_STR;
-	if (start > 0 && line[start - 1] == ' ' && is_str_token(token_head->prev->type))
+	if (start > 0 && ft_isspace(line[start - 1])
+		&& is_str_token(token_head->prev->type))
 		token_head->prev->type = L_SPACE_STR;
 	free(tmp);
 }
@@ -82,15 +83,17 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	if (tmp == NULL)
 		return (false);
 	token_node_add_back(token_head, token_node_new(tmp));
-	if (start > 0 && line[start - 1] == ' ' && token_head->prev->type == D_QUOTE)
+	if (start > 0 && ft_isspace(line[start - 1])
+		&& token_head->prev->type == D_QUOTE)
 		token_head->prev->type = LSP_D_QUOTE;
-	else if (start > 0 && line[start - 1] == ' ' && token_head->prev->type == S_QUOTE)
+	else if (start > 0 && ft_isspace(line[start - 1])
+		&& token_head->prev->type == S_QUOTE)
 		token_head->prev->type = LSP_S_QUOTE;
 	free(tmp);
 	return (true);
 }
 
-t_token	*lexer(char *line, t_env *env_head, t_data *data)
+t_token	*lexer(char *line, t_data *data)
 {
 	size_t	index;
 	t_token	*token_head;
@@ -112,9 +115,9 @@ t_token	*lexer(char *line, t_env *env_head, t_data *data)
 				return (NULL);
 			}
 		}
-		else if (line[index] == ' ')
+		else if (ft_isspace(line[index]))
 		{
-			while (line[index] == ' ')
+			while (ft_isspace(line[index]))
 				index++;
 		}
 		else
@@ -123,13 +126,11 @@ t_token	*lexer(char *line, t_env *env_head, t_data *data)
 	ft_printf("\n----------- lexer start-------------\n");
 	print_lexer(token_head);
 	ft_printf("---------- expansion start ---------\n");
-	expansion_check(token_head, env_head);
+	expansion_check(token_head, data);
 	if (is_str_token(token_head->next->type))
 		token_head->next->type = COMMAND;
 	data->exit_status = 0;
 	print_lexer(token_head);
-	// free_token_head_all(token_head);
 	ft_printf("----------- lexer end --------------\n\n");
 	return (token_head);
-	// return (NULL);
 }
