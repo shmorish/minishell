@@ -6,12 +6,14 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 15:16:45 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/08 17:51:33 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILDIN_H
 # define BUILDIN_H
+
+# include <stdbool.h>
 
 typedef struct s_env	t_env;
 typedef struct s_data	t_data;
