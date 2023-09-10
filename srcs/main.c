@@ -90,6 +90,11 @@ int	main(int argc, char **argv, char **envp)
 		{
 			stdin_fd = dup(STDIN_FILENO);
 			stdout_fd = dup(STDOUT_FILENO);
+			// if (tmp_parser->input->type == HEREDOC)
+			// {
+			// 	ft_printf("<<\n");
+
+			// }
 			if (tmp_parser->input != NULL)
 				redirect_input(tmp_parser->input, data, pipe_fd[i]);
 			if (tmp_parser->output != NULL)
@@ -148,6 +153,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free_pipefd(pipe_fd);
 		free_parser_head_all(parse_head);
+		rm_heredoc_file();
 	}
 	return (0);
 }

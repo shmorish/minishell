@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/10 17:52:29 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/10 18:51:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,7 @@ void	close_pipefd(int pipefd[2]);
 void	redirect_output(t_file *file_head, t_data *data, int pipefd[2]);
 void	redirect_input(t_file *file_head, t_data *data, int pipefd[2]);
 void	free_pipefd(int **pipefd);
+
+void	rm_heredoc_file(void);
+
 #endif
