@@ -42,7 +42,8 @@ int	main(int argc, char **argv, char **envp)
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
 	int			i;
-
+	int			stdin_fd;
+	int			stdout_fd;
 
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
@@ -78,7 +79,35 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(line);
 		pipe_fd = make_pipefd(parse_head);
+		if (pipe_fd == NULL)
+		{
+			free_parser_head_all(parse_head);
+			continue ;
+		}
+		tmp_parser = parse_head;
 		i = 0;
+		if (tmp_parser != NULL)
+		{
+			stdin_fd = dup(STDIN_FILENO);
+			stdout_fd = dup(STDOUT_FILENO);
+			if (tmp_parser->input != NULL)
+				redirect_input(tmp_parser->input, data, pipe_fd[i]);
+			if (tmp_parser->output != NULL)
+				redirect_output(tmp_parser->output, data, pipe_fd[i]);
+			select_commands(tmp_parser->cmd, data->env_head, data);
+			if (dup2(stdin_fd, STDIN_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(1);
+			}
+			if (dup2(stdout_fd, STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(1);
+			}
+			tmp_parser = tmp_parser->next;
+			i++;
+		}
 		while (tmp_parser != NULL)
 		{
 			pid = fork();
@@ -101,8 +130,8 @@ int	main(int argc, char **argv, char **envp)
 			{
 				waitpid(pid, &data->exit_status, 0);
 				close_pipefd(pipe_fd[i]);
+				select_commands(tmp_parser->cmd, data->env_head, data);
 			}
-			select_commands(tmp_parser->cmd, data->env_head, data);
 			tmp_parser = tmp_parser->next;
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/10 13:16:31 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/10 16:58:21 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	redirect_output(t_file *file_head, t_data *data, int pipefd[2])
 				perror("dup2");
 				exit(1);
 			}
-			close(fd);
-			close(pipefd[0]);
-			close(pipefd[1]);
+			if (close(fd) == -1)
+			{
+				perror("close");
+				exit(1);
+			}
 		}
 		else if (file_tmp->type == APPEND)
 		{
@@ -51,9 +53,13 @@ void	redirect_output(t_file *file_head, t_data *data, int pipefd[2])
 				perror("dup2");
 				exit(1);
 			}
-			close(fd);
-			close(pipefd[0]);
-			close(pipefd[1]);
+			if (close(fd) == -1)
+			{
+				perror("close");
+				exit(1);
+			}
 		}
+		file_tmp = file_tmp->next;
+		(void)pipefd;
 	}
 }
