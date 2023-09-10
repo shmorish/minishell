@@ -12,27 +12,10 @@
 
 #include "../../includes/minishell.h"
 
-static void	check_quote(char **array, size_t count)
-{
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	while (array[count][i] != '\0' && array[count][i] != '\'')
-		i++;
-	if (array[count][i] == '\'')
-	{
-		str = array[count];
-		array[count] = ft_strtrim(str, "'");
-		free(str);
-	}
-}
-
 static void	ft_echo_no_option(char **array, size_t count)
 {
 	while (array[count])
 	{
-		check_quote(array, count);
 		ft_printf("%s", array[count]);
 		if (count != ft_get_list_size(array) - 1)
 			ft_printf(" ");
@@ -61,7 +44,6 @@ static void	ft_echo_option(char **array, size_t count)
 		return ;
 	while (array[count])
 	{
-		check_quote(array, count);
 		ft_printf("%s", array[count]);
 		if (count != ft_get_list_size(array) - 1)
 			ft_printf(" ");
