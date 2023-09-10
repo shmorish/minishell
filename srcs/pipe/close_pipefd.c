@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.h                                             :+:      :+:    :+:   */
+/*   close_pipefd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/10 13:16:07 by morishitash      ###   ########.fr       */
+/*   Created: 2023/09/10 12:55:41 by morishitash       #+#    #+#             */
+/*   Updated: 2023/09/10 13:15:00 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPE_H
-# define PIPE_H
+#include "../../includes/minishell.h"
 
-# include <fcntl.h>
-
-typedef struct s_parser	t_parser;
-typedef struct s_file	t_file;
-
-int		**make_pipefd(t_parser *parser_head);
-void	close_pipefd(int pipefd[2]);
-void	redirect_output(t_file *file_head, t_data *data, int pipefd[2]);
-void	redirect_input(t_file *file_head, t_data *data, int pipefd[2]);
-#endif
+void	close_pipefd(int pipefd[2])
+{
+	if (pipefd[0] != -1)
+		close(pipefd[0]);
+	if (pipefd[1] != -1)
+		close(pipefd[1]);
+}

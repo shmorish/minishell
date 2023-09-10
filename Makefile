@@ -65,7 +65,10 @@ PARSER_OBJ 		= $(PARSER:%.c=%.o)
 PARSER_OBJS		= $(addprefix $(PARSER_OBJ_PATH)/, $(PARSER_OBJ))
 
 PIPE_PATH= srcs/PIPE
-PIPE		= make_pipefd.c
+PIPE		= make_pipefd.c \
+				close_pipefd.c \
+				redirect_input.c \
+				redirect_output.c
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)

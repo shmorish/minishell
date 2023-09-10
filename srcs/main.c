@@ -36,11 +36,13 @@ t_data	*data_init(int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	// int			**pipe_fd;
-	// int			pid;
+	int			**pipe_fd;
+	pid_t		pid;
 	t_data		*data;
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
+	int			i;
+
 
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
@@ -75,18 +77,34 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		free(line);
-		// pipe_fd = make_pipefd(parse_head);
-		tmp_parser = parse_head;
-		select_commands(tmp_parser->cmd, data->env_head, data);
-		while (tmp_parser->next != NULL)
+		pipe_fd = make_pipefd(parse_head);
+		i = 0;
+		while (tmp_parser != NULL)
 		{
-<<<<<<< HEAD
-			tmp_parser = tmp_parser->next;
 			pid = fork();
-=======
-			// pid = fork();
->>>>>>> 9d5d3b713ffe700dccf2e5aa0f50515eae6cae51
+			if (pid == 0)
+			{
+				if (tmp_parser->input != NULL)
+					redirect_input(tmp_parser->input, data, pipe_fd[i]);
+				if (tmp_parser->output != NULL)
+					redirect_output(tmp_parser->output, data, pipe_fd[i]);
+				close_pipefd(pipe_fd[i]);
+				select_commands(tmp_parser->cmd, data->env_head, data);
+				exit(data->exit_status);
+			}
+			else if (pid < 0)
+			{
+				perror("fork");
+				exit(1);
+			}
+			else
+			{
+				waitpid(pid, &data->exit_status, 0);
+				close_pipefd(pipe_fd[i]);
+			}
 			select_commands(tmp_parser->cmd, data->env_head, data);
+			tmp_parser = tmp_parser->next;
+			i++;
 		}
 		free_parser_head_all(parse_head);
 	}
