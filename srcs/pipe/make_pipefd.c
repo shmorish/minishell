@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_pipefd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 00:51:44 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/08 16:32:38 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/10 13:21:49 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,5 @@ int	**make_pipefd(t_parser *parser_head)
 		tmp = tmp->next;
 		i++;
 	}
-	pipefd[i] = NULL;
 	return (pipefd);
 }
