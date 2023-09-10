@@ -1,30 +1,91 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -MMD -MP
 
-SRC_PATH	= srcs
-SRC			= ft_cd.c \
+ifeq ($(MAKECMDGOALS), debug)
+	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -g
+endif
+
+BUILDIN_PATH= srcs/buildin
+BUILDIN		= env_init.c \
+				env_list_to_array.c \
+				env_node_operate.c \
+				env_node_new.c \
+				ft_cd.c \
 				ft_echo.c \
 				ft_env.c \
-				ft_env_init.c \
-				ft_env_node_utils.c \
 				ft_exit.c \
+				ft_export_utils.c \
 				ft_export.c \
 				ft_free.c \
-				ft_get_list_size.c \
 				ft_is_number_str.c \
-				ft_other_command.c \
-				ft_print_utils.c \
 				ft_pwd.c \
+				ft_split_once.c \
+				ft_strccpy.c \
 				ft_unset.c \
+				is_long_overflow.c \
+				other_commands_utils.c \
+				other_commands.c \
+				select_commands.c
+BUILDINS	= $(addprefix $(BUILDIN_PATH)/, $(BUILDIN))
+BUILDIN_OBJ_PATH	= obj/obj_buildin
+BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
+BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
+
+LEXER_PATH= srcs/lexer
+LEXER		= expansion_utils.c \
+				expansion.c \
+				lexer_boolean.c \
+				lexer_boolean2.c \
+				lexer_node_init.c \
+				lexer_node.c \
+				lexer_partial.c \
+				lexer_print.c \
+				lexer.c
+LEXERS	= $(addprefix $(LEXER_PATH)/, $(LEXER))
+LEXER_OBJ_PATH	= obj/obj_lexer
+LEXER_OBJ 		= $(LEXER:%.c=%.o)
+LEXER_OBJS		= $(addprefix $(LEXER_OBJ_PATH)/, $(LEXER_OBJ))
+
+PARSER_PATH= srcs/parser
+PARSER		= parser.c \
+				free_parser.c \
+				parser_bool.c \
+				parser_cmd_free.c \
+				parser_cmd.c \
+				parser_node.c \
+				parser_pipe.c \
+				parser_redirect.c \
+				print_parser.c \
+				token_evolver.c
+PARSERS	= $(addprefix $(PARSER_PATH)/, $(PARSER))
+PARSER_OBJ_PATH	= obj/obj_parser
+PARSER_OBJ 		= $(PARSER:%.c=%.o)
+PARSER_OBJS		= $(addprefix $(PARSER_OBJ_PATH)/, $(PARSER_OBJ))
+
+PIPE_PATH= srcs/PIPE
+PIPE		= make_pipefd.c \
+				close_pipefd.c \
+				redirect_input.c \
+				redirect_output.c \
+				free_pipe.c 
+PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
+PIPE_OBJ_PATH	= obj/obj_pipe
+PIPE_OBJ 		= $(PIPE:%.c=%.o)
+PIPE_OBJS		= $(addprefix $(PIPE_OBJ_PATH)/, $(PIPE_OBJ))
+
+SRC_PATH	= srcs
+SRC			= ft_get_list_size.c \
+				ft_puterr_utils.c \
+				ft_puterr_utils2.c \
 				main.c \
-				select_commands.c 
+				signal.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 
 OBJ_PATH	= obj
-OBJ 		= $(SRC:.c=.o)
+OBJ 		= $(SRC:%.c=%.o)
 OBJS		= $(addprefix $(OBJ_PATH)/, $(OBJ))
 
 INC_PATH	= includes
@@ -44,20 +105,36 @@ RESET		= \033[0m
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
 	@ make -C $(LIB_PATH)
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS) -lreadline
-	@echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
+	@ mkdir -p ./obj
+	@ echo "$(CHECK) $(BLUE)Compiling minishell... $(RESET)"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
-	@ mkdir -p $(OBJ_PATH)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(INCS)
+	@ mkdir -p $(@D)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
+	@ mkdir -p $(@D)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
+	@ mkdir -p $(@D)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(PARSER_OBJ_PATH)/%.o: $(PARSER_PATH)/%.c $(INCS)
+	@ mkdir -p $(@D)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+
+$(PIPE_OBJ_PATH)/%.o: $(PIPE_PATH)/%.c $(INCS)
+	@ mkdir -p $(@D)
+	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
 
 clean:
 	@ make clean -C $(LIB_PATH)
-	@ $(RM) $(OBJS)
-	@ $(RM) -r $(OBJ_PATH)
-	@echo "$(REMOVE) $(BLUE)Remove minishell objects... $(RESET)"
+	@ $(RM) -r ./obj/
+	@ echo "$(REMOVE) $(BLUE)Remove minishell objects... $(RESET)"
 
 fclean: clean
 	@ make fclean -C $(LIB_PATH)
@@ -66,4 +143,13 @@ fclean: clean
 
 re: fclean all
 
-.PHONY : all clean fclean re
+run: all
+	@ clear
+	@ ./$(NAME)
+
+debug: re run
+
+leak:
+	while [ 1 ]; do leaks -q minishell; sleep 2; done
+
+.PHONY : all clean fclean re run debug leak

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/17 12:59:28 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/08 16:59:03 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,134 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
+# include "./buildin.h"
+# include "./lexer.h"
+# include "./parser.h"
+# include "./pipe.h"
 # include <errno.h>
 # include <limits.h>
-# include <stdint.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <stdint.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+
+extern int				g_signal;
+typedef struct s_token	t_token;
+typedef struct s_env	t_env;
+
+typedef struct s_data
+{
+	t_env				*env_head;
+	t_token				*token_head;
+	char				**list;
+	char				**envp;
+	int					exit_status;
+	int					process_id;
+}						t_data;
 
 typedef struct s_env
 {
-	char			*env_name;
-	char			*env_var;
-	struct s_env	*next;
-	struct s_env	*prev;
-}					t_env;
+	char				*env_name;
+	char				*env_val;
+	t_env				*next;
+	t_env				*prev;
+}						t_env;
 
-int		ft_is_number_str(char *s);
+typedef enum e_token_type
+{
+	EMPTY,
+	PIPE,
+	S_QUOTE,
+	LSP_S_QUOTE,
+	D_QUOTE,
+	LSP_D_QUOTE,
+	S_GREATER,
+	D_GREATER,
+	S_LESSER,
+	D_LESSER,
+	COMMAND,
+	FILE_OR_DIR,
+	STRING,
+	R_SPACE_STR,
+	L_SPACE_STR,
+	SEMICOLON,
+	INCLUDE_QUOTE
+}						t_token_type;
+
+typedef struct s_token
+{
+	t_token				*next;
+	t_token				*prev;
+	t_token_type		type;
+	char				*str;
+}						t_token;
+
+typedef enum e_while_type
+{
+	BREAK,
+	CONTINUE,
+	THROUGH
+}						t_while_type;
+
+typedef struct s_parser	t_parser;
+typedef struct s_file	t_file;
+
+// 	QUOTE_HEREDOC << "" or << ''
+//  HEREDOC <<
+//  IN_FILE <
+//  OUT_FILE >
+//  APPEND >>
+typedef enum e_redirect_type
+{
+	UNKNOWN,
+	QUOTE_HEREDOC,
+	HEREDOC,
+	IN_FILE,
+	OUT_FILE,
+	APPEND
+}						t_redirect_type;
+
+typedef struct s_file
+{
+	char				*file_name;
+	t_redirect_type		type;
+	t_file				*next;
+}						t_file;
+
+typedef struct s_parser
+{
+	char				**cmd;
+	t_file				*input;
+	t_file				*output;
+	t_parser			*next;
+	t_parser			*prev;
+}						t_parser;
+
+// srcs ---------------------------------------------------------------------
+// ft_get_list_size.c
 size_t	ft_get_list_size(char **list);
+// ft_puterr_utils.c
 void	ft_puterr(char *s);
-void	ft_put_command_err(char *s);
-void	ft_put_too_arg_err(char *s);
-void	ft_put_few_arg_err(char *s);
-void	free_list(char **list);
-void	head_free_all(t_env *head);
-void	free_all(char **list, t_env *head);
-void	node_free(t_env *node);
-
-void	select_commands(char **list, t_env *env_head);
-void	ft_exit(char **list, t_env *env_head);
-void	ft_echo(char **list);
-void	ft_pwd(void);
-void	ft_cd(char **list);
-void	ft_env(char **list, t_env *env_head);
-void	ft_export(char **list, t_env *env_head);
-void	ft_unset(char **list, t_env *env_head);
-void	ft_other_command(char **list, t_env *env_head);
-
-t_env	*node_new(char *str);
-void	node_add_front(t_env *head, t_env *new);
-void	node_add_back(t_env *head, t_env *new);
-void	node_delete(t_env *target);
-t_env	*get_node_pos(t_env *head, char *str);
-t_env	*head_init(void);
-t_env	*env_init(char **envp);
-bool	check_equal(char *str);
-bool	check_duplicate_path(char *str, t_env *env_head);
+void	ft_puterr_set_status(char *s, t_data *data, int number);
+void	ft_puterr_command(char *s, t_data *data);
+void	ft_puterr_permit(char *s);
+void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
+// ft_puterr_utils2.c
+void	ft_puterr_env(char *s);
+void	ft_perror_set_status(char *str, int number, t_data *data);
+void	*ft_puterr_malloc(void);
+void	ft_puterr_nofile(char *s);
+// signal.c
+void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
+void	signal_main_init(void);
+void	signal_child_init(void);
+void	signal_parent_init(void);
 
 #endif

@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/12 22:04:21 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/12 22:04:21 by ryhara           ###   ########.fr       */
+/*   Created: 2023/08/12 22:56:22 by ryhara            #+#    #+#             */
+/*   Updated: 2023/08/12 22:56:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	ft_pwd(void)
+void	ft_env(char **array, t_env *env_head, t_data *data)
 {
-	char	*path_name;
+	t_env	*tmp;
 
-	path_name = ft_calloc(PATH_MAX, sizeof(char));
-	if (path_name == NULL)
-		return ;
-	getcwd(path_name, PATH_MAX);
-	if (path_name == NULL)
-		ft_puterr(strerror(errno));
+	if (array[1] != NULL)
+	{
+		ft_puterr_env(array[1]);
+		data->exit_status = 127;
+	}
 	else
-		printf("%s\n", path_name);
-	free(path_name);
+	{
+		tmp = env_head->next;
+		while (tmp != env_head)
+		{
+			ft_printf("%s=%s\n", tmp->env_name, tmp->env_val);
+			tmp = tmp->next;
+		}
+		data->exit_status = 0;
+	}
 }

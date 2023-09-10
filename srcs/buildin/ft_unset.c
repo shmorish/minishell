@@ -10,22 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	ft_unset(char **list, t_env *env_head)
+static bool	unset_check_name(char *str)
 {
-	int	i;
+	size_t	i;
 
-	if (list[1] == NULL)
-		ft_put_few_arg_err("unset");
+	i = 0;
+	if (str[i] == '_' || ft_isalpha(str[i]))
+	{
+		i++;
+		while (str[i] && ft_isalnum(str[i]))
+			i++;
+		if (str[i] == '\0')
+			return (true);
+		else
+			return (false);
+	}
+	else
+		return (false);
+}
+
+void	ft_unset(char **array, t_env *env_head, t_data *data)
+{
+	int		i;
+	bool	error_flag;
+
+	error_flag = false;
+	if (array[1] == NULL)
+		data->exit_status = 0;
 	else
 	{
 		i = 1;
-		while (list[i])
+		while (array[i])
 		{
-			if (check_duplicate_path(list[i], env_head))
-				node_delete(get_node_pos(env_head, list[i]));
+			if (!unset_check_name(array[i]))
+			{
+				ft_puterr_valid_identifer("unset", array[i], data);
+				error_flag = true;
+			}
+			else if (check_duplicate_path(array[i], env_head))
+				node_delete(get_node_pos(env_head, array[i]));
 			i++;
 		}
 	}
+	if (error_flag == false)
+		data->exit_status = 0;
 }
