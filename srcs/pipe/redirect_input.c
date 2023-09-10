@@ -6,13 +6,13 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/10 16:53:15 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/10 17:25:11 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	heredoc(char *file_name, int pipefd[2])
+void	heredoc(char *file_name)
 {
 	int	fd;
 
@@ -27,12 +27,14 @@ void	heredoc(char *file_name, int pipefd[2])
 		perror("dup2");
 		exit(1);
 	}
-	close(fd);
-	close(pipefd[0]);
-	close(pipefd[1]);
+	if (close(fd) == -1)
+	{
+		perror("close");
+		exit(1);
+	}
 }
 
-void	quote_heredoc(char *file_name, int pipefd[2])
+void	quote_heredoc(char *file_name)
 {
 	int	fd;
 
@@ -47,12 +49,14 @@ void	quote_heredoc(char *file_name, int pipefd[2])
 		perror("dup2");
 		exit(1);
 	}
-	close(fd);
-	close(pipefd[0]);
-	close(pipefd[1]);
+	if (close(fd) == -1)
+	{
+		perror("close");
+		exit(1);
+	}
 }
 
-void	in_file(char *file_name, int pipefd[2])
+void	in_file(char *file_name)
 {
 	int	fd;
 
@@ -67,18 +71,21 @@ void	in_file(char *file_name, int pipefd[2])
 		perror("dup2");
 		exit(1);
 	}
-	close(fd);
-	close(pipefd[0]);
-	close(pipefd[1]);
+	if (close(fd) == -1)
+	{
+		perror("close");
+		exit(1);
+	}
 }
 
 void	redirect_input(t_file *file, t_data *data, int pipefd[2])
 {
 	(void)data;
+	(void)pipefd;
 	if (file->type == HEREDOC)
-		heredoc(file->file_name, pipefd);
+		heredoc(file->file_name);
 	else if (file->type == QUOTE_HEREDOC)
-		quote_heredoc(file->file_name, pipefd);
+		quote_heredoc(file->file_name);
 	else if (file->type == IN_FILE)
-		in_file(file->file_name, pipefd);
+		in_file(file->file_name);
 }
