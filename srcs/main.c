@@ -146,6 +146,7 @@ int	main(int argc, char **argv, char **envp)
 			tmp_parser = tmp_parser->next;
 			i++;
 		}
+		free_pipefd(pipe_fd);
 		free_parser_head_all(parse_head);
 	}
 	return (0);
