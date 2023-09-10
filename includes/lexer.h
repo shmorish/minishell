@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 16:13:48 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/10 20:28:05 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*expansion_get_env_val(char *env_name, t_env *env_head, t_data *data);
 void	expansion_env(char *str, t_token *node, size_t *index, t_data *data);
 void	expansion_quote(t_token *node);
 void	expansion_check(t_token *token_head, t_data *data);
+// ft_split_charset.c
+char	**ft_split_charset(char *str, char *charset);
 // lexer_boolean.c
 bool	is_token(char c);
 bool	is_expansion(t_token_type type);
