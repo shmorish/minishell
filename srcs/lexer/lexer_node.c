@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:24:16 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:09:12 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/10 16:08:30 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,28 @@ void	token_node_delete(t_token *target)
 	target->str = NULL;
 	free(target);
 	target = NULL;
+}
+
+void	set_token_type(t_token *new)
+{
+	if (new->str == NULL)
+		return ;
+	else if (ft_strlen(new->str) == 0)
+		new->type = EMPTY;
+	else if (!ft_strncmp(new->str, ">>", 2))
+		new->type = D_GREATER;
+	else if (!ft_strncmp(new->str, ">", 1))
+		new->type = S_GREATER;
+	else if (!ft_strncmp(new->str, "<<", 2))
+		new->type = D_LESSER;
+	else if (!ft_strncmp(new->str, "<", 1))
+		new->type = S_LESSER;
+	else if (!ft_strncmp(new->str, "|", 1))
+		new->type = PIPE;
+	else if ((new->str)[0] == '\"')
+		new->type = D_QUOTE;
+	else if ((new->str)[0] == '\'')
+		new->type = S_QUOTE;
+	else
+		new->type = STRING;
 }
