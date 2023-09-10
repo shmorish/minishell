@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_pipefd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 00:51:44 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/10 13:21:49 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/10 18:00:43 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	**make_pipefd(t_parser *parser_head)
 		tmp = tmp->next;
 		count++;
 	}
-	pipefd = (int **)malloc(sizeof(int *) * count + 1);
+	pipefd = (int **)malloc(sizeof(int *) * (count + 1));
 	if (pipefd == NULL)
 		return (NULL);
 	tmp = parser_head;
@@ -44,5 +44,6 @@ int	**make_pipefd(t_parser *parser_head)
 		tmp = tmp->next;
 		i++;
 	}
+	pipefd[i] = NULL;
 	return (pipefd);
 }
