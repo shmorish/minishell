@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_boolean.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:40:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:56:55 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/10 23:27:21 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	is_str_token(t_token_type type)
 bool	is_quote(t_token_type type)
 {
 	if (type == D_QUOTE || type == S_QUOTE || type == LSP_D_QUOTE
-		|| type == LSP_S_QUOTE)
+		|| type == LSP_S_QUOTE || type == INCLUDE_QUOTE)
 		return (true);
 	else
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:37:21 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 17:56:11 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/10 23:27:36 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static void	*file_init(t_file **file, char *file_mame,
 	(*file)->file_name = ft_strdup(file_mame);
 	if ((*file)->file_name == NULL)
 		return (NULL);
-	if (type == D_LESSER && (next_type == INCLUDE_QUOTE
-			|| next_type == D_QUOTE || next_type == S_QUOTE))
+	if (type == D_LESSER && is_quote(next_type) == true)
 		(*file)->type = QUOTE_HEREDOC;
 	else if (type == D_LESSER)
 		(*file)->type = HEREDOC;
@@ -33,8 +32,6 @@ static void	*file_init(t_file **file, char *file_mame,
 		(*file)->type = APPEND;
 	else if (type == S_GREATER)
 		(*file)->type = OUT_FILE;
-	else
-		(*file)->type = UNKNOWN;
 	return (file);
 }
 
@@ -54,8 +51,7 @@ static void	*add_files(t_file **file, char *file_name,
 	tmp_file->file_name = ft_strdup(file_name);
 	if (tmp_file->file_name == NULL)
 		return (NULL);
-	if (type == D_LESSER && (next_type == INCLUDE_QUOTE
-			|| next_type == D_QUOTE || next_type == S_QUOTE))
+	if (type == D_LESSER && is_quote(next_type) == true)
 		tmp_file->type = QUOTE_HEREDOC;
 	else if (type == D_LESSER)
 		tmp_file->type = HEREDOC;
