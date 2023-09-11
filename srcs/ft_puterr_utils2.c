@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:52:32 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 12:41:14 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 22:22:08 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ void	ft_puterr_env(char *s)
 	ft_puterr(": No such file or directory\n");
 }
 
-void	ft_perror_set_status(char *str, int number, t_data *data)
+void	ft_strerror_cd(char *str, int number, t_data *data)
 {
-	perror(str);
+	ft_puterr("minishell: cd: ");
+	ft_puterr(str);
+	ft_puterr(": ");
+	ft_puterr(strerror(errno));
+	ft_puterr("\n");
 	data->exit_status = number;
 }
 

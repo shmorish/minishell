@@ -84,6 +84,7 @@ void	ft_pwd(t_data *data)
 		return ;
 	if (getcwd(path_name, PATH_MAX) == NULL)
 	{
+		ft_puterr("minishell: pwd: ");
 		ft_puterr(strerror(errno));
 		ft_puterr("\n");
 		data->exit_status = 1;

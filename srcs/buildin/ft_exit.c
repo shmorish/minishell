@@ -15,7 +15,7 @@
 static void	exit_numeric_error(char *str, t_data *data)
 {
 	ft_puterr("exit\n");
-	ft_puterr("bash: exit: ");
+	ft_puterr("minishell: exit: ");
 	ft_puterr(str);
 	ft_puterr(": numeric argument required\n");
 	data->exit_status = 255;
@@ -25,7 +25,7 @@ static void	exit_numeric_error(char *str, t_data *data)
 static void	exit_arg_error(t_data *data)
 {
 	ft_puterr("exit\n");
-	ft_puterr("bash :exit: too many arguments\n");
+	ft_puterr("minishell :exit: too many arguments\n");
 	data->exit_status = 1;
 }
 
