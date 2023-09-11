@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/11 12:30:18 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 17:48:55 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef enum e_token_type
 	R_SPACE_STR,
 	L_SPACE_STR,
 	SEMICOLON,
-	INCLUDE_QUOTE
+	INCLUDE_QUOTE,
+	DELETE,
 }						t_token_type;
 
 typedef struct s_token
@@ -123,8 +124,6 @@ typedef struct s_parser
 }						t_parser;
 
 // srcs ---------------------------------------------------------------------
-// ft_get_list_size.c
-size_t	ft_get_list_size(char **list);
 // ft_puterr_utils.c
 void	ft_puterr(char *s);
 void	ft_puterr_set_status(char *s, t_data *data, int number);

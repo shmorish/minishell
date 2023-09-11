@@ -12,6 +12,18 @@
 
 #include "../../includes/minishell.h"
 
+static size_t	ft_get_list_size(char **list)
+{
+	size_t	count;
+
+	count = 0;
+	if (list == NULL)
+		return (count);
+	while (list[count])
+		count++;
+	return (count);
+}
+
 static void	ft_echo_no_option(char **array, size_t count)
 {
 	while (array[count])

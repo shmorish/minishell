@@ -78,8 +78,7 @@ PIPE_OBJ 		= $(PIPE:%.c=%.o)
 PIPE_OBJS		= $(addprefix $(PIPE_OBJ_PATH)/, $(PIPE_OBJ))
 
 SRC_PATH	= srcs
-SRC			= ft_get_list_size.c \
-				ft_puterr_utils.c \
+SRC			= ft_puterr_utils.c \
 				ft_puterr_utils2.c \
 				main.c \
 				signal.c

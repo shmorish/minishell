@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 11:43:27 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 18:01:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 	expansion_free(before, after, env_val);
 	// test
 	// size_t	i;
-	// t_token	*delete_node;
+	// t_token *delete_node;
 	// char **array;
 	// i = 0;
 	// while ((node->str)[i])
@@ -57,10 +57,12 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 	// 	array = ft_split(node->str, ' ');
 	// 	if (array == NULL)
 	// 		return ;
+	// 	delete_node = node;
+	// 	delete_node->type = DELETE;
 	// 	while (array[i])
 	// 	{
-	// 		token_node_insert(node, token_node_new(array[i]));
-	// 		node = node->next;
+	// 		token_node_insert(delete_node, token_node_new(array[i]));
+	// 		delete_node = delete_node->next;
 	// 		i++;
 	// 	}
 	// }
