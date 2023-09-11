@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 18:01:23 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 18:55:59 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 		return ;
 	}
 	expansion_free(before, after, env_val);
-	// test
 	// size_t	i;
-	// t_token *delete_node;
 	// char **array;
+	// t_token	*delete_node;;
 	// i = 0;
-	// while ((node->str)[i])
+	// while (node->str[i] != '\0')
 	// {
-	// 	if ((node->str)[i] == ' ' || (node->str)[i] == '\t')
+	// 	if (node->str[i] == ' ' || node->str[i] == '\t')
 	// 		break ;
 	// 	i++;
 	// }
+	// delete_node = NULL;
 	// if (ft_strlen(node->str) != i)
 	// {
 	// 	i = 0;
@@ -59,10 +59,12 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 	// 		return ;
 	// 	delete_node = node;
 	// 	delete_node->type = DELETE;
-	// 	while (array[i])
+	// 	while (array[i] != NULL)
 	// 	{
-	// 		token_node_insert(delete_node, token_node_new(array[i]));
-	// 		delete_node = delete_node->next;
+	// 		token_node_insert(node, token_node_new(array[i]));
+	// 		node = node->next;
+	// 		node->type = L_SPACE_STR;
+	// 		ft_printf("%s %s\n", node->str, node->next->str);
 	// 		i++;
 	// 	}
 	// }
