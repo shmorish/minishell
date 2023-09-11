@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 20:28:05 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:03:48 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <unistd.h>
 # include <stdbool.h>
+
+# define ERR_NEWLINE "minishell: syntax error near unexpected token `newline'\n"
+# define ERR_PIPE "minishell: syntax error near unexpected token `|'\n"
+# define ERR_QUOTE "minishell: syntax error: quote is not closed.\n"
 
 typedef struct s_token		t_token;
 typedef struct s_env		t_env;
@@ -67,7 +71,8 @@ void	print_lexer(t_token *token_head);
 // lexer.c
 void	lexer_normal(char *line, size_t *index, t_token *token_head);
 bool	lexer_token(char *line, size_t *index, t_token *token_head);
-bool	lexer_token_main(char *line, size_t *index, t_token *head, t_data *data);
+bool	lexer_token_main(char *line, size_t *index,
+			t_token *token_head, t_data *data);
 t_token	*lexer(char *line, t_data *data);
 
 #endif

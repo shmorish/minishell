@@ -16,19 +16,21 @@ void	ft_env(char **array, t_env *env_head, t_data *data)
 {
 	t_env	*tmp;
 
-	if (array[1] != NULL)
+	if (array[1] != NULL && !ft_strcmp("--", array[1]))
+		;
+	else if (array[1] != NULL && array[1][0] == '-')
+		return ;
+	else if (array[1] != NULL)
 	{
 		ft_puterr_env(array[1]);
 		data->exit_status = 127;
+		return ;
 	}
-	else
+	tmp = env_head->next;
+	while (tmp != env_head)
 	{
-		tmp = env_head->next;
-		while (tmp != env_head)
-		{
-			ft_printf("%s=%s\n", tmp->env_name, tmp->env_val);
-			tmp = tmp->next;
-		}
-		data->exit_status = 0;
+		ft_printf("%s=%s\n", tmp->env_name, tmp->env_val);
+		tmp = tmp->next;
 	}
+	data->exit_status = 0;
 }

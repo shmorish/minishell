@@ -69,7 +69,9 @@ PIPE		= make_pipefd.c \
 				close_pipefd.c \
 				redirect_input.c \
 				redirect_output.c \
-				free_pipe.c 
+				free_pipe.c \
+				heredoc_utils.c \
+				heredoc.c
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)
