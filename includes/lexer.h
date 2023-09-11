@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 11:03:48 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:10:29 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ bool	is_valid_lesser(char *line, size_t index);
 t_token	*token_head_init(void);
 t_token	*token_init(char **envp);
 void	free_token_head_all(t_token *head);
+void	set_token_type(t_token *new_node);
 // lexer_node.c
 t_token	*token_node_new(char *str);
 void	token_node_add_back(t_token *head, t_token *new_node);
 void	token_node_add_front(t_token *head, t_token *new_node);
+void	token_node_insert(t_token *node, t_token *new_node);
 void	token_node_delete(t_token *target);
-void	set_token_type(t_token *new_node);
 // lexer_partial.c
 bool	lexer_single_quote(char *line, size_t *index);
 bool	lexer_double_quote(char *line, size_t *index);

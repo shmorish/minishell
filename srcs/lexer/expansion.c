@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:47:31 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:48:38 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	expansion_quote(t_token *node)
 {
 	char	*tmp;
 
-	if (is_expansion(node->type))
+	if (is_expansion(node->type) || node->type == S_QUOTE
+		|| node->type == LSP_S_QUOTE)
 	{
 		if (node->type == D_QUOTE || node->type == LSP_D_QUOTE)
 		{
@@ -112,9 +113,11 @@ void	expansion_quote(t_token *node)
 void	expansion_check(t_token *token_head, t_data *data)
 {
 	t_token	*tmp_node;
+	// t_token *next_node;
 	size_t	index;
 
 	tmp_node = token_head->next;
+	// next_node = tmp_node->next;
 	while (tmp_node != token_head)
 	{
 		index = 0;
@@ -128,5 +131,6 @@ void	expansion_check(t_token *token_head, t_data *data)
 		}
 		expansion_quote(tmp_node);
 		tmp_node = tmp_node->next;
+		// next_node = tmp_node->next;
 	}
 }

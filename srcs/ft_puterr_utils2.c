@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_puterr_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:52:32 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 10:08:15 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:41:14 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,11 @@ void	ft_puterr_nofile(char *s)
 	ft_puterr("minishell: ");
 	ft_puterr(s);
 	ft_puterr(": No such file or directory\n");
+}
+
+void	ft_puterr_isdir(char *s)
+{
+	ft_puterr("minishell: ");
+	ft_puterr(s);
+	ft_puterr(": is a directory\n");
 }

@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:24:16 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 16:08:30 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:13:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,19 @@ void	token_node_add_front(t_token *head, t_token *new)
 	head->next = new;
 }
 
+void	token_node_insert(t_token *node, t_token *new_node)
+{
+	t_token	*node_next;
+
+	if (node == NULL || new_node == NULL)
+		return ;
+	node_next = node->next;
+	node->next = new_node;
+	new_node->next = node_next;
+	new_node->prev = node;
+	node_next->prev = new_node;
+}
+
 void	token_node_delete(t_token *target)
 {
 	t_token	*target_prev;
@@ -66,28 +79,4 @@ void	token_node_delete(t_token *target)
 	target->str = NULL;
 	free(target);
 	target = NULL;
-}
-
-void	set_token_type(t_token *new)
-{
-	if (new->str == NULL)
-		return ;
-	else if (ft_strlen(new->str) == 0)
-		new->type = EMPTY;
-	else if (!ft_strncmp(new->str, ">>", 2))
-		new->type = D_GREATER;
-	else if (!ft_strncmp(new->str, ">", 1))
-		new->type = S_GREATER;
-	else if (!ft_strncmp(new->str, "<<", 2))
-		new->type = D_LESSER;
-	else if (!ft_strncmp(new->str, "<", 1))
-		new->type = S_LESSER;
-	else if (!ft_strncmp(new->str, "|", 1))
-		new->type = PIPE;
-	else if ((new->str)[0] == '\"')
-		new->type = D_QUOTE;
-	else if ((new->str)[0] == '\'')
-		new->type = S_QUOTE;
-	else
-		new->type = STRING;
 }
