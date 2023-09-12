@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/12 22:57:02 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/13 03:15:22 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		dup_error_exit(int oldfd);
 int		dup2_error_exit(int oldfd, int newfd);
 void	pipe_error_exit(int *pipefd);
 int		close_error_exit(int fd);
+pid_t	*count_pid(t_parser *parser_head);
 // heredoc_expansion.c
 char	*heredoc_join(char *before_l, char *after_l, char *envstr, size_t *i);
 char	*heredoc_newline(char *newline, size_t *i, t_data *data);

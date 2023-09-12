@@ -25,7 +25,6 @@ BUILDIN		= env_init.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
-				other_commands_no_fork.c \
 				other_commands_utils.c \
 				other_commands.c \
 				select_commands.c
@@ -60,13 +59,13 @@ PARSER		= parser.c \
 				parser_pipe.c \
 				parser_redirect.c \
 				print_parser.c \
-				token_evolver.c
+				token_evolver.c 
 PARSERS	= $(addprefix $(PARSER_PATH)/, $(PARSER))
 PARSER_OBJ_PATH	= obj/obj_parser
 PARSER_OBJ 		= $(PARSER:%.c=%.o)
 PARSER_OBJS		= $(addprefix $(PARSER_OBJ_PATH)/, $(PARSER_OBJ))
 
-PIPE_PATH= srcs/PIPE
+PIPE_PATH= srcs/pipe
 PIPE		= make_pipefd.c \
 				close_pipefd.c \
 				redirect_input.c \
@@ -75,7 +74,8 @@ PIPE		= make_pipefd.c \
 				heredoc_expansion.c \
 				heredoc_utils.c \
 				heredoc.c \
-				pipe_error_exit.c
+				pipe_error_exit.c \
+				count_pid.c 
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)

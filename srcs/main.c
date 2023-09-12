@@ -37,11 +37,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	int			**pipe_fd;
-	pid_t		pid;
+	pid_t		*pid;
+	pid_t		end_pid;
 	t_data		*data;
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
 	int			i;
+	int			index;
 	int			stdin_fd;
 	int			stdout_fd;
 
@@ -108,25 +110,23 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
+			pid = count_pid(parse_head);
 			stdin_fd = dup_error_exit(STDIN_FILENO);//
 			stdout_fd = dup_error_exit(STDOUT_FILENO);//
 			while (tmp_parser != NULL)
 			{
-				pid = fork_error_exit();//配列格納する
-				if (pid == 0)
+				pid[i] = fork_error_exit();//配列格納する
+				end_pid = pid[i];
+				if (pid[i] == 0)
 				{
 					if (tmp_parser->next != NULL)
 					{
-						printf("pipe_fd[%d][1] = %d\n", i, pipe_fd[i][1]);
-						printf("Hi we have next\n");
 						dup2_error_exit(pipe_fd[i][1], STDOUT_FILENO);
 						close_error_exit(pipe_fd[i][0]);
 						close_error_exit(pipe_fd[i][1]);
 					}
 					if (tmp_parser->prev != NULL)
 					{
-						printf("pipe_fd[%d][0] = %d\n", i - 1, pipe_fd[i - 1][0]);
-						printf("Hi we have prev\n");
 						dup2_error_exit(pipe_fd[i - 1][0], STDIN_FILENO);
 						close_error_exit(pipe_fd[i - 1][0]);
 						close_error_exit(pipe_fd[i - 1][1]);
@@ -135,7 +135,7 @@ int	main(int argc, char **argv, char **envp)
 						redirect_input(tmp_parser->input, data, pipe_fd[i]);
 					if (tmp_parser->output != NULL)
 						redirect_output(tmp_parser->output, data, pipe_fd[i]);
-					select_commands_no_fork(tmp_parser->cmd, data->env_head, data);
+					select_commands(tmp_parser->cmd, data->env_head, data);
 					exit(data->exit_status);
 				}
 				else
@@ -149,12 +149,19 @@ int	main(int argc, char **argv, char **envp)
 					i++;
 				}
 			}
-			ft_printf("------------------i = %d\n", i);
-			// waitpid(pid, NULL, 0);//forkした数だけwaitpidする // 失敗で-1
-			wait(NULL);
-			ft_printf("2-----------------i = %d\n", i);
-			wait(NULL);
-			ft_printf("3-----------------i = %d\n", i);
+			index = 0;
+			while (index < i)
+			{
+				int status;
+				if (wait(&status) == end_pid)
+				{
+					if (WIFEXITED(status)) // 子プロセスが正常終了した場合
+						data->exit_status = WEXITSTATUS(status);
+					else if (WIFSIGNALED(status)) // 子プロセスがシグナル終了した場合
+						data->exit_status = WTERMSIG(status) + 128;
+				}
+				index++;
+			}
 			dup2_error_exit(stdin_fd, STDIN_FILENO);
 			dup2_error_exit(stdout_fd, STDOUT_FILENO);
 			close_error_exit(stdin_fd);
