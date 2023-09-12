@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/12 13:01:59 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 13:05:28 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ t_parser	*parser(t_token *token_head)
 	while (tmp->prev != NULL)
 		tmp = tmp->prev;
 	parser_head = tmp;
-	// ft_printf("------------ parser result -----------\n");
-	// print_parser(parser_head);
-	// ft_printf("---------- parser result end ---------\n");
+	ft_printf("------------ parser result -----------\n");
+	print_parser(parser_head);
+	ft_printf("---------- parser result end ---------\n");
 	return (parser_head);
 }

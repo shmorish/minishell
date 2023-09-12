@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/12 13:00:39 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 13:17:20 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,13 @@ void	ft_strerror_cd(char *str, int number, t_data *data);
 void	*ft_puterr_malloc(void);
 void	ft_puterr_nofile(char *s);
 void	ft_puterr_isdir(char *s);
-// signal.c
+// signal_handler.c
 void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
-void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
+// signal.c
 void	signal_main_init(void);
 void	signal_child_init(void);
 void	signal_parent_init(void);
+void	signal_heredoc(void);
 
 #endif
