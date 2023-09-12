@@ -25,6 +25,7 @@ BUILDIN		= env_init.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
+				other_commands_no_fork.c \
 				other_commands_utils.c \
 				other_commands.c \
 				select_commands.c
@@ -73,7 +74,8 @@ PIPE		= make_pipefd.c \
 				free_pipe.c \
 				heredoc_expansion.c \
 				heredoc_utils.c \
-				heredoc.c
+				heredoc.c \
+				pipe_error_exit.c
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)

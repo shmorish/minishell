@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 12:33:56 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/13 01:52:39 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,9 @@ char	*check_path_access(char **path_list, char *command, t_data *data);
 bool	check_directory(char **array, t_data *data);
 // select_commands.c
 void	select_commands(char **list, t_env *env_head, t_data *data);
+
+// pipe --------------------------------------------------------実質的にはpipe関連の関数
+void	ft_other_command_no_fork(char **array, t_env *env_head, t_data *data);
+void	select_commands_no_fork(char **list, t_env *env_head, t_data *data);
 
 #endif

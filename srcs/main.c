@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	int			**pipe_fd;
-	// pid_t		pid;
+	pid_t		pid;
 	t_data		*data;
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
@@ -108,40 +108,58 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			stdin_fd = dup(STDIN_FILENO);///////////////////
-			stdout_fd = dup(STDOUT_FILENO);////////////////
-			dup2(pipe_fd[0][1], STDOUT_FILENO);/////////////////////////
-			if (tmp_parser->input != NULL)
-				redirect_input(tmp_parser->input, data, pipe_fd[i]);
-			if (tmp_parser->output != NULL)
-				redirect_output(tmp_parser->output, data, pipe_fd[i]);
-			select_commands(tmp_parser->cmd, data->env_head, data);
-			if (dup2(stdin_fd, STDIN_FILENO) == -1)
+			stdin_fd = dup_error_exit(STDIN_FILENO);//
+			stdout_fd = dup_error_exit(STDOUT_FILENO);//
+			while (tmp_parser != NULL)
 			{
-				perror("dup2");
-				exit(1);
+				pid = fork_error_exit();//配列格納する
+				if (pid == 0)
+				{
+					if (tmp_parser->next != NULL)
+					{
+						printf("pipe_fd[%d][1] = %d\n", i, pipe_fd[i][1]);
+						printf("Hi we have next\n");
+						dup2_error_exit(pipe_fd[i][1], STDOUT_FILENO);
+						close_error_exit(pipe_fd[i][0]);
+						close_error_exit(pipe_fd[i][1]);
+					}
+					if (tmp_parser->prev != NULL)
+					{
+						printf("pipe_fd[%d][0] = %d\n", i - 1, pipe_fd[i - 1][0]);
+						printf("Hi we have prev\n");
+						dup2_error_exit(pipe_fd[i - 1][0], STDIN_FILENO);
+						close_error_exit(pipe_fd[i - 1][0]);
+						close_error_exit(pipe_fd[i - 1][1]);
+					}
+					if (tmp_parser->input != NULL)
+						redirect_input(tmp_parser->input, data, pipe_fd[i]);
+					if (tmp_parser->output != NULL)
+						redirect_output(tmp_parser->output, data, pipe_fd[i]);
+					select_commands_no_fork(tmp_parser->cmd, data->env_head, data);
+					exit(data->exit_status);
+				}
+				else
+				{
+					tmp_parser = tmp_parser->next;
+					if (i > 0)
+					{
+						close_error_exit(pipe_fd[i - 1][0]);
+						close_error_exit(pipe_fd[i - 1][1]);
+					}
+					i++;
+				}
 			}
-			if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
-			tmp_parser = tmp_parser->next;
+			ft_printf("------------------i = %d\n", i);
+			// waitpid(pid, NULL, 0);//forkした数だけwaitpidする // 失敗で-1
+			wait(NULL);
+			ft_printf("2-----------------i = %d\n", i);
+			wait(NULL);
+			ft_printf("3-----------------i = %d\n", i);
+			dup2_error_exit(stdin_fd, STDIN_FILENO);
+			dup2_error_exit(stdout_fd, STDOUT_FILENO);
+			close_error_exit(stdin_fd);
+			close_error_exit(stdout_fd);
 			i++;
-			dup2(pipe_fd[0][0], STDIN_FILENO);
-			close(pipe_fd[0][1]);
-			close(pipe_fd[0][0]);
-			select_commands(tmp_parser->cmd, data->env_head, data);
-			if (dup2(stdin_fd, STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
-			if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
 		}
 		free_pipefd(pipe_fd);
 		free_parser_head_all(parse_head);
