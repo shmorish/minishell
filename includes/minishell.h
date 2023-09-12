@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/10 23:24:48 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/12 13:00:39 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef enum e_token_type
 	R_SPACE_STR,
 	L_SPACE_STR,
 	SEMICOLON,
-	INCLUDE_QUOTE
+	INCLUDE_QUOTE,
+	DELETE,
 }						t_token_type;
 
 typedef struct s_token
@@ -123,8 +124,6 @@ typedef struct s_parser
 }						t_parser;
 
 // srcs ---------------------------------------------------------------------
-// ft_get_list_size.c
-size_t	ft_get_list_size(char **list);
 // ft_puterr_utils.c
 void	ft_puterr(char *s);
 void	ft_puterr_set_status(char *s, t_data *data, int number);
@@ -133,9 +132,10 @@ void	ft_puterr_permit(char *s);
 void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
 // ft_puterr_utils2.c
 void	ft_puterr_env(char *s);
-void	ft_perror_set_status(char *str, int number, t_data *data);
+void	ft_strerror_cd(char *str, int number, t_data *data);
 void	*ft_puterr_malloc(void);
 void	ft_puterr_nofile(char *s);
+void	ft_puterr_isdir(char *s);
 // signal.c
 void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);

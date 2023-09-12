@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:19:27 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 17:21:14 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:04:46 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ bool	is_valid_lesser(char *line, size_t index)
 		index++;
 	else if (line[index] == '>')
 	{
-		ft_puterr("minishell: syntax error near unexpected token `newline'\n");
+		ft_puterr(ERR_NEWLINE);
 		return (false);
 	}
 	if (line[index] == '<')
 	{
-		ft_puterr("minishell: syntax error near unexpected token `newline'\n");
+		ft_puterr(ERR_NEWLINE);
 		return (false);
 	}
 	else

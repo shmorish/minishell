@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:47:31 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:47:50 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	expansion_quote(t_token *node)
 {
 	char	*tmp;
 
-	if (is_expansion(node->type))
+	if (is_expansion(node->type) || node->type == S_QUOTE
+		|| node->type == LSP_S_QUOTE)
 	{
 		if (node->type == D_QUOTE || node->type == LSP_D_QUOTE)
 		{
@@ -109,24 +110,25 @@ void	expansion_quote(t_token *node)
 	}
 }
 
-void	expansion_check(t_token *token_head, t_data *data)
+t_token	*expansion_split(t_token *node)
 {
-	t_token	*tmp_node;
-	size_t	index;
+	char	**array;
+	t_token	*delete_node;
+	size_t	i;
 
-	tmp_node = token_head->next;
-	while (tmp_node != token_head)
+	delete_node = node;
+	i = 0;
+	array = ft_split_charset(node->str, " \t");
+	if (array == NULL)
+		return (NULL);
+	while (array[i] != NULL)
 	{
-		index = 0;
-		while (tmp_node->str[index])
-		{
-			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
-			{
-				expansion_env(tmp_node->str, tmp_node, &index, data);
-			}
-			index++;
-		}
-		expansion_quote(tmp_node);
-		tmp_node = tmp_node->next;
+		token_node_insert(node, token_node_new(array[i]));
+		node = node->next;
+		node->type = L_SPACE_STR;
+		i++;
 	}
+	token_node_delete(delete_node);
+	free_char_array(array);
+	return (node);
 }

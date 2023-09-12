@@ -36,6 +36,7 @@ BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 LEXER_PATH= srcs/lexer
 LEXER		= expansion_utils.c \
 				expansion.c \
+				ft_split_charset.c \
 				lexer_boolean.c \
 				lexer_boolean2.c \
 				lexer_node_init.c \
@@ -70,15 +71,15 @@ PIPE		= make_pipefd.c \
 				redirect_input.c \
 				redirect_output.c \
 				free_pipe.c \
-				put_pipe.c
+				heredoc_utils.c \
+				heredoc.c
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)
 PIPE_OBJS		= $(addprefix $(PIPE_OBJ_PATH)/, $(PIPE_OBJ))
 
 SRC_PATH	= srcs
-SRC			= ft_get_list_size.c \
-				ft_puterr_utils.c \
+SRC			= ft_puterr_utils.c \
 				ft_puterr_utils2.c \
 				main.c \
 				signal.c

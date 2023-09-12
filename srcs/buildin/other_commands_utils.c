@@ -6,28 +6,11 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 16:11:25 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:36:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	path_free(char **path_list)
-{
-	int	i;
-
-	i = 0;
-	if (path_list == NULL)
-		return ;
-	while (path_list[i])
-	{
-		free(path_list[i]);
-		path_list[i] = NULL;
-		i++;
-	}
-	free(path_list);
-	path_list = NULL;
-}
 
 static char	*path_join(char **path_list, char *command, int pos)
 {
@@ -41,7 +24,7 @@ static char	*path_join(char **path_list, char *command, int pos)
 	free(slash_join);
 	if (path_join == NULL)
 	{
-		path_free(path_list);
+		free_char_array(path_list);
 		return (NULL);
 	}
 	return (path_join);
@@ -64,8 +47,11 @@ static bool	check_simple_access(char **path_list, char *command, t_data *data)
 	if (!access(command, F_OK))
 	{
 		if (access(command, X_OK))
+		{
 			data->exit_status = 126;
-		path_free(path_list);
+			return (false);
+		}
+		free_char_array(path_list);
 		return (true);
 	}
 	else
@@ -83,8 +69,7 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	{
 		if (check_simple_access(path_list, command, data))
 			return (command);
-		data->exit_status = 127;
-		path_free(path_list);
+		free_char_array(path_list);
 		return (NULL);
 	}
 	i = 0;
@@ -97,6 +82,35 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	}
 	if (check_simple_access(path_list, command, data))
 		return (command);
-	path_free(path_list);
+	free_char_array(path_list);
 	return (NULL);
+}
+
+bool	check_directory(char **array, t_data *data)
+{
+	size_t	i;
+	bool	flag;
+
+	i = 0;
+	flag = false;
+	while (array[0][i])
+	{
+		if (array[0][i] == '/')
+			flag = true;
+		i++;
+	}
+	if (flag)
+	{
+		if (!access(array[0], F_OK))
+		{
+			ft_puterr_isdir(array[0]);
+			data->exit_status = 126;
+			return (true);
+		}
+		data->exit_status = 127;
+		ft_puterr_nofile(array[0]);
+		return (true);
+	}
+	else
+		return (false);
 }
