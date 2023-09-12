@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		tmp_parser = parse_head;
 		i = 0;
-		if (tmp_parser != NULL)
+		if (tmp_parser->next == NULL)
 		{
 			stdin_fd = dup(STDIN_FILENO);
 			stdout_fd = dup(STDOUT_FILENO);
@@ -105,8 +105,33 @@ int	main(int argc, char **argv, char **envp)
 				perror("dup2");
 				exit(1);
 			}
-			tmp_parser = tmp_parser->next;
 			i++;
+		}
+		else
+		{
+			while (tmp_parser->next != NULL)
+			{
+				stdin_fd = dup(STDIN_FILENO);
+				stdout_fd = dup(STDOUT_FILENO);
+				// pipe
+				if (tmp_parser->input != NULL)
+					redirect_input(tmp_parser->input, data, pipe_fd[i]);
+				if (tmp_parser->output != NULL)
+					redirect_output(tmp_parser->output, data, pipe_fd[i]);
+				select_commands(tmp_parser->cmd, data->env_head, data);
+				if (dup2(stdin_fd, STDIN_FILENO) == -1)
+				{
+					perror("dup2");
+					exit(1);
+				}
+				if (dup2(stdout_fd, STDOUT_FILENO) == -1)
+				{
+					perror("dup2");
+					exit(1);
+				}
+				i++;
+				tmp_parser = tmp_parser->next;
+			}
 		}
 		free_pipefd(pipe_fd);
 		free_parser_head_all(parse_head);
