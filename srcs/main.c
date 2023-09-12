@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		tmp_parser = parse_head;
 		i = 0;
-		if (tmp_parser->next == NULL)
+		if (tmp_parser->next == NULL) // no_pipe
 		{
 			stdin_fd = dup(STDIN_FILENO);
 			stdout_fd = dup(STDOUT_FILENO);
@@ -105,32 +105,42 @@ int	main(int argc, char **argv, char **envp)
 				perror("dup2");
 				exit(1);
 			}
-			i++;
 		}
 		else
 		{
-			while (tmp_parser->next != NULL)
+			stdin_fd = dup(STDIN_FILENO);///////////////////
+			stdout_fd = dup(STDOUT_FILENO);////////////////
+			dup2(pipe_fd[0][1], STDOUT_FILENO);/////////////////////////
+			if (tmp_parser->input != NULL)
+				redirect_input(tmp_parser->input, data, pipe_fd[i]);
+			if (tmp_parser->output != NULL)
+				redirect_output(tmp_parser->output, data, pipe_fd[i]);
+			select_commands(tmp_parser->cmd, data->env_head, data);
+			if (dup2(stdin_fd, STDIN_FILENO) == -1)
 			{
-				stdin_fd = dup(STDIN_FILENO);
-				stdout_fd = dup(STDOUT_FILENO);
-				// pipe
-				if (tmp_parser->input != NULL)
-					redirect_input(tmp_parser->input, data, pipe_fd[i]);
-				if (tmp_parser->output != NULL)
-					redirect_output(tmp_parser->output, data, pipe_fd[i]);
-				select_commands(tmp_parser->cmd, data->env_head, data);
-				if (dup2(stdin_fd, STDIN_FILENO) == -1)
-				{
-					perror("dup2");
-					exit(1);
-				}
-				if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-				{
-					perror("dup2");
-					exit(1);
-				}
-				i++;
-				tmp_parser = tmp_parser->next;
+				perror("dup2");
+				exit(1);
+			}
+			if (dup2(stdout_fd, STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(1);
+			}
+			tmp_parser = tmp_parser->next;
+			i++;
+			dup2(pipe_fd[0][0], STDIN_FILENO);
+			close(pipe_fd[0][1]);
+			close(pipe_fd[0][0]);
+			select_commands(tmp_parser->cmd, data->env_head, data);
+			if (dup2(stdin_fd, STDIN_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(1);
+			}
+			if (dup2(stdout_fd, STDOUT_FILENO) == -1)
+			{
+				perror("dup2");
+				exit(1);
 			}
 		}
 		free_pipefd(pipe_fd);
