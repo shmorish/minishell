@@ -36,6 +36,7 @@ BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 LEXER_PATH= srcs/lexer
 LEXER		= expansion_utils.c \
 				expansion.c \
+				ft_split_charset.c \
 				lexer_boolean.c \
 				lexer_boolean2.c \
 				lexer_node_init.c \

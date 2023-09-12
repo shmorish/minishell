@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 20:27:07 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 20:27:41 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:48:44 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ static int	check_start(char *str, char *charset, int i)
 	while (charset[j])
 	{
 		if (str[i] == charset[j])
+		{
 			i++;
-		j++;
+			j = 0;
+		}
+		else
+			j++;
 	}
 	return (i);
 }
@@ -79,7 +83,6 @@ static int	word_count(char *str, char *charset)
 char	**ft_split_charset(char *str, char *charset)
 {
 	int		i;
-	int		j;
 	int		start;
 	int		end;
 	char	**arr;
@@ -87,20 +90,42 @@ char	**ft_split_charset(char *str, char *charset)
 	start = 0;
 	i = 0;
 	arr = (char **)malloc(sizeof(char *) * (word_count(str, charset) + 1));
+	if (arr == NULL)
+		return (NULL);
 	while (str[start])
 	{
-		j = 0;
 		start = check_start(str, charset, start);
 		end = check_end(str, charset, start);
-		arr[i] = (char *)malloc(sizeof(char) * (end - start + 2));
 		if (end >= start)
 		{
-			while (start <= end)
-				arr[i][j++] = str[start++];
-			arr[i][j] = '\0';
-			i++;
+			arr[i] = ft_substr(str, start, end - start + 1);
+			if (arr[i++] == NULL)
+				return (free_char_array(arr), NULL);
+			start = end + 1;
 		}
 	}
 	arr[i] = NULL;
 	return (arr);
 }
+
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char *str;
+// 	char *charset;
+// 	char **ans;
+// 	int i;
+// 	int count;
+
+// 	str = "_he_l+lo__+__wo+r+ld__+__japan_,_+__42__+_,_42Tok,yo_";
+// 	charset = "+_,";
+// 	i = 0;
+// 	count = (word_count(str, charset) + 1);
+// 	printf("count : %d\n", count);
+// 	ans = ft_split_charset(str, charset);
+// 	while (i < count)
+// 	{
+// 		printf("%d: %s\n", i, ans[i]);
+// 		i++;
+// 	}
+// }

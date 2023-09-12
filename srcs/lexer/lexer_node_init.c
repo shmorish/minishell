@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:31:17 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 11:09:53 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:50:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,19 @@ void	set_token_type(t_token *new)
 		new->type = S_QUOTE;
 	else
 		new->type = STRING;
+}
+
+bool	lexer_select(char *line, size_t *index)
+{
+	if (line[*index] == '\'')
+		return (lexer_single_quote(line, index));
+	else if (line[*index] == '\"')
+		return (lexer_double_quote(line, index));
+	else if (line[*index] == '|')
+		return (lexer_pipe(line, index));
+	else if (line[*index] == '>')
+		return (lexer_greater(line, index));
+	else if (line[*index] == '<')
+		return (lexer_lesser(line, index));
+	return (true);
 }

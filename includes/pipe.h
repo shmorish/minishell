@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/11 10:50:49 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:53:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	read_heredoc(char *new_name, char *file_name);
 void	read_heredoc_expansion(char *new_name, char *file_name);
 bool	dup2_heredoc(t_file *file, int fd);
 // heredoc.c
-void	heredoc(t_file *file, char *file_name);
-void	quote_heredoc(t_file *file, char *file_name);
+void	heredoc(t_file *file, char *file_name, t_data *data);
+void	quote_heredoc(t_file *file, char *file_name, t_data *data);
 #endif

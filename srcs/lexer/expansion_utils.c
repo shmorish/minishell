@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 18:55:59 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 11:06:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ void	expansion_free(char *before_str, char *after_str, char *env_val)
 	free(before_str);
 	free(after_str);
 	free(env_val);
+}
+
+void	expansion_check_space(t_token *node)
+{
+	size_t	i;
+
+	i = 0;
+	while (node->str[i] != '\0')
+	{
+		if (node->str[i] == ' ' || node->str[i] == '\t')
+			break ;
+		i++;
+	}
+	if (ft_strlen(node->str) != i)
+		node->type = DELETE;
 }
 
 void	expansion_join(t_token *node, char *before, char *after, char *env_val)
@@ -40,34 +55,7 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 		return ;
 	}
 	expansion_free(before, after, env_val);
-	// size_t	i;
-	// char **array;
-	// t_token	*delete_node;;
-	// i = 0;
-	// while (node->str[i] != '\0')
-	// {
-	// 	if (node->str[i] == ' ' || node->str[i] == '\t')
-	// 		break ;
-	// 	i++;
-	// }
-	// delete_node = NULL;
-	// if (ft_strlen(node->str) != i)
-	// {
-	// 	i = 0;
-	// 	array = ft_split(node->str, ' ');
-	// 	if (array == NULL)
-	// 		return ;
-	// 	delete_node = node;
-	// 	delete_node->type = DELETE;
-	// 	while (array[i] != NULL)
-	// 	{
-	// 		token_node_insert(node, token_node_new(array[i]));
-	// 		node = node->next;
-	// 		node->type = L_SPACE_STR;
-	// 		ft_printf("%s %s\n", node->str, node->next->str);
-	// 		i++;
-	// 	}
-	// }
+	expansion_check_space(node);
 }
 
 bool	count_doller(char *str, size_t *index)
