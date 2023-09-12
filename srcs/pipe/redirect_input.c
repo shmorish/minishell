@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/12 13:02:28 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:00:38 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,18 @@ void	redirect_input(t_file *file, t_data *data, int pipefd[2])
 	while (tmp_file != NULL)
 	{
 		if (tmp_file->type == HEREDOC)
+		{
+			// signal_heredoc();
 			heredoc(tmp_file, tmp_file->file_name, data);
+		}
 		else if (tmp_file->type == QUOTE_HEREDOC)
+		{
+			// signal_heredoc();
 			quote_heredoc(tmp_file, tmp_file->file_name, data);
+		}
 		else if (tmp_file->type == IN_FILE)
 			in_file(tmp_file, tmp_file->file_name);
 		tmp_file = tmp_file->next;
+		// signal_main_init();
 	}
 }

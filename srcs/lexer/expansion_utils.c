@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 11:06:22 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:55:55 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	expansion_check_space(t_token *node)
 			break ;
 		i++;
 	}
-	if (ft_strlen(node->str) != i)
+	if (ft_strlen(node->str) != i && !is_quote(node->type))
 		node->type = DELETE;
 }
 

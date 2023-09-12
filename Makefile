@@ -71,6 +71,7 @@ PIPE		= make_pipefd.c \
 				redirect_input.c \
 				redirect_output.c \
 				free_pipe.c \
+				heredoc_expansion.c \
 				heredoc_utils.c \
 				heredoc.c
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
@@ -82,6 +83,7 @@ SRC_PATH	= srcs
 SRC			= ft_puterr_utils.c \
 				ft_puterr_utils2.c \
 				main.c \
+				signal_handler.c \
 				signal.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
