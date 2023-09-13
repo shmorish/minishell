@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 03:24:05 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 03:49:11 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	child_process(t_pid *pid_data, int cmd_num,
 
 void	restore_child_and_fd(t_pid *pid_data, int cmd_num, t_data *data)
 {
-	wait_child(&pid_data, cmd_num, data);
-	put_back_fd(&pid_data);
+	wait_child(pid_data, cmd_num, data);
+	put_back_fd(pid_data);
 }
 
 void	*have_pipe_main(t_parser *parser_head, t_data *data)
@@ -92,7 +92,7 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 			parent_close_pipe(&pid_data, cmd_num);
 		cmd_num++;
 	}
-	restore_child_and_fd(&pid_data, cmd_num, data)
+	restore_child_and_fd(&pid_data, cmd_num, data);
 	free_pipefd(pid_data.pipe_fd);
 	free(pid_data.pid);
 	return ("OK");
