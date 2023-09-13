@@ -41,8 +41,8 @@ clean:
 	@ $(RM) $(OBJS)
 	@echo "$(REMOVE) $(BLUE)Remove ft_printf object files... $(RESET)"
 
-fclean: clean
-	@ $(RM) $(NAME)
+fclean:
+	@ $(RM) $(NAME) $(OBJS)
 	@echo "$(REMOVE) $(BLUE)Remove $(NAME)$(RESET)"
 
 re: fclean all

@@ -147,9 +147,10 @@ clean:
 	@ $(RM) -r ./obj/
 	@ echo "$(REMOVE) $(BLUE)Remove minishell objects... $(RESET)"
 
-fclean: clean
+fclean:
 	@ make fclean -C $(LIB_PATH)
 	@ $(RM) $(NAME)
+	@ $(RM) -r ./obj/
 	@echo "$(REMOVE) $(BLUE)Remove minishell... $(RESET)"
 
 re: fclean all
