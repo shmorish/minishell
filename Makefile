@@ -2,6 +2,7 @@ NAME		= minishell
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -MMD -MP -g
+CFLAGS		+= -I $(shell brew --prefix readline)/include
 
 ifeq ($(MAKECMDGOALS), debug)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer
@@ -124,23 +125,23 @@ $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+	@ $(CC) $(CFLAGS) -o $@ -c $<
 
 $(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+	@ $(CC) $(CFLAGS) -o $@ -c $<
 
 $(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+	@ $(CC) $(CFLAGS) -o $@ -c $<
 
 $(PARSER_OBJ_PATH)/%.o: $(PARSER_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+	@ $(CC) $(CFLAGS) -o $@ -c $<
 
 $(PIPE_OBJ_PATH)/%.o: $(PIPE_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -o $@ -c $< -I $(shell brew --prefix readline)/include
+	@ $(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
 	@ make clean -C $(LIB_PATH)
