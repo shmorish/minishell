@@ -75,7 +75,7 @@ PIPE		= make_pipefd.c \
 				heredoc_utils.c \
 				heredoc.c \
 				pipe_error_exit.c \
-				count_pid.c 
+				count_process.c 
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)
@@ -86,7 +86,10 @@ SRC			= ft_puterr_utils.c \
 				ft_puterr_utils2.c \
 				main.c \
 				signal_handler.c \
-				signal.c
+				signal.c \
+				no_pipe_main.c \
+				have_pipe_main.c \
+				have_pipe_utils.c \
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 

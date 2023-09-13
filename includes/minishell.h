@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/12 13:17:20 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 03:01:32 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,17 @@ typedef struct s_parser
 	t_parser			*prev;
 }						t_parser;
 
+typedef struct s_pid	t_pid;
+
+typedef struct s_pid
+{
+	pid_t	*pid;
+	pid_t	end_pid;
+	pid_t	stdin_fd;
+	pid_t	stdout_fd;
+	int		**pipe_fd;
+}	t_pid;
+
 // srcs ---------------------------------------------------------------------
 // ft_puterr_utils.c
 void	ft_puterr(char *s);
@@ -145,4 +156,14 @@ void	signal_child_init(void);
 void	signal_parent_init(void);
 void	signal_heredoc(void);
 
+// no_pipe_main.c
+void	no_pipe_main(t_parser *parser, t_data *data);
+// have_pipe_main.c
+void	*have_pipe_main(t_parser *parser_head, t_data *data);
+// have_pipe_utils.c
+void	next_pipe(t_pid *pid_data, int i);
+void	prev_pipe(t_pid *pid_data, int i);
+void	put_back_fd(t_pid *pid_data);
+void	parent_close_pipe(t_pid *pid_data, int i);
+int		wait_error_exit(int *status);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/12 19:00:38 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 01:42:54 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ void	in_file(t_file *file, char *file_name)
 	}
 }
 
-void	redirect_input(t_file *file, t_data *data, int pipefd[2])
+void	redirect_input(t_file *file, t_data *data)
 {
 	t_file	*tmp_file;
 
 	(void)data;
-	(void)pipefd;
 	tmp_file = file;
 	while (tmp_file != NULL)
 	{

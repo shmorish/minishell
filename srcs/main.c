@@ -36,17 +36,9 @@ t_data	*data_init(int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	int			**pipe_fd;
-	pid_t		*pid;
-	pid_t		end_pid;
-	int 		status;
 	t_data		*data;
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
-	int			i;
-	int			index;
-	int			stdin_fd;
-	int			stdout_fd;
 
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
@@ -81,96 +73,14 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		free(line);
-		pipe_fd = make_pipefd(parse_head);
-		if (pipe_fd == NULL)
-		{
-			free_parser_head_all(parse_head);
-			continue ;
-		}
 		tmp_parser = parse_head;
-		i = 0;
-		if (tmp_parser->next == NULL) // no_pipe
-		{
-			stdin_fd = dup(STDIN_FILENO);
-			stdout_fd = dup(STDOUT_FILENO);
-			if (tmp_parser->input != NULL)
-				redirect_input(tmp_parser->input, data, pipe_fd[i]);
-			if (tmp_parser->output != NULL)
-				redirect_output(tmp_parser->output, data, pipe_fd[i]);
-			select_commands(tmp_parser->cmd, data->env_head, data);
-			if (dup2(stdin_fd, STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
-			if (dup2(stdout_fd, STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
-		}
+		if (tmp_parser->next == NULL)
+			no_pipe_main(tmp_parser, data);
 		else
 		{
-			pid = count_pid(parse_head);
-			stdin_fd = dup_error_exit(STDIN_FILENO);
-			stdout_fd = dup_error_exit(STDOUT_FILENO);
-			while (tmp_parser != NULL)
-			{
-				if (tmp_parser->next != NULL)
-					pipe_error_exit(pipe_fd[i]);
-				pid[i] = fork_error_exit();
-				end_pid = pid[i];
-				if (pid[i] == 0)
-				{
-					if (tmp_parser->next != NULL)
-					{
-						dup2_error_exit(pipe_fd[i][1], STDOUT_FILENO);
-						close_error_exit(pipe_fd[i][0]);
-						close_error_exit(pipe_fd[i][1]);
-					}
-					if (tmp_parser->prev != NULL)
-					{
-						dup2_error_exit(pipe_fd[i - 1][0], STDIN_FILENO);
-						close_error_exit(pipe_fd[i - 1][0]);
-						close_error_exit(pipe_fd[i - 1][1]);
-					}
-					if (tmp_parser->input != NULL)
-						redirect_input(tmp_parser->input, data, pipe_fd[i]);
-					if (tmp_parser->output != NULL)
-						redirect_output(tmp_parser->output, data, pipe_fd[i]);
-					select_commands(tmp_parser->cmd, data->env_head, data);
-					exit(data->exit_status);
-				}
-				else
-				{
-					tmp_parser = tmp_parser->next;
-					if (i > 0)
-					{
-						close_error_exit(pipe_fd[i - 1][0]);
-						close_error_exit(pipe_fd[i - 1][1]);
-					}
-					i++;
-				}
-			}
-			index = 0;
-			while (index < i)
-			{
-				if (wait(&status) == end_pid)
-				{
-					if (WIFEXITED(status)) // 子プロセスが正常終了した場合
-						data->exit_status = WEXITSTATUS(status);
-					else if (WIFSIGNALED(status)) // 子プロセスがシグナル終了した場合
-						data->exit_status = WTERMSIG(status);
-				}
-				index++;
-			}
-			dup2_error_exit(stdin_fd, STDIN_FILENO);
-			dup2_error_exit(stdout_fd, STDOUT_FILENO);
-			close_error_exit(stdin_fd);
-			close_error_exit(stdout_fd);
-			i++;
+			if (have_pipe_main(parse_head, data) == NULL)
+				continue ; // need_free
 		}
-		free_pipefd(pipe_fd);
 		free_parser_head_all(parse_head);
 		rm_heredoc_file();
 	}
