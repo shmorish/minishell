@@ -1,10 +1,10 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -MMD -MP
+CFLAGS		= -Wall -Werror -Wextra -MMD -MP -g
 
 ifeq ($(MAKECMDGOALS), debug)
-	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -g
+	CFLAGS += -fsanitize=address -fno-omit-frame-pointer
 endif
 
 BUILDIN_PATH= srcs/buildin

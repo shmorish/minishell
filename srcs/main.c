@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	int			**pipe_fd;
 	pid_t		*pid;
 	pid_t		end_pid;
+	int 		status;
 	t_data		*data;
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
@@ -111,11 +112,13 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			pid = count_pid(parse_head);
-			stdin_fd = dup_error_exit(STDIN_FILENO);//
-			stdout_fd = dup_error_exit(STDOUT_FILENO);//
+			stdin_fd = dup_error_exit(STDIN_FILENO);
+			stdout_fd = dup_error_exit(STDOUT_FILENO);
 			while (tmp_parser != NULL)
 			{
-				pid[i] = fork_error_exit();//配列格納する
+				if (tmp_parser->next != NULL)
+					pipe_error_exit(pipe_fd[i]);
+				pid[i] = fork_error_exit();
 				end_pid = pid[i];
 				if (pid[i] == 0)
 				{
@@ -152,13 +155,12 @@ int	main(int argc, char **argv, char **envp)
 			index = 0;
 			while (index < i)
 			{
-				int status;
 				if (wait(&status) == end_pid)
 				{
 					if (WIFEXITED(status)) // 子プロセスが正常終了した場合
 						data->exit_status = WEXITSTATUS(status);
 					else if (WIFSIGNALED(status)) // 子プロセスがシグナル終了した場合
-						data->exit_status = WTERMSIG(status) + 128;
+						data->exit_status = WTERMSIG(status);
 				}
 				index++;
 			}
