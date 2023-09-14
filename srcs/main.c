@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-int g_signal = 0;
+int	g_signal = 0;
 
 t_data	*data_init(int argc, char **argv, char **envp)
 {
@@ -33,17 +33,43 @@ t_data	*data_init(int argc, char **argv, char **envp)
 	return (data);
 }
 
-int	main(int argc, char **argv, char **envp)
+t_parser	*lexer_parser(t_data *data, char *line)
 {
-	char		*line;
-	t_data		*data;
 	t_parser	*parse_head;
+
+	data->token_head = lexer(line, data);
+	if (data->token_head == NULL)
+	{
+		free(line);
+		return (NULL);
+	}
+	parse_head = parser(data->token_head);
+	free_token_head_all(data->token_head);
+	if (parse_head == NULL)
+	{
+		free(line);
+		return (NULL);
+	}
+	free(line);
+	return (parse_head);
+}
+
+void	main_exe(t_data *data, char *line)
+{
 	t_parser	*tmp_parser;
 
-	print_ascii();
-	data = data_init(argc, argv, envp);
-	if (data == NULL)
-		return (1);
+	tmp_parser = lexer_parser(data, line);
+	if (tmp_parser == NULL)
+		return ;
+	if (tmp_parser->next == NULL)
+		no_pipe_main(tmp_parser, data);
+	else
+		have_pipe_main(tmp_parser, data);
+	free_parser_head_all(tmp_parser);
+}
+
+void	main_loop(t_data *data, char *line)
+{
 	while (1)
 	{
 		signal_main_init();
@@ -60,35 +86,21 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(line);
-		data->token_head = lexer(line, data);
-		if (data->token_head == NULL)
-		{
-			free(line);
-			continue ;
-		}
-		parse_head = parser(data->token_head);
-		free_token_head_all(data->token_head);
-		if (parse_head == NULL)
-		{
-			free(line);
-			continue ;
-		}
-		free(line);
-		tmp_parser = parse_head;
-		if (tmp_parser->next == NULL)
-			no_pipe_main(tmp_parser, data);
-		else
-		{
-			if (have_pipe_main(parse_head, data) == NULL)
-				continue ; // need_free
-		}
-		free_parser_head_all(parse_head);
+		main_exe(data, line);
 		rm_heredoc_file();
 	}
-	return (0);
 }
 
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q minishell");
-// }
+int	main(int argc, char **argv, char **envp)
+{
+	char		*line;
+	t_data		*data;
+
+	print_ascii();
+	data = data_init(argc, argv, envp);
+	if (data == NULL)
+		return (1);
+	line = NULL;
+	main_loop(data, line);
+	return (0);
+}

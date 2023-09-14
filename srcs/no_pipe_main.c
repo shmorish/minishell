@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:40:22 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 12:46:04 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 14:36:16 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	no_pipe_main(t_parser *parser_head, t_data *data)
 		redirect_input(tmp_parser->input, data);
 	if (tmp_parser->output != NULL)
 		redirect_output(tmp_parser->output, data);
-	if (g_signal == 0)
+	if (g_signal == 0 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data);
 	else
 		data->exit_status = 1;
