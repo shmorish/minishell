@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 12:45:55 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 14:37:09 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	child_process(t_pid *pid_data, int cmd_num,
 		redirect_input(tmp_parser->input, data);
 	if (tmp_parser->output != NULL)
 		redirect_output(tmp_parser->output, data);
-	if (g_signal == 0)
+	if (g_signal == 0 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data);
 	else
 		data->exit_status = 1;
