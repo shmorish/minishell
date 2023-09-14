@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:42:39 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 18:48:06 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:40:27 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	write_heredoc(int fd, char *line, t_data *data)
 	if (newline == NULL)
 		return ;
 	write(fd, newline, ft_strlen(newline));
+	write(fd, "\n", 1);
 	free(newline);
 }
 
@@ -86,21 +87,22 @@ void	read_heredoc_quote(char *new_name, char *file_name)
 	while (1)
 	{
 		fd = open(new_name, O_WRONLY | O_APPEND, 0644);
-		ft_printf("> ");
-		line = get_next_line(0);
+		line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (ft_strlen(line) == 1)
-			;
-		else if (!ft_strncmp(line, file_name, ft_strlen(line) - 1))
+		if (ft_strlen(file_name) == 0 && ft_strlen(line) == 0)
 		{
-			close(fd);
-			free(line);
+			free_and_close(line, fd);
+			break ;
+		}
+		else if (ft_strlen(line)
+			&& !ft_strncmp(line, file_name, ft_strlen(line)))
+		{
+			free_and_close(line, fd);
 			break ;
 		}
 		write(fd, line, ft_strlen(line));
-		free(line);
-		close(fd);
+		free_and_close(line, fd);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/14 01:54:07 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 11:36:38 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*heredoc_join(char *before_l, char *after_l, char *envstr, size_t *i);
 char	*heredoc_newline(char *newline, size_t *i, t_data *data);
 char	*heredoc_expansion(char *line, t_data *data);
 void	read_heredoc(char *new_name, char *file_name, t_data *data);
+void	free_and_close(char *line, int fd);
 // heredoc_utils.c
 void	rm_heredoc_file(void);
 char	*create_heredoc_file(void);

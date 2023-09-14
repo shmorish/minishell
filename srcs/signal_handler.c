@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:09:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 13:09:46 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:21:39 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,25 @@ void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext)
 }
 
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext)
+{
+	(void)signum;
+	(void)ucontext;
+	(void)info;
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	signal_handler_heredoc(int signum, siginfo_t *info, void *ucontext)
+{
+	(void)signum;
+	(void)ucontext;
+	(void)info;
+	close(0);
+	g_signal = 1;
+	write(1, "\n", 1);
+}
+
+void	signal_handler_heredoc_quit(int signum, siginfo_t *info, void *ucontext)
 {
 	(void)signum;
 	(void)ucontext;

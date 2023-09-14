@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   have_pipe_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 03:49:11 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 11:29:45 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	child_process(t_pid *pid_data, int cmd_num,
 		redirect_input(tmp_parser->input, data);
 	if (tmp_parser->output != NULL)
 		redirect_output(tmp_parser->output, data);
-	select_commands(tmp_parser->cmd, data->env_head, data);
+	if (g_signal == 0)
+		select_commands(tmp_parser->cmd, data->env_head, data);
+	else
+		data->exit_status = 1;
 	exit(data->exit_status);
 }
 

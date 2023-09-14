@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 13:40:46 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:27:29 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,13 @@ bool	check_directory(char **array, t_data *data)
 	{
 		if (!access(array[0], F_OK))
 		{
+			if (!access(array[0], X_OK))
+				return (false);
 			ft_puterr_isdir(array[0]);
-			data->exit_status = 126;
-			return (true);
+			return (data->exit_status = 126, true);
 		}
-		data->exit_status = 127;
 		ft_puterr_nofile(array[0]);
-		return (true);
+		return (data->exit_status = 127, true);
 	}
 	else
 		return (false);
