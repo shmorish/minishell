@@ -6,18 +6,16 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 00:51:44 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/13 20:37:46 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 11:55:56 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	**make_pipefd(t_parser *parser_head)
+static int	count_parser(t_parser *parser_head)
 {
 	t_parser	*tmp;
-	int			**pipefd;
 	int			count;
-	int			i;
 
 	tmp = parser_head;
 	count = 0;
@@ -26,6 +24,31 @@ int	**make_pipefd(t_parser *parser_head)
 		tmp = tmp->next;
 		count++;
 	}
+	return (count);
+}
+
+static void	*free_pipefd_null(int **pipefd)
+{
+	int	i;
+
+	i = 0;
+	while (pipefd[i] != NULL)
+	{
+		free(pipefd[i]);
+		i++;
+	}
+	free(pipefd);
+	return (NULL);
+}
+
+int	**make_pipefd(t_parser *parser_head)
+{
+	t_parser	*tmp;
+	int			**pipefd;
+	int			count;
+	int			i;
+
+	count = count_parser(parser_head);
 	pipefd = (int **)malloc(sizeof(int *) * (count + 1));
 	if (pipefd == NULL)
 		return (NULL);
@@ -35,7 +58,7 @@ int	**make_pipefd(t_parser *parser_head)
 	{
 		pipefd[i] = (int *)malloc(sizeof(int) * 2);
 		if (pipefd[i] == NULL)
-			return (NULL); // need_free
+			return (free_pipefd_null(pipefd));
 		tmp = tmp->next;
 		i++;
 	}

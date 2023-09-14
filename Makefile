@@ -153,13 +153,13 @@ $(PIPE_OBJ_PATH)/%.o: $(PIPE_PATH)/%.c $(INCS)
 clean:
 	@ make clean -C $(LIB_PATH)
 	@ $(RM) -r ./obj/
-	@ printf "$(GENERATE) $(YELLOW)Generating $@... %-50.50s\r$(RESET)"
+	@ printf "$(REMOVE) $(BLUE)Remove $(NAME) object files.$(RESET)\n"
 
 fclean:
 	@ make fclean -C $(LIB_PATH)
 	@ $(RM) $(NAME)
 	@ $(RM) -r ./obj/
-	@ printf "$(GENERATE) $(YELLOW)Generating $@... %-50.50s\r$(RESET)"
+	@ printf "$(REMOVE) $(BLUE)Remove $(NAME) object files and $(NAME).$(RESET)\n"
 
 re: fclean all
 

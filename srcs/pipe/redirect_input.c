@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 11:22:14 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:49:42 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	redirect_input(t_file *file, t_data *data)
 {
 	t_file	*tmp_file;
 
-	(void)data;
 	tmp_file = file;
 	while (tmp_file != NULL)
 	{

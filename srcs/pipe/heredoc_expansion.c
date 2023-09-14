@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:38:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 11:51:43 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 12:30:22 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
