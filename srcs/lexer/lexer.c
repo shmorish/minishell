@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 11:26:43 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:55:35 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void	expansion_check(t_token *token_head, t_data *data)
 		{
 			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
 			{
-				expansion_env(tmp_node->str, tmp_node, &index, data);
+				if (tmp_node->prev->type != D_LESSER)
+					expansion_env(tmp_node->str, tmp_node, &index, data);
 			}
 			index++;
 		}

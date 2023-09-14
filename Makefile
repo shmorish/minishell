@@ -91,6 +91,7 @@ SRC			= ft_puterr_utils.c \
 				no_pipe_main.c \
 				have_pipe_main.c \
 				have_pipe_utils.c \
+				ascii.c
 
 SRCS		= $(addprefix $(SRC_PATH)/, $(SRC))
 

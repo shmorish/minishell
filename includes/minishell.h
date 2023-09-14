@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 11:25:42 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 12:24:41 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+#include <sys/stat.h>
 
 extern int				g_signal;
 typedef struct s_token	t_token;
@@ -135,6 +136,8 @@ typedef struct s_pid
 }	t_pid;
 
 // srcs ---------------------------------------------------------------------
+// ascii.c
+void	print_ascii(void);
 // ft_puterr_utils.c
 void	ft_puterr(char *s);
 void	ft_puterr_set_status(char *s, t_data *data, int number);

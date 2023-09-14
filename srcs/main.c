@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parser	*parse_head;
 	t_parser	*tmp_parser;
 
+	print_ascii();
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
 		return (1);
