@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 11:27:29 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 12:26:30 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 			return (joined_path);
 		free(joined_path);
 	}
-	if (check_simple_access(path_list, command, data))
+	if (ft_strncmp("./", command, 2) == 0
+		&& check_simple_access(path_list, command, data))
 		return (command);
 	free_char_array(path_list);
 	return (NULL);
@@ -88,29 +89,19 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 
 bool	check_directory(char **array, t_data *data)
 {
-	size_t	i;
-	bool	flag;
+	struct stat	st;
+	int			result;
 
-	i = 0;
-	flag = false;
-	while (array[0][i])
+	result = stat(array[0], &st);
+	if (result == -1)
 	{
-		if (array[0][i] == '/')
-			flag = true;
-		i++;
-	}
-	if (flag)
-	{
-		if (!access(array[0], F_OK))
-		{
-			if (!access(array[0], X_OK))
-				return (false);
-			ft_puterr_isdir(array[0]);
-			return (data->exit_status = 126, true);
-		}
 		ft_puterr_nofile(array[0]);
 		return (data->exit_status = 127, true);
 	}
-	else
-		return (false);
+	if ((st.st_mode & S_IFMT) == S_IFDIR)
+	{
+		ft_puterr_isdir(array[0]);
+		return (data->exit_status = 126, true);
+	}
+	return (false);
 }
