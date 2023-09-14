@@ -23,7 +23,6 @@ char	*get_pwd(void)
 		return (NULL);
 	else
 		return (path_name);
-	free(path_name);
 }
 
 void	create_pwd(t_env *env_head, char *env_name)
@@ -53,15 +52,16 @@ void	update_pwd(t_env *node)
 	char	*path_name;
 
 	free(node->env_val);
+	node->env_val = NULL;
 	path_name = get_pwd();
 	if (path_name == NULL)
 		return ;
 	tmp_str = ft_strdup(path_name);
+	free(path_name);
 	if (tmp_str == NULL)
 		;
 	else
 		node->env_val = tmp_str;
-	free(path_name);
 }
 
 void	set_pwd(t_env *env_head, char *env_name)
