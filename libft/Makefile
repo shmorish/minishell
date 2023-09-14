@@ -116,8 +116,8 @@ clean:
 	@ $(RM) $(OBJS)
 	@echo "$(REMOVE) $(BLUE)Remove libft object files... $(RESET)"
 
-fclean: clean
-	@ $(RM) $(NAME)
+fclean:
+	@ $(RM) $(NAME) $(OBJS)
 	@ make fclean -C $(PRINTF_PATH)
 	@echo "$(REMOVE) $(BLUE)Remove $(NAME)$(RESET)"
 

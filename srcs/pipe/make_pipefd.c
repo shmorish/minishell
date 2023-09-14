@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 00:51:44 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/10 23:57:33 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/13 20:37:46 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ int	**make_pipefd(t_parser *parser_head)
 		pipefd[i] = (int *)malloc(sizeof(int) * 2);
 		if (pipefd[i] == NULL)
 			return (NULL); // need_free
-		if (pipe(pipefd[i]) < 0)
-		{
-			perror("pipe");
-			return (NULL); //free
-		}
 		tmp = tmp->next;
 		i++;
 	}
