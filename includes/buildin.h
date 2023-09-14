@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/13 02:14:00 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 13:18:00 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILDIN_H
 
 # include <stdbool.h>
+# include <sys/stat.h>
 
 typedef struct s_env	t_env;
 typedef struct s_data	t_data;
@@ -73,7 +74,7 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data);
 // other_commands_utils.c
 char	**path_split(char *path);
 char	*check_path_access(char **path_list, char *command, t_data *data);
-bool	check_directory(char **array, t_data *data);
+bool	check_directory(char *command, char **array, t_data *data);
 // select_commands.c
 void	select_commands(char **list, t_env *env_head, t_data *data);
 

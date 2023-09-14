@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 12:26:30 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 13:17:50 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,26 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	return (NULL);
 }
 
-bool	check_directory(char **array, t_data *data)
+bool	check_directory(char *command,char **array, t_data *data)
 {
 	struct stat	st;
 	int			result;
 
-	result = stat(array[0], &st);
+	if (command == NULL)
+		result = stat(array[0], &st);
+	else
+		result = stat(command, &st);
 	if (result == -1)
 	{
-		ft_puterr_nofile(array[0]);
+		ft_puterr_nofile(command);
 		return (data->exit_status = 127, true);
 	}
 	if ((st.st_mode & S_IFMT) == S_IFDIR)
 	{
-		ft_puterr_isdir(array[0]);
+		ft_puterr_isdir(command);
 		return (data->exit_status = 126, true);
 	}
+	else if ((st.st_mode & S_IFMT) == S_IFREG)
+		return (false);
 	return (false);
 }
