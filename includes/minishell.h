@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 12:31:41 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:03:34 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ typedef struct s_data
 {
 	t_env				*env_head;
 	t_token				*token_head;
-	char				**list;
-	char				**envp;
 	int					exit_status;
-	int					process_id;
 }						t_data;
 
 typedef struct s_env
