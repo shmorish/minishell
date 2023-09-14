@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_pipefd.c                                     :+:      :+:    :+:   */
+/*   put_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/10 12:55:41 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/11 00:55:31 by morishitash      ###   ########.fr       */
+/*   Created: 2023/09/11 00:12:54 by morishitash       #+#    #+#             */
+/*   Updated: 2023/09/11 00:50:41 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	close_pipefd(int pipefd[2])
+void	put_pipe(int **pipefd, int i)
 {
-	if (pipefd[0] != -1)
-		close(pipefd[0]);
-	if (pipefd[1] != -1)
-		close(pipefd[1]);
-}
-
-void	close_last_pipefd(int **pipefd)
-{
-	int	i;
-
-	i = 0;
-	if (pipefd == NULL)
-		return ;
 	if (pipefd[0] == NULL)
 		return ;
-	while (pipefd[i] != NULL)
-		i++;
-	close_pipefd(pipefd[i - 1]);
+	if (i == 0)
+	{
+		dup2(pipefd[0][1], STDOUT_FILENO);
+		close_pipefd(pipefd[0]);
+	}
+	else if (pipefd[i] == NULL)
+	{
+		dup2(pipefd[i - 1][0], STDIN_FILENO);
+		close_pipefd(pipefd[i - 1]);
+	}
+	else
+	{
+		dup2(pipefd[i - 1][0], STDIN_FILENO);
+		dup2(pipefd[i][1], STDOUT_FILENO);
+		close_pipefd(pipefd[i - 1]);
+		close_pipefd(pipefd[i]);
+	}
 }

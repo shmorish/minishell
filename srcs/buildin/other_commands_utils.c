@@ -6,28 +6,11 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:16:20 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 16:11:25 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 14:25:46 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	path_free(char **path_list)
-{
-	int	i;
-
-	i = 0;
-	if (path_list == NULL)
-		return ;
-	while (path_list[i])
-	{
-		free(path_list[i]);
-		path_list[i] = NULL;
-		i++;
-	}
-	free(path_list);
-	path_list = NULL;
-}
 
 static char	*path_join(char **path_list, char *command, int pos)
 {
@@ -41,7 +24,7 @@ static char	*path_join(char **path_list, char *command, int pos)
 	free(slash_join);
 	if (path_join == NULL)
 	{
-		path_free(path_list);
+		free_char_array(path_list);
 		return (NULL);
 	}
 	return (path_join);
@@ -64,8 +47,11 @@ static bool	check_simple_access(char **path_list, char *command, t_data *data)
 	if (!access(command, F_OK))
 	{
 		if (access(command, X_OK))
+		{
 			data->exit_status = 126;
-		path_free(path_list);
+			return (false);
+		}
+		free_char_array(path_list);
 		return (true);
 	}
 	else
@@ -77,26 +63,47 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	int		i;
 	char	*joined_path;
 
-	if (path_list == NULL)
-		return (NULL);
 	if (!ft_strncmp(command, "./", 2))
 	{
 		if (check_simple_access(path_list, command, data))
 			return (command);
-		data->exit_status = 127;
-		path_free(path_list);
+		free_char_array(path_list);
 		return (NULL);
 	}
 	i = 0;
-	while (path_list[i])
+	while (path_list != NULL && path_list[i])
 	{
 		joined_path = path_join(path_list, command, i++);
 		if (check_simple_access(path_list, joined_path, data))
 			return (joined_path);
 		free(joined_path);
 	}
-	if (check_simple_access(path_list, command, data))
+	if (ft_strncmp("./", command, 2) == 0
+		&& check_simple_access(path_list, command, data))
 		return (command);
-	path_free(path_list);
+	free_char_array(path_list);
 	return (NULL);
+}
+
+bool	check_directory(char *command, char **array, t_data *data)
+{
+	struct stat	st;
+	int			result;
+	char		*str;
+
+	if (command == NULL)
+		str = array[0];
+	else
+		str = command;
+	result = stat(str, &st);
+	if (result == -1)
+		return (false);
+	if ((st.st_mode & S_IFMT) == S_IFDIR)
+	{
+		ft_puterr_isdir(str);
+		return (data->exit_status = 126, true);
+	}
+	else if ((st.st_mode & S_IFMT) == S_IFREG)
+		return (false);
+	return (false);
 }

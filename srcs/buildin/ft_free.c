@@ -17,6 +17,8 @@ void	free_char_array(char **array)
 	size_t	i;
 
 	i = 0;
+	if (array == NULL)
+		return ;
 	while (array[i])
 	{
 		free(array[i]);

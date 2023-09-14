@@ -6,13 +6,11 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:21 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/08 14:56:07 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/11 11:03:33 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-#define ERROR_NEWLINE "minishell: syntax error near unexpected token `newline'\n"
 
 bool	lexer_single_quote(char *line, size_t *index)
 {
@@ -22,7 +20,7 @@ bool	lexer_single_quote(char *line, size_t *index)
 		if (line[*index] == '\'')
 			return (true);
 	}
-	ft_puterr("minishell: syntax error: quote is not closed.\n");
+	ft_puterr(ERR_QUOTE);
 	return (false);
 }
 
@@ -34,7 +32,7 @@ bool	lexer_double_quote(char *line, size_t *index)
 		if (line[*index] == '\"')
 			return (true);
 	}
-	ft_puterr("minishell: syntax error: quote is not closed.\n");
+	ft_puterr(ERR_QUOTE);
 	return (false);
 }
 
@@ -42,19 +40,19 @@ bool	lexer_pipe(char *line, size_t *index)
 {
 	if (is_only_space_before(line, *index))
 	{
-		ft_puterr("minishell: syntax error near unexpected token `|'\n");
+		ft_puterr(ERR_PIPE);
 		return (false);
 	}
 	else if (is_only_space_or_end(line, *index + 1))
 	{
-		ft_puterr("minishell: syntax error near unexpected token `|'\n");
+		ft_puterr(ERR_PIPE);
 		return (false);
 	}
 	else
 	{
 		if (line[*index + 1] == '|')
 		{
-			ft_puterr("minishell: syntax error near unexpected token `|'\n");
+			ft_puterr(ERR_PIPE);
 			return (false);
 		}
 		else
@@ -66,7 +64,7 @@ bool	lexer_greater(char *line, size_t *index)
 {
 	if (is_only_space_or_end(line, *index + 1))
 	{
-		ft_puterr(ERROR_NEWLINE);
+		ft_puterr(ERR_NEWLINE);
 		return (false);
 	}
 	else if (is_valid_greater(line, *index + 1))
@@ -75,7 +73,7 @@ bool	lexer_greater(char *line, size_t *index)
 			(*index)++;
 		if (is_only_space_or_end(line, *index + 1))
 		{
-			ft_puterr(ERROR_NEWLINE);
+			ft_puterr(ERR_NEWLINE);
 			return (false);
 		}
 		return (true);
@@ -88,7 +86,7 @@ bool	lexer_lesser(char *line, size_t *index)
 {
 	if (is_only_space_or_end(line, *index + 1))
 	{
-		ft_puterr(ERROR_NEWLINE);
+		ft_puterr(ERR_NEWLINE);
 		return (false);
 	}
 	else if (is_valid_lesser(line, *index + 1))
@@ -97,7 +95,7 @@ bool	lexer_lesser(char *line, size_t *index)
 			(*index)++;
 		if (is_only_space_or_end(line, *index + 1))
 		{
-			ft_puterr(ERROR_NEWLINE);
+			ft_puterr(ERR_NEWLINE);
 			return (false);
 		}
 		return (true);

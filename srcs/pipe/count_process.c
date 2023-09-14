@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_error.c                                       :+:      :+:    :+:   */
+/*   count_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/18 19:59:35 by morishitash       #+#    #+#             */
-/*   Updated: 2023/08/18 19:59:53 by morishitash      ###   ########.fr       */
+/*   Created: 2023/09/13 02:18:47 by morishitash       #+#    #+#             */
+/*   Updated: 2023/09/14 11:42:50 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	pipe_error_exit(int *pipefd)
+#include "../../includes/minishell.h"
+
+pid_t	*count_process(t_parser *parser_head)
 {
-	if (pipe(pipefd) < 0)
+	t_parser	*tmp;
+	pid_t		*pid;
+	int			count;
+
+	tmp = parser_head;
+	count = 0;
+	while (tmp->next != NULL)
 	{
-		perror("pipe");
-		exit(1);
+		tmp = tmp->next;
+		count++;
 	}
+	pid = (pid_t *)malloc(sizeof(pid_t) * (count + 1));
+	if (pid == NULL)
+		return (NULL);
+	return (pid);
 }

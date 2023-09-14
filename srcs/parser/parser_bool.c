@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:42:00 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 17:49:38 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/10 23:25:00 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ bool	is_redirect(t_token *token_head)
 {
 	if (token_head->type == S_GREATER || token_head->type == D_GREATER
 		|| token_head->type == S_LESSER || token_head->type == D_LESSER)
+		return (true);
+	return (false);
+}
+
+bool	is_parser_quote(t_token_type type)
+{
+	if (type == INCLUDE_QUOTE || type == S_QUOTE || type == D_QUOTE
+		|| type == LSP_S_QUOTE || type == LSP_D_QUOTE)
 		return (true);
 	return (false);
 }

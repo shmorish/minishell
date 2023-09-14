@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 16:28:00 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:55:35 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,6 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head)
 		&& is_str_token(token_head->prev->type))
 		token_head->prev->type = L_SPACE_STR;
 	free(tmp);
-}
-
-bool	lexer_select(char *line, size_t *index)
-{
-	if (line[*index] == '\'')
-		return (lexer_single_quote(line, index));
-	else if (line[*index] == '\"')
-		return (lexer_double_quote(line, index));
-	else if (line[*index] == '|')
-		return (lexer_pipe(line, index));
-	else if (line[*index] == '>')
-		return (lexer_greater(line, index));
-	else if (line[*index] == '<')
-		return (lexer_lesser(line, index));
-	return (true);
 }
 
 bool	lexer_token(char *line, size_t *index, t_token *token_head)
@@ -84,6 +69,33 @@ bool	lexer_token_main(char *line, size_t *index, t_token *head, t_data *data)
 	}
 }
 
+void	expansion_check(t_token *token_head, t_data *data)
+{
+	t_token	*tmp_node;
+	size_t	index;
+
+	tmp_node = token_head->next;
+	while (tmp_node != token_head)
+	{
+		index = 0;
+		while (tmp_node->str[index])
+		{
+			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
+			{
+				if (tmp_node->prev->type != D_LESSER)
+					expansion_env(tmp_node->str, tmp_node, &index, data);
+			}
+			index++;
+		}
+		expansion_quote(tmp_node);
+		if (tmp_node->type == DELETE)
+			tmp_node = expansion_split(tmp_node);
+		if (tmp_node == NULL)
+			return ;
+		tmp_node = tmp_node->next;
+	}
+}
+
 t_token	*lexer(char *line, t_data *data)
 {
 	size_t	index;
@@ -106,11 +118,13 @@ t_token	*lexer(char *line, t_data *data)
 		else
 			lexer_normal(line, &index, token_head);
 	}
-	ft_printf("\n----------- lexer start-------------\n");
-	print_lexer(token_head);
-	ft_printf("---------- expansion start ---------\n");
 	expansion_check(token_head, data);
-	print_lexer(token_head);
-	ft_printf("----------- lexer end --------------\n\n");
 	return (token_head);
 }
+
+// ft_printf("\n----------- lexer start-------------\n");
+// print_lexer(token_head);
+// ft_printf("---------- expansion start ---------\n");
+// expansion_check(token_head, data);
+// print_lexer(token_head);
+// ft_printf("----------- lexer end --------------\n\n");

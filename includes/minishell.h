@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 16:59:03 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 12:31:41 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 extern int				g_signal;
 typedef struct s_token	t_token;
@@ -70,7 +71,8 @@ typedef enum e_token_type
 	R_SPACE_STR,
 	L_SPACE_STR,
 	SEMICOLON,
-	INCLUDE_QUOTE
+	INCLUDE_QUOTE,
+	DELETE,
 }						t_token_type;
 
 typedef struct s_token
@@ -122,9 +124,20 @@ typedef struct s_parser
 	t_parser			*prev;
 }						t_parser;
 
+typedef struct s_pid	t_pid;
+
+typedef struct s_pid
+{
+	pid_t	*pid;
+	pid_t	end_pid;
+	pid_t	stdin_fd;
+	pid_t	stdout_fd;
+	int		**pipe_fd;
+}	t_pid;
+
 // srcs ---------------------------------------------------------------------
-// ft_get_list_size.c
-size_t	ft_get_list_size(char **list);
+// ascii.c
+void	print_ascii(void);
 // ft_puterr_utils.c
 void	ft_puterr(char *s);
 void	ft_puterr_set_status(char *s, t_data *data, int number);
@@ -133,15 +146,30 @@ void	ft_puterr_permit(char *s);
 void	ft_puterr_valid_identifer(char *command, char *s, t_data *data);
 // ft_puterr_utils2.c
 void	ft_puterr_env(char *s);
-void	ft_perror_set_status(char *str, int number, t_data *data);
+void	ft_strerror_cd(char *str, int number, t_data *data);
 void	*ft_puterr_malloc(void);
 void	ft_puterr_nofile(char *s);
-// signal.c
+void	ft_puterr_isdir(char *s);
+// signal_handler.c
 void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
-void	signal_handler_child(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_heredoc(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_heredoc_quit(int signum,
+			siginfo_t *info, void *ucontext);
+// signal.c
 void	signal_main_init(void);
 void	signal_child_init(void);
 void	signal_parent_init(void);
+void	signal_heredoc(void);
 
+// no_pipe_main.c
+void	no_pipe_main(t_parser *parser, t_data *data);
+// have_pipe_main.c
+void	*have_pipe_main(t_parser *parser_head, t_data *data);
+// have_pipe_utils.c
+void	next_pipe(t_pid *pid_data, int i);
+void	prev_pipe(t_pid *pid_data, int i);
+void	put_back_fd(t_pid *pid_data);
+void	parent_close_pipe(t_pid *pid_data, int i);
+int		wait_error_exit(int *status);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:31:17 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:09:25 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:50:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,43 @@ void	free_token_head_all(t_token *head)
 	head->str = NULL;
 	free(head);
 	head = NULL;
+}
+
+void	set_token_type(t_token *new)
+{
+	if (new->str == NULL)
+		return ;
+	else if (ft_strlen(new->str) == 0)
+		new->type = EMPTY;
+	else if (!ft_strncmp(new->str, ">>", 2))
+		new->type = D_GREATER;
+	else if (!ft_strncmp(new->str, ">", 1))
+		new->type = S_GREATER;
+	else if (!ft_strncmp(new->str, "<<", 2))
+		new->type = D_LESSER;
+	else if (!ft_strncmp(new->str, "<", 1))
+		new->type = S_LESSER;
+	else if (!ft_strncmp(new->str, "|", 1))
+		new->type = PIPE;
+	else if ((new->str)[0] == '\"')
+		new->type = D_QUOTE;
+	else if ((new->str)[0] == '\'')
+		new->type = S_QUOTE;
+	else
+		new->type = STRING;
+}
+
+bool	lexer_select(char *line, size_t *index)
+{
+	if (line[*index] == '\'')
+		return (lexer_single_quote(line, index));
+	else if (line[*index] == '\"')
+		return (lexer_double_quote(line, index));
+	else if (line[*index] == '|')
+		return (lexer_pipe(line, index));
+	else if (line[*index] == '>')
+		return (lexer_greater(line, index));
+	else if (line[*index] == '<')
+		return (lexer_lesser(line, index));
+	return (true);
 }
