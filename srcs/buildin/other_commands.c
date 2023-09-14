@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 12:25:03 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 13:18:06 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 	if (data->exit_status == 126 && !ft_strncmp("./", array[0], 2)
 		&& access(array[0], X_OK))
 		return (ft_puterr_permit(array[0]));
-	if (check_directory(array, data))
+	if (check_directory(command, array, data))
 		return ;
 	if (command == NULL)
 	{
