@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 03:01:32 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 11:25:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,9 @@ void	ft_puterr_isdir(char *s);
 // signal_handler.c
 void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_sigquit(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_heredoc(int signum, siginfo_t *info, void *ucontext);
+void	signal_handler_heredoc_quit(int signum,
+			siginfo_t *info, void *ucontext);
 // signal.c
 void	signal_main_init(void);
 void	signal_child_init(void);

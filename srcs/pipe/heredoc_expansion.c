@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:38:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 18:49:47 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/14 11:40:14 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,27 @@ void	read_heredoc(char *new_name, char *file_name, t_data *data)
 	while (1)
 	{
 		fd = open(new_name, O_WRONLY | O_APPEND, 0644);
-		ft_printf("> ");
-		line = get_next_line(0);
+		line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (ft_strlen(line) == 1)
-			;
-		else if (!ft_strncmp(line, file_name, ft_strlen(line) - 1))
+		if (ft_strlen(file_name) == 0 && ft_strlen(line) == 0)
 		{
-			close(fd);
-			free(line);
+			free_and_close(line, fd);
+			break ;
+		}
+		else if (ft_strlen(line)
+			&& !ft_strncmp(line, file_name, ft_strlen(line)))
+		{
+			free_and_close(line, fd);
 			break ;
 		}
 		write_heredoc(fd, line, data);
 		close(fd);
 	}
+}
+
+void	free_ans_close(char *line, int fd)
+{
+	free(line);
+	close(fd);
 }
