@@ -111,11 +111,13 @@ RM			= rm -f
 CHECK		= \033[32m[✔]\033[0m
 REMOVE		= \033[31m[✘]\033[0m
 BLUE		= \033[1;34m
+YELLOW		= \033[1;33m
 RESET		= \033[0m
 
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
+	@ echo "\n"
 	@ make -C $(LIB_PATH)
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ mkdir -p ./obj
@@ -126,22 +128,27 @@ $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $<
+	@ printf "$(YELLOW)Compiling $<... %-50.50s\r$(RESET)"
 
 $(BUILDIN_OBJ_PATH)/%.o: $(BUILDIN_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $<
+	@ printf "$(YELLOW)Compiling $<... %-50.50s\r$(RESET)"
 
 $(LEXER_OBJ_PATH)/%.o: $(LEXER_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $<
+	@ printf "$(YELLOW)Compiling $<... %-50.50s\r$(RESET)"
 
 $(PARSER_OBJ_PATH)/%.o: $(PARSER_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $<
+	@ printf "$(YELLOW)Compiling $<... %-50.50s\r$(RESET)"
 
 $(PIPE_OBJ_PATH)/%.o: $(PIPE_PATH)/%.c $(INCS)
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -o $@ -c $<
+	@ printf "$(YELLOW)Compiling $<... %-50.50s\r$(RESET)"
 
 clean:
 	@ make clean -C $(LIB_PATH)
