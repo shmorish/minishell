@@ -6,13 +6,13 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/10 16:58:21 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/14 01:44:04 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	redirect_output(t_file *file_head, t_data *data, int pipefd[2])
+void	redirect_output(t_file *file_head, t_data *data)
 {
 	t_file	*file_tmp;
 	int		fd;
@@ -60,6 +60,5 @@ void	redirect_output(t_file *file_head, t_data *data, int pipefd[2])
 			}
 		}
 		file_tmp = file_tmp->next;
-		(void)pipefd;
 	}
 }
