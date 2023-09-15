@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/15 16:19:19 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/15 16:59:57 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	out_file(t_file *file, char *file_name)
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("open");
+		print_errno(file_name);
 		g_signal = 1;
 		return ;
 	}
@@ -47,7 +47,7 @@ void	append_file(t_file *file, char *file_name)
 	fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("open");
+		print_errno(file_name);
 		g_signal = 1;
 		return ;
 	}

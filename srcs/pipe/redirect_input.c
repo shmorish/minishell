@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/15 16:14:02 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/15 22:39:29 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	in_file(t_file *file, char *file_name, t_data *data)
 	if (fd == -1)
 	{
 		ft_puterr_nofile(file_name);
-		data->exit_status = 1;
+		g_signal = 1;
 		return ;
 	}
 	if (file->next == NULL)

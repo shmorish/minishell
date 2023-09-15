@@ -88,6 +88,7 @@ SRC			= ft_puterr_utils.c \
 				main.c \
 				signal_handler.c \
 				signal.c \
+				print_errno.c \
 				no_pipe_main.c \
 				have_pipe_main.c \
 				have_pipe_utils.c \
