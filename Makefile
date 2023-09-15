@@ -119,7 +119,7 @@ RESET		= \033[0m
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
-	@ echo "\n"
+	@ echo ""
 	@ make -C $(LIB_PATH)
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ mkdir -p ./obj
