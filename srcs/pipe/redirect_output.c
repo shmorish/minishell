@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 11:58:58 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/15 16:19:19 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,44 @@ void	out_file(t_file *file, char *file_name)
 {
 	int	fd;
 
+	if (file_name[0] == '\0')
+	{
+		ft_puterr("minishell: ambiguous redirect\n");
+		g_signal = 1;
+		return ;
+	}
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		perror("open");
-		exit(1);
+		g_signal = 1;
+		return ;
 	}
 	if (file->next == NULL)
-	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-	}
-	if (close(fd) == -1)
-	{
-		perror("close");
-		exit(1);
-	}
+		dup2_error_exit(fd, STDOUT_FILENO);
+	close_error_exit(fd);
 }
 
 void	append_file(t_file *file, char *file_name)
 {
 	int	fd;
 
+	if (file_name[0] == '\0')
+	{
+		ft_puterr("minishell: ambiguous redirect\n");
+		g_signal = 1;
+		return ;
+	}
 	fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		perror("open");
-		exit(1);
+		g_signal = 1;
+		return ;
 	}
 	if (file->next == NULL)
-	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-	}
-	if (close(fd) == -1)
-	{
-		perror("close");
-		exit(1);
-	}
+		dup2_error_exit(fd, STDOUT_FILENO);
+	close_error_exit(fd);
 }
 
 void	redirect_output(t_file *file, t_data *data)

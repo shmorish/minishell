@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 12:45:11 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/15 16:14:02 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	in_file(t_file *file, char *file_name, t_data *data)
 {
 	int	fd;
 
+	if (file_name[0] == '\0')
+	{
+		ft_puterr("minishell: ambiguous redirect\n");
+		g_signal = 1;
+		return ;
+	}
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
@@ -24,18 +30,8 @@ void	in_file(t_file *file, char *file_name, t_data *data)
 		return ;
 	}
 	if (file->next == NULL)
-	{
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-	}
-	if (close(fd) == -1)
-	{
-		perror("close");
-		exit(1);
-	}
+		dup2_error_exit(fd, STDIN_FILENO);
+	close_error_exit(fd);
 }
 
 void	redirect_input(t_file *file, t_data *data)
