@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/15 22:39:29 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/15 23:33:26 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	in_file(t_file *file, char *file_name, t_data *data)
 {
 	int	fd;
 
+	(void)data;
 	if (file_name[0] == '\0')
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
