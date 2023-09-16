@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:42:39 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 11:40:27 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 14:37:08 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	read_heredoc_quote(char *new_name, char *file_name)
 			break ;
 		}
 		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free_and_close(line, fd);
 	}
 }
