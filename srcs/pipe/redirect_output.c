@@ -6,19 +6,20 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/15 16:59:57 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 13:49:37 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	out_file(t_file *file, char *file_name)
+void	out_file(t_file *file, char *file_name, t_data *data)
 {
 	int	fd;
 
 	if (file_name[0] == '\0')
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
+		data->exit_status = 1;
 		g_signal = 1;
 		return ;
 	}
@@ -26,6 +27,7 @@ void	out_file(t_file *file, char *file_name)
 	if (fd == -1)
 	{
 		print_errno(file_name);
+		data->exit_status = 1;
 		g_signal = 1;
 		return ;
 	}
@@ -34,13 +36,14 @@ void	out_file(t_file *file, char *file_name)
 	close_error_exit(fd);
 }
 
-void	append_file(t_file *file, char *file_name)
+void	append_file(t_file *file, char *file_name, t_data *data)
 {
 	int	fd;
 
 	if (file_name[0] == '\0')
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
+		data->exit_status = 1;
 		g_signal = 1;
 		return ;
 	}
@@ -48,6 +51,7 @@ void	append_file(t_file *file, char *file_name)
 	if (fd == -1)
 	{
 		print_errno(file_name);
+		data->exit_status = 1;
 		g_signal = 1;
 		return ;
 	}
@@ -60,14 +64,13 @@ void	redirect_output(t_file *file, t_data *data)
 {
 	t_file	*tmp_file;
 
-	(void)data;
 	tmp_file = file;
 	while (tmp_file != NULL)
 	{
 		if (tmp_file->type == OUT_FILE)
-			out_file(tmp_file, tmp_file->file_name);
+			out_file(tmp_file, tmp_file->file_name, data);
 		else if (tmp_file->type == APPEND)
-			append_file(tmp_file, tmp_file->file_name);
+			append_file(tmp_file, tmp_file->file_name, data);
 		tmp_file = tmp_file->next;
 	}
 }
