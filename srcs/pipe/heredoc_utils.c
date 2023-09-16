@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:42:39 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:37:32 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:59:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	read_heredoc_quote(char *new_name, char *file_name)
 			break ;
 		}
 		else if (ft_strlen(line)
-			&& !ft_strncmp(line, file_name, ft_strlen(line)))
+			&& !ft_strcmp(line, file_name))
 		{
 			free_and_close(line, fd);
 			break ;
