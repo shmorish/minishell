@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_pipe_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:40:22 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 12:47:56 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 14:13:25 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	no_pipe_main(t_parser *parser_head, t_data *data)
 		redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data);
-	else
-		data->exit_status = 1;
+	// else
+	// 	data->exit_status = 1;
 	dup2_error_exit(stdin_fd, STDIN_FILENO);
 	dup2_error_exit(stdout_fd, STDOUT_FILENO);
 }
