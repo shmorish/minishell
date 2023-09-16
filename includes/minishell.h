@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 15:03:34 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 15:15:04 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,12 @@ typedef struct s_pid
 	int		**pipe_fd;
 }	t_pid;
 
+typedef enum e_proccess_type
+{
+	CHILD,
+	PARENT
+}	t_proccess_type;
+
 // srcs ---------------------------------------------------------------------
 // ascii.c
 void	print_ascii(void);
@@ -169,4 +175,7 @@ void	prev_pipe(t_pid *pid_data, int i);
 void	put_back_fd(t_pid *pid_data);
 void	parent_close_pipe(t_pid *pid_data, int i);
 int		wait_error_exit(int *status);
+
+// print_errno.c
+void	print_errno(char *s);
 #endif

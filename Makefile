@@ -18,6 +18,7 @@ BUILDIN		= env_init.c \
 				ft_env.c \
 				ft_exit.c \
 				ft_export_utils.c \
+				ft_export_utils2.c \
 				ft_export.c \
 				ft_free.c \
 				ft_is_number_str.c \
@@ -26,6 +27,7 @@ BUILDIN		= env_init.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
+				other_command_check.c \
 				other_commands_utils.c \
 				other_commands.c \
 				select_commands.c
@@ -54,6 +56,7 @@ PARSER_PATH= srcs/parser
 PARSER		= parser.c \
 				free_parser.c \
 				parser_bool.c \
+				parser_bool2.c \
 				parser_cmd_free.c \
 				parser_cmd.c \
 				parser_node.c \
@@ -88,6 +91,7 @@ SRC			= ft_puterr_utils.c \
 				main.c \
 				signal_handler.c \
 				signal.c \
+				print_errno.c \
 				no_pipe_main.c \
 				have_pipe_main.c \
 				have_pipe_utils.c \

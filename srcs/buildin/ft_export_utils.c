@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:23:51 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:14:11 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 13:18:09 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ bool	check_duplicate_path(char *str, t_env *env_head)
 {
 	size_t	count;
 	t_env	*tmp;
+	char	*path_name;
 
 	count = 0;
 	tmp = env_head->next;
@@ -23,12 +24,19 @@ bool	check_duplicate_path(char *str, t_env *env_head)
 		count++;
 	if (str[count - 1] == '+')
 		count--;
+	path_name = ft_substr(str, 0, count);
+	if (path_name == NULL)
+		return (false);
 	while (tmp != env_head)
 	{
-		if (!ft_strncmp(str, tmp->env_name, count))
+		if (ft_strcmp(path_name, tmp->env_name) == 0)
+		{
+			free(path_name);
 			return (true);
+		}
 		tmp = tmp->next;
 	}
+	free(path_name);
 	return (false);
 }
 
@@ -88,7 +96,7 @@ bool	check_equal(char *str)
 	while (str[i])
 	{
 		if (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=')
-			;
+			ans = true;
 		else
 		{
 			if (str[i] == '+' && (str[i + 1] == '='))
@@ -96,7 +104,7 @@ bool	check_equal(char *str)
 			else
 				return (false);
 		}
-		if (str[i] == '=' && i != 0)
+		if (str[i] == '=')
 			return (true);
 		i++;
 	}
