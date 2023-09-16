@@ -40,6 +40,8 @@ static void	exit_number(char **array, t_env *env_head,
 		exit_numeric_error(array[1], data, type);
 	else
 	{
+		if (!ft_strcmp("+", array[1]) || !ft_strcmp("-", array[1]))
+			exit_numeric_error(array[1], data);
 		exit_code = ft_atoi(array[1]);
 		free_all(array, env_head);
 		if (exit_code < 0)
@@ -59,7 +61,7 @@ static void	exit_number(char **array, t_env *env_head,
 void	ft_exit(char **array, t_env *env_head,
 			t_data *data, t_proccess_type type)
 {
-	if (array[1] == NULL)
+	if (array[1] == NULL || !ft_strcmp("--", array[1]))
 	{
 		free_all(array, env_head);
 		if (type == PARENT)
