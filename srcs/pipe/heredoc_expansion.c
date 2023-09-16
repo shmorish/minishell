@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:38:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:38:07 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:59:16 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	read_heredoc(char *new_name, char *file_name, t_data *data)
 			break ;
 		}
 		else if (ft_strlen(line)
-			&& !ft_strncmp(line, file_name, ft_strlen(line)))
+			&& !ft_strcmp(line, file_name))
 		{
 			free_and_close(line, fd);
 			break ;
