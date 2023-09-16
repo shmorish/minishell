@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 15:15:43 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:40:08 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ bool	check_simple_access(char **path_list, char *command, t_data *data);
 char	*check_path_access(char **path_list, char *command, t_data *data);
 bool	check_directory(char *command, t_data *data);
 bool	check_include_slash(char *str);
+void	check_permit(char **array, t_data *data, char **command);
 // other_commands_utils.c
 char	*path_join(char **path_list, char *command, int pos);
 char	**path_split(char *path);

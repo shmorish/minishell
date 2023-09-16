@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_puterr_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:52:32 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:20:14 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:47:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

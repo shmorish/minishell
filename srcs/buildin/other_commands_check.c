@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   other_command_check.c                              :+:      :+:    :+:   */
+/*   other_commands_check.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 12:00:02 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 12:01:19 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:39:33 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,19 @@ bool	check_include_slash(char *str)
 		i++;
 	}
 	return (false);
+}
+
+void	check_permit(char **array, t_data *data, char **command)
+{
+	if (array[0][0] == '\0')
+		return (ft_puterr_command(array[0], data));
+	if (check_directory(array[0], data))
+		return ;
+	if (!ft_strncmp(array[0], "./", 2))
+	{
+		if (check_simple_access(NULL, array[0], data))
+			*command = array[0];
+		else
+			return (ft_puterr_permit(array[0]));
+	}
 }

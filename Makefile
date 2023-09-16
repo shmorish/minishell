@@ -27,7 +27,7 @@ BUILDIN		= env_init.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
-				other_command_check.c \
+				other_commands_check.c \
 				other_commands_utils.c \
 				other_commands.c \
 				select_commands.c

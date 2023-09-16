@@ -37,7 +37,7 @@ static void	ft_cd_home_plus(char **array, t_env *env_head, t_data *data)
 
 	substr = ft_substr(array[1], 1, ft_strlen(array[1]));
 	if (substr == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	if (get_env_val(env_head, "HOME") == NULL)
 	{
 		free(substr);
@@ -48,7 +48,7 @@ static void	ft_cd_home_plus(char **array, t_env *env_head, t_data *data)
 	if (joinstr == NULL)
 	{
 		free(substr);
-		return ;
+		return (ft_puterr_malloc());
 	}
 	str = array[1];
 	array[1] = joinstr;

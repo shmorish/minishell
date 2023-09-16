@@ -40,7 +40,7 @@ void	create_pwd(t_env *env_head, char *env_name)
 	else
 		return ;
 	if (tmp_str == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	node_add_back(env_head, node_new(tmp_str));
 	free(tmp_str);
 	free(path_name);
@@ -59,7 +59,7 @@ void	update_pwd(t_env *node)
 	tmp_str = ft_strdup(path_name);
 	free(path_name);
 	if (tmp_str == NULL)
-		;
+		ft_puterr_malloc();
 	else
 		node->env_val = tmp_str;
 }
