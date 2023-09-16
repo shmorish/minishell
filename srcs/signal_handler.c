@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:09:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 11:21:39 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 12:45:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	signal_handler_sigint(int signum, siginfo_t *info, void *ucontext)
 	(void)signum;
 	(void)ucontext;
 	(void)info;
+	g_signal = SIGINT;
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
