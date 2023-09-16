@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 12:50:37 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:10:08 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ bool	is_only_space_before(char *line, size_t index);
 bool	is_only_space_or_end(char *line, size_t index);
 bool	is_valid_greater(char *line, size_t index);
 bool	is_valid_lesser(char *line, size_t index);
+// lexer_boolean3.c
+bool	lexer_token_main(char *line, size_t *index,
+			t_token *head, t_data *data);
+bool	is_left_space(t_token_type type);
+bool	is_no_space(t_token_type type);
+bool	is_heredoc_expansion(t_token *node);
 // lexer_node_init.c
 t_token	*token_head_init(void);
 t_token	*token_init(char **envp);

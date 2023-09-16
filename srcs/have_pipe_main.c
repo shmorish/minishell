@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 15:08:59 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:11:47 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	child_process(t_pid *pid_data, int cmd_num,
 		redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data, CHILD);
-	// else
-	// 	data->exit_status = 1;
 	exit(data->exit_status);
 }
 

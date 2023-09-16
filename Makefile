@@ -42,6 +42,7 @@ LEXER		= expansion_utils.c \
 				ft_split_charset.c \
 				lexer_boolean.c \
 				lexer_boolean2.c \
+				lexer_boolean3.c \
 				lexer_node_init.c \
 				lexer_node.c \
 				lexer_partial.c \

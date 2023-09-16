@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 00:51:44 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/14 11:55:56 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:40:46 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	**make_pipefd(t_parser *parser_head)
 	count = count_parser(parser_head);
 	pipefd = (int **)malloc(sizeof(int *) * (count + 1));
 	if (pipefd == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	tmp = parser_head;
 	i = 0;
 	while (tmp->next != NULL)
 	{
 		pipefd[i] = (int *)malloc(sizeof(int) * 2);
 		if (pipefd[i] == NULL)
-			return (free_pipefd_null(pipefd));
+			return (free_pipefd_null(pipefd), NULL);
 		tmp = tmp->next;
 		i++;
 	}
