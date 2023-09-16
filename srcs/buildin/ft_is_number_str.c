@@ -17,6 +17,10 @@ int	ft_is_number_str(char *s)
 	size_t	i;
 
 	i = 0;
+	if (s == NULL)
+		return (0);
+	if (s[i] == '\0')
+		return (0);
 	if (s[i] == '-' || s[i] == '+')
 		i++;
 	while (s[i] >= '0' && s[i] <= '9')

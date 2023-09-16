@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:40:48 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 18:01:06 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 	char	*path;
 
 	check_permit(array, data, &command);
+	if (command == NULL)
+		return ;
 	if (check_simple_access(NULL, array[0], data)
-		&& check_include_slash(array[0]))
+		&& ft_strchr(array[0], '/'))
 		command = array[0];
 	else
 	{

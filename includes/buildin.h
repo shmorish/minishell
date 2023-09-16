@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:49:20 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 18:01:59 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void	ft_cd(char **array, t_env *env_head, t_data *data);
 void	ft_echo(char **array, t_data *data);
 // ft_env.c
 void	ft_env(char **array, t_env *env_head, t_data *data);
+// ft_exit_error.c
+void	exit_numeric_error(char *str, t_data *data, t_proccess_type type);
+void	exit_arg_error(t_data *data, t_proccess_type type);
 // ft_exit.c
 void	ft_exit(char **array, t_env *env_head,
 			t_data *data, t_proccess_type type);
@@ -50,8 +53,6 @@ bool	check_duplicate_path(char *str, t_env *env_head);
 void	change_path(char *str, t_env *target);
 bool	check_plus(char *str);
 void	join_path(char *str, t_env *target);
-// ft_export_utils2.c
-bool	check_include_equal(char *str);
 // ft_export.c
 void	ft_export(char **list, t_env *env_head, t_data *data);
 // ft_free.c
@@ -77,7 +78,6 @@ bool	is_long_overflow(const char *str);
 bool	check_simple_access(char **path_list, char *command, t_data *data);
 char	*check_path_access(char **path_list, char *command, t_data *data);
 bool	check_directory(char *command, t_data *data);
-bool	check_include_slash(char *str);
 void	check_permit(char **array, t_data *data, char **command);
 // other_commands_utils.c
 char	*path_join(char **path_list, char *command, int pos);
