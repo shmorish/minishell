@@ -54,6 +54,7 @@ PARSER_PATH= srcs/parser
 PARSER		= parser.c \
 				free_parser.c \
 				parser_bool.c \
+				parser_bool2.c \
 				parser_cmd_free.c \
 				parser_cmd.c \
 				parser_node.c \

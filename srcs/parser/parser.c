@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/15 22:10:25 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 12:54:52 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_parser	*parser(t_token *token_head)
 	tmp_token = token_head->next;
 	while (tmp_token != token_head)
 	{
-		if (tmp_token->str[0] == '\0')
+		if (tmp_token->str[0] == '\0' && is_string(tmp_token->type) == true)
 		{
 			tmp_token = tmp_token->next;
 			continue ;
