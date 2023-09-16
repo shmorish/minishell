@@ -12,13 +12,14 @@
 
 #include "../../includes/minishell.h"
 
-void	select_commands(char **array, t_env *env_head, t_data *data)
+void	select_commands(char **array, t_env *env_head, t_data *data,
+		t_proccess_type type)
 {
 
 	if (!ft_strcmp("echo", array[0]))
 		ft_echo(array, data);
 	else if (!ft_strcmp("exit", array[0]))
-		ft_exit(array, env_head, data);
+		ft_exit(array, env_head, data, type);
 	else if (!ft_strcmp("pwd", array[0]))
 		ft_pwd(data);
 	else if (!ft_strcmp("cd", array[0]))
@@ -30,8 +31,5 @@ void	select_commands(char **array, t_env *env_head, t_data *data)
 	else if (!ft_strcmp("unset", array[0]))
 		ft_unset(array, env_head, data);
 	else
-	{
-		data->exit_status = 0;
 		ft_other_command(array, env_head, data);
-	}
 }

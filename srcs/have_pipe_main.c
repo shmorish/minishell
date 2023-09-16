@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   have_pipe_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 12:47:48 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 15:08:59 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	wait_child(t_pid *pid_data, int cmd_num, t_data *data)
 			if (WIFEXITED(status))
 				data->exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				data->exit_status = WTERMSIG(status);
+				data->exit_status = WTERMSIG(status) + 128;
 		}
 		index++;
 	}
@@ -60,9 +60,9 @@ void	child_process(t_pid *pid_data, int cmd_num,
 	if (tmp_parser->output != NULL)
 		redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
-		select_commands(tmp_parser->cmd, data->env_head, data);
-	else
-		data->exit_status = 1;
+		select_commands(tmp_parser->cmd, data->env_head, data, CHILD);
+	// else
+	// 	data->exit_status = 1;
 	exit(data->exit_status);
 }
 
