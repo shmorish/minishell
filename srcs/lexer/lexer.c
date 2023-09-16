@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 13:09:06 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 14:39:36 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,36 @@ bool	lexer_token_main(char *line, size_t *index, t_token *head, t_data *data)
 	}
 }
 
+bool	is_left_space(t_token_type type)
+{
+	if (type == LSP_D_QUOTE || type == LSP_S_QUOTE
+		|| type == L_SPACE_STR)
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_no_space(t_token_type type)
+{
+	if (type == STRING || type == S_QUOTE
+		|| type == D_QUOTE)
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_heredoc_expansion(t_token *node)
+{
+	if (node->prev->type == D_LESSER)
+		return (true);
+	else if (is_left_space(node->prev->type) && node->prev->prev->type == D_LESSER)
+		return (true);
+	else if (is_no_space(node->prev->type))
+		return (is_heredoc_expansion(node->prev));
+	else
+		return (false);
+}
+
 void	expansion_check(t_token *token_head, t_data *data)
 {
 	t_token	*tmp_node;
@@ -82,7 +112,9 @@ void	expansion_check(t_token *token_head, t_data *data)
 		{
 			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
 			{
-				if (tmp_node->prev->type != D_LESSER)
+				if (tmp_node->str[index + 1] == '\"')
+					;
+				else if (!is_heredoc_expansion(tmp_node))
 					expansion_env(tmp_node->str, tmp_node, &index, data);
 			}
 			index++;

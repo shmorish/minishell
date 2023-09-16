@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:23:51 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 11:31:26 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 13:18:09 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ bool	check_equal(char *str)
 			else
 				return (false);
 		}
-		// if (str[i] == '=' && i != 0)
-		// 	return (true);
+		if (str[i] == '=')
+			return (true);
 		i++;
 	}
 	return (ans);
