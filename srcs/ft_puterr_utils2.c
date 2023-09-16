@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:52:32 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 22:22:08 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:47:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	ft_strerror_cd(char *str, int number, t_data *data)
 	data->exit_status = number;
 }
 
-void	*ft_puterr_malloc(void)
+void	ft_puterr_malloc(void)
 {
 	ft_puterr("\033[31m malloc error\n \033[0m");
-	return (NULL);
+	exit(1);
 }
 
 void	ft_puterr_nofile(char *s)

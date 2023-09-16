@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:37:21 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/10 23:27:36 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:21:05 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	*file_init(t_file **file, char *file_mame,
 {
 	(*file) = (t_file *)malloc(sizeof(t_file));
 	if ((*file) == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	(*file)->next = NULL;
 	(*file)->file_name = ft_strdup(file_mame);
 	if ((*file)->file_name == NULL)

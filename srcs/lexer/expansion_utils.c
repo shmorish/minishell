@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 17:55:55 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:53:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 	if (node->str == NULL)
 	{
 		expansion_free(before, after, env_val);
-		return ;
+		return (ft_puterr_malloc());
 	}
 	tmp_str = node->str;
 	node->str = ft_strjoin(tmp_str, after);
@@ -52,7 +52,7 @@ void	expansion_join(t_token *node, char *before, char *after, char *env_val)
 	if (node->str == NULL)
 	{
 		expansion_free(before, after, env_val);
-		return ;
+		return (ft_puterr_malloc());
 	}
 	expansion_free(before, after, env_val);
 	expansion_check_space(node);

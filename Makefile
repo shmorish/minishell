@@ -27,7 +27,7 @@ BUILDIN		= env_init.c \
 				ft_strccpy.c \
 				ft_unset.c \
 				is_long_overflow.c \
-				other_command_check.c \
+				other_commands_check.c \
 				other_commands_utils.c \
 				other_commands.c \
 				select_commands.c
@@ -42,6 +42,7 @@ LEXER		= expansion_utils.c \
 				ft_split_charset.c \
 				lexer_boolean.c \
 				lexer_boolean2.c \
+				lexer_boolean3.c \
 				lexer_node_init.c \
 				lexer_node.c \
 				lexer_partial.c \

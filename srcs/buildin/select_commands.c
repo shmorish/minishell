@@ -15,7 +15,6 @@
 void	select_commands(char **array, t_env *env_head, t_data *data,
 		t_proccess_type type)
 {
-
 	if (!ft_strcmp("echo", array[0]))
 		ft_echo(array, data);
 	else if (!ft_strcmp("exit", array[0]))

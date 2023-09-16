@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 02:18:47 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 11:42:50 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:25:13 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ pid_t	*count_process(t_parser *parser_head)
 	}
 	pid = (pid_t *)malloc(sizeof(pid_t) * (count + 1));
 	if (pid == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	return (pid);
 }

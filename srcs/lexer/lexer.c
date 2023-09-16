@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 14:39:36 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:54:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head)
 		(*index)++;
 	tmp = ft_substr(line, start, *index - start);
 	if (tmp == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	token_node_add_back(token_head, token_node_new(tmp));
 	if (ft_isspace(line[*index]) && is_str_token(token_head->prev->type))
 		token_head->prev->type = R_SPACE_STR;
@@ -54,51 +54,6 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	return (true);
 }
 
-bool	lexer_token_main(char *line, size_t *index, t_token *head, t_data *data)
-{
-	if (lexer_token(line, index, head))
-	{
-		(*index)++;
-		return (true);
-	}
-	else
-	{
-		data->exit_status = 258;
-		free_token_head_all(head);
-		return (false);
-	}
-}
-
-bool	is_left_space(t_token_type type)
-{
-	if (type == LSP_D_QUOTE || type == LSP_S_QUOTE
-		|| type == L_SPACE_STR)
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_no_space(t_token_type type)
-{
-	if (type == STRING || type == S_QUOTE
-		|| type == D_QUOTE)
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_heredoc_expansion(t_token *node)
-{
-	if (node->prev->type == D_LESSER)
-		return (true);
-	else if (is_left_space(node->prev->type) && node->prev->prev->type == D_LESSER)
-		return (true);
-	else if (is_no_space(node->prev->type))
-		return (is_heredoc_expansion(node->prev));
-	else
-		return (false);
-}
-
 void	expansion_check(t_token *token_head, t_data *data)
 {
 	t_token	*tmp_node;
@@ -123,7 +78,7 @@ void	expansion_check(t_token *token_head, t_data *data)
 		if (tmp_node->type == DELETE)
 			tmp_node = expansion_split(tmp_node);
 		if (tmp_node == NULL)
-			return ;
+			return (ft_puterr_malloc());
 		tmp_node = tmp_node->next;
 	}
 }

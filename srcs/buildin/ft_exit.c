@@ -41,7 +41,7 @@ static void	exit_number(char **array, t_env *env_head,
 	else
 	{
 		if (!ft_strcmp("+", array[1]) || !ft_strcmp("-", array[1]))
-			exit_numeric_error(array[1], data);
+			exit_numeric_error(array[1], data, type);
 		exit_code = ft_atoi(array[1]);
 		free_all(array, env_head);
 		if (exit_code < 0)

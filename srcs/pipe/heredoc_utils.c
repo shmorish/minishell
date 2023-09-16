@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:42:39 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 14:37:08 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:59:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	rm_heredoc_file(void)
 	new_name = ft_strjoin(HEREDOC_FILE, tmp_str);
 	free(tmp_str);
 	if (new_name == NULL)
-		exit(1);
+		return (ft_puterr_malloc());
 	while (!access(new_name, F_OK))
 	{
 		unlink(new_name);
@@ -33,7 +33,7 @@ void	rm_heredoc_file(void)
 		new_name = ft_strjoin(HEREDOC_FILE, tmp_str);
 		free(tmp_str);
 		if (new_name == NULL)
-			exit(1);
+			return (ft_puterr_malloc());
 	}
 	free(new_name);
 }
@@ -47,11 +47,11 @@ char	*create_heredoc_file(void)
 	i = 0;
 	tmp_str = ft_itoa(i);
 	if (tmp_str == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	new_name = ft_strjoin(HEREDOC_FILE, tmp_str);
 	free(tmp_str);
 	if (new_name == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	while (!access(new_name, F_OK))
 	{
 		i++;
@@ -62,7 +62,7 @@ char	*create_heredoc_file(void)
 		new_name = ft_strjoin(HEREDOC_FILE, tmp_str);
 		free(tmp_str);
 		if (new_name == NULL)
-			return (NULL);
+			return (ft_puterr_malloc(), NULL);
 	}
 	return (new_name);
 }
@@ -96,7 +96,7 @@ void	read_heredoc_quote(char *new_name, char *file_name)
 			break ;
 		}
 		else if (ft_strlen(line)
-			&& !ft_strncmp(line, file_name, ft_strlen(line)))
+			&& !ft_strcmp(line, file_name))
 		{
 			free_and_close(line, fd);
 			break ;

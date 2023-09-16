@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:44:55 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/05 17:45:17 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:21:51 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_parser	*parser_node_new(void)
 
 	new = (t_parser *)malloc(sizeof(t_parser));
 	if (new == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	new->next = NULL;
 	new->prev = NULL;
 	new->cmd = NULL;
@@ -33,6 +33,6 @@ t_parser	*parser_init(void)
 
 	head = parser_node_new();
 	if (head == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	return (head);
 }
