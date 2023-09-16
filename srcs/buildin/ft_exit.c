@@ -58,8 +58,7 @@ void	ft_exit(char **array, t_env *env_head, t_data *data)
 	{
 		free_all(array, env_head);
 		ft_puterr("exit\n");
-		data->exit_status = 0;
-		exit(0);
+		exit(data->exit_status);
 	}
 	if (!ft_is_number_str(array[1]))
 		exit_numeric_error(array[1], data);

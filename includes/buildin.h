@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 13:18:00 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 12:02:56 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ bool	check_duplicate_path(char *str, t_env *env_head);
 void	change_path(char *str, t_env *target);
 bool	check_plus(char *str);
 void	join_path(char *str, t_env *target);
+// ft_export_utils2.c
+bool	check_include_equal(char *str);
 // ft_export.c
 void	ft_export(char **list, t_env *env_head, t_data *data);
 // ft_free.c
@@ -69,13 +71,17 @@ char	*ft_strccpy(char *str, char c);
 void	ft_unset(char **array, t_env *env_head, t_data *data);
 // is_long_overflow.c
 bool	is_long_overflow(const char *str);
+// other_command_check.c
+bool	check_simple_access(char **path_list, char *command, t_data *data);
+char	*check_path_access(char **path_list, char *command, t_data *data);
+bool	check_directory(char *command, t_data *data);
+bool	check_include_slash(char *str);
+// other_commands_utils.c
+char	*path_join(char **path_list, char *command, int pos);
+char	**path_split(char *path);
 // other_commands.c
 void	ft_other_command(char **array, t_env *env_head, t_data *data);
-// other_commands_utils.c
-char	**path_split(char *path);
-char	*check_path_access(char **path_list, char *command, t_data *data);
-bool	check_directory(char *command, char **array, t_data *data);
 // select_commands.c
-void	select_commands(char **list, t_env *env_head, t_data *data);
+void	select_commands(char **array, t_env *env_head, t_data *data);
 
 #endif

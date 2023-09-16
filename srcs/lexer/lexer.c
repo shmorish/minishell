@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 11:55:35 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 11:43:40 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,12 @@ t_token	*lexer(char *line, t_data *data)
 		else
 			lexer_normal(line, &index, token_head);
 	}
+	ft_printf("\n----------- lexer start-------------\n");
+	print_lexer(token_head);
+	ft_printf("---------- expansion start ---------\n");
 	expansion_check(token_head, data);
+	print_lexer(token_head);
+	ft_printf("----------- lexer end --------------\n\n");
 	return (token_head);
 }
 
