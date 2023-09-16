@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:23:51 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 13:18:09 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:23:33 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	check_duplicate_path(char *str, t_env *env_head)
 		count--;
 	path_name = ft_substr(str, 0, count);
 	if (path_name == NULL)
-		return (false);
+		return (ft_puterr_malloc(), false);
 	while (tmp != env_head)
 	{
 		if (ft_strcmp(path_name, tmp->env_name) == 0)
@@ -46,7 +46,7 @@ void	change_path(char *str, t_env *target)
 
 	path_list = ft_split_once(str, '=');
 	if (path_list == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	free(target->env_val);
 	if (path_list[1] == NULL)
 	{
@@ -66,7 +66,7 @@ void	join_path(char *str, t_env *target)
 
 	path_list = ft_split_once(str, '=');
 	if (path_list == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	if (path_list[1] == NULL)
 		free(path_list[1]);
 	else
@@ -75,7 +75,7 @@ void	join_path(char *str, t_env *target)
 		free(target->env_val);
 		free(path_list[1]);
 		if (join_str == NULL)
-			return ;
+			return (ft_puterr_malloc());
 		target->env_val = join_str;
 	}
 	free(path_list[0]);
