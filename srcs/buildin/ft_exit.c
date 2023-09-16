@@ -49,7 +49,8 @@ void	exit_main(char **array, t_data *data, t_proccess_type type)
 		exit_number(array[1], array, data, type);
 }
 
-void	exit_include_space(char **array, char **new_array, t_data *data, t_proccess_type type)
+void	exit_include_space(char **array, char **new_array,
+			t_data *data, t_proccess_type type)
 {
 	if (!ft_is_number_str(new_array[0]))
 		exit_numeric_error(array[1], data, type);
