@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:40:08 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:49:20 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <stdbool.h>
 # include <sys/stat.h>
 
-typedef struct s_env	t_env;
-typedef struct s_data	t_data;
+typedef struct s_env			t_env;
+typedef struct s_data			t_data;
 typedef enum e_proccess_type	t_proccess_type;
 
 // buildin --------------------------------------------------------

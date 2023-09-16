@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:09:16 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:54:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head)
 		(*index)++;
 	tmp = ft_substr(line, start, *index - start);
 	if (tmp == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	token_node_add_back(token_head, token_node_new(tmp));
 	if (ft_isspace(line[*index]) && is_str_token(token_head->prev->type))
 		token_head->prev->type = R_SPACE_STR;
@@ -78,7 +78,7 @@ void	expansion_check(t_token *token_head, t_data *data)
 		if (tmp_node->type == DELETE)
 			tmp_node = expansion_split(tmp_node);
 		if (tmp_node == NULL)
-			return ;
+			return (ft_puterr_malloc());
 		tmp_node = tmp_node->next;
 	}
 }
