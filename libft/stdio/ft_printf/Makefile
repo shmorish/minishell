@@ -27,7 +27,7 @@ RESET		= \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@ echo "\n"
+	@ echo ""
 	@ ar rc $(NAME) $(OBJS)
 	@echo "$(CHECK) $(BLUE)Compiling ft_printf...$(RESET)"
 
