@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 12:59:28 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 14:58:47 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	wait_other_command(char **array, t_data *data, char *cmd, pid_t pid)
 	if (WIFEXITED(status))
 		data->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		data->exit_status = WTERMSIG(status);
+		data->exit_status = WTERMSIG(status) + 128;
 	else
 		data->exit_status = 1;
 	if (cmd != array[0])
@@ -81,6 +81,7 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 {
 	char	*command;
 	char	**path_list;
+	char	*path;
 
 	if (array[0][0] == '\0')
 		return (ft_puterr_command(array[0], data));
@@ -97,7 +98,10 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 		command = array[0];
 	else
 	{
-		path_list = path_split(get_env_val(env_head, "PATH"));
+		path = get_env_val(env_head, "PATH");
+		if (path == NULL)
+			return (ft_puterr_command(array[0], data));
+		path_list = path_split(path);
 		if (path_list == NULL)
 			return ;
 		command = check_path_access(path_list, array[0], data);
