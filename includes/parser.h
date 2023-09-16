@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:08:51 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/10 23:27:32 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 12:54:24 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ bool		can_connect_start(t_token *token_head);
 bool		can_connect(t_token *token_head);
 bool		is_connectable_quote(t_token *token_head);
 bool		is_redirect(t_token *token_head);
+bool		is_string(t_token_type type);
 // token_evoluver.c
 void		evoluve_token(t_token *token_head);
 // parser_node.c

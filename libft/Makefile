@@ -100,7 +100,7 @@ RESET		= \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@ echo "\n"
+	@ echo ""
 	@ make -C $(PRINTF_PATH)
 	@ mv $(PRINTF_PATH)/$(PRINTF) ./$(NAME)
 	@ ar rc $(NAME) $(OBJS)

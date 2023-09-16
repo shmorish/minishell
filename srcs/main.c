@@ -28,7 +28,6 @@ t_data	*data_init(int argc, char **argv, char **envp)
 	if (data == NULL)
 		return (NULL);
 	data->env_head = env_head;
-	data->envp = envp;
 	data->exit_status = 0;
 	return (data);
 }
@@ -96,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_data		*data;
 
-	print_ascii();
+	// print_ascii();
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
 		return (1);

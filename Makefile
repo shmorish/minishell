@@ -54,6 +54,7 @@ PARSER_PATH= srcs/parser
 PARSER		= parser.c \
 				free_parser.c \
 				parser_bool.c \
+				parser_bool2.c \
 				parser_cmd_free.c \
 				parser_cmd.c \
 				parser_node.c \
@@ -88,6 +89,7 @@ SRC			= ft_puterr_utils.c \
 				main.c \
 				signal_handler.c \
 				signal.c \
+				print_errno.c \
 				no_pipe_main.c \
 				have_pipe_main.c \
 				have_pipe_utils.c \
@@ -119,7 +121,7 @@ RESET		= \033[0m
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS)
-	@ echo "\n"
+	@ echo ""
 	@ make -C $(LIB_PATH)
 	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(BUILDIN_OBJS) $(LEXER_OBJS) $(PARSER_OBJS) $(PIPE_OBJS) $(LIBS) -lreadline -L $(shell brew --prefix readline)/lib
 	@ mkdir -p ./obj
