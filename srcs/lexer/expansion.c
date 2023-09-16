@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 12:52:03 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:52:20 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	expansion(char *env_val, t_token *node, size_t start, size_t end)
 
 	before_str = ft_substr(node->str, 0, start);
 	if (before_str == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	after_str = ft_substr(node->str, end, ft_strlen(node->str) - end);
 	if (after_str == NULL)
 	{
 		free(before_str);
-		return ;
+		return (ft_puterr_malloc());
 	}
 	expansion_join(node, before_str, after_str, env_val);
 }
@@ -79,10 +79,10 @@ void	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 	}
 	env_name = ft_substr(node->str, start, *index - start);
 	if (env_name == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	env_val = expansion_get_env_val(env_name, data->env_head, data);
 	if (env_val == NULL)
-		return ;
+		return (ft_puterr_malloc());
 	expansion(env_val, node, --start, *index);
 }
 
@@ -98,7 +98,7 @@ void	expansion_quote(t_token *node)
 			tmp = node->str;
 			node->str = ft_strtrim(tmp, "\"");
 			if (node->str == NULL)
-				return ;
+				return (ft_puterr_malloc());
 			free(tmp);
 		}
 		else if (node->type == S_QUOTE || node->type == LSP_S_QUOTE)
@@ -106,7 +106,7 @@ void	expansion_quote(t_token *node)
 			tmp = node->str;
 			node->str = ft_strtrim(tmp, "\'");
 			if (node->str == NULL)
-				return ;
+				return (ft_puterr_malloc());
 			free(tmp);
 		}
 	}
