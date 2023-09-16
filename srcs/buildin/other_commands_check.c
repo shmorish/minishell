@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 12:00:02 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:39:33 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 18:00:54 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,31 @@ bool	check_directory(char *command, t_data *data)
 	return (false);
 }
 
-bool	check_include_slash(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (str == NULL)
-		return (false);
-	while (str[i])
-	{
-		if (str[i] == '/')
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
 void	check_permit(char **array, t_data *data, char **command)
 {
 	if (array[0][0] == '\0')
+	{
+		*command = NULL;
 		return (ft_puterr_command(array[0], data));
+	}
 	if (check_directory(array[0], data))
+	{
+		*command = NULL;
 		return ;
-	if (!ft_strncmp(array[0], "./", 2))
+	}
+	else if (ft_strchr(array[0], '/') && errno != 0)
+	{
+		*command = NULL;
+		print_errno(array[0]);
+	}
+	else if (!ft_strncmp(array[0], "./", 2))
 	{
 		if (check_simple_access(NULL, array[0], data))
 			*command = array[0];
 		else
+		{
+			*command = NULL;
 			return (ft_puterr_permit(array[0]));
+		}
 	}
 }
