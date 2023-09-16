@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 23:19:54 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/08 17:29:20 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:23:57 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static void	*parser_cmd_init(t_parser **tmp, t_token **tmp_token)
 {
 	(*tmp)->cmd = (char **)malloc(sizeof(char *) * 2);
 	if ((*tmp)->cmd == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	(*tmp)->cmd[0] = ft_strdup((*tmp_token)->str);
 	if ((*tmp)->cmd[0] == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	(*tmp)->cmd[1] = NULL;
 	return (tmp);
 }
@@ -40,6 +40,8 @@ static void	*put_cmd_to_parser(t_parser **tmp, char **tmp_cmd,
 	tmp_cmd[i + 1] = NULL;
 	free_parser_cmd(tmp);
 	(*tmp)->cmd = (char **)malloc(sizeof(char *) * (i + 2));
+	if ((*tmp)->cmd == NULL)
+		return (ft_puterr_malloc(), NULL);
 	i = 0;
 	while (tmp_cmd[i] != NULL)
 	{

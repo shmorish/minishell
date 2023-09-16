@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 14:39:36 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 16:09:16 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,51 +52,6 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 		token_head->prev->type = LSP_S_QUOTE;
 	free(tmp);
 	return (true);
-}
-
-bool	lexer_token_main(char *line, size_t *index, t_token *head, t_data *data)
-{
-	if (lexer_token(line, index, head))
-	{
-		(*index)++;
-		return (true);
-	}
-	else
-	{
-		data->exit_status = 258;
-		free_token_head_all(head);
-		return (false);
-	}
-}
-
-bool	is_left_space(t_token_type type)
-{
-	if (type == LSP_D_QUOTE || type == LSP_S_QUOTE
-		|| type == L_SPACE_STR)
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_no_space(t_token_type type)
-{
-	if (type == STRING || type == S_QUOTE
-		|| type == D_QUOTE)
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_heredoc_expansion(t_token *node)
-{
-	if (node->prev->type == D_LESSER)
-		return (true);
-	else if (is_left_space(node->prev->type) && node->prev->prev->type == D_LESSER)
-		return (true);
-	else if (is_no_space(node->prev->type))
-		return (is_heredoc_expansion(node->prev));
-	else
-		return (false);
 }
 
 void	expansion_check(t_token *token_head, t_data *data)

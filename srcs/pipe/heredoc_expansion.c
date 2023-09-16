@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 17:38:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/14 12:30:22 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:38:07 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ char	*heredoc_newline(char *line, size_t *i, t_data *data)
 		j++;
 	after_line = ft_substr(line, *i + j, ft_strlen(line) - (*i + j));
 	if (after_line == NULL)
-		return (NULL);
+		return (ft_puterr_malloc(), NULL);
 	env_name = ft_substr(line, *i, j);
 	env_str = ft_strdup(get_env_val(data->env_head, env_name));
 	free(env_name);
 	if (env_str == NULL)
 		env_str = ft_strdup("");
+	if (env_str == NULL)
+		return (ft_puterr_malloc(), NULL);
 	free(line);
 	return (heredoc_join(before_line, after_line, env_str, i));
 }
@@ -62,6 +64,8 @@ char	*heredoc_expansion(char *line, t_data *data)
 	index = 0;
 	newline = ft_strdup(line);
 	free(line);
+	if (newline == NULL)
+		return (ft_puterr_malloc(), NULL);
 	while (newline[index])
 	{
 		if (newline[index++] == '$')
@@ -74,7 +78,7 @@ char	*heredoc_expansion(char *line, t_data *data)
 			{
 				newline = heredoc_newline(newline, &index, data);
 				if (newline == NULL)
-					return (NULL);
+					return (ft_puterr_malloc(), NULL);
 			}
 		}
 	}

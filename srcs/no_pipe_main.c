@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:40:22 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 15:08:49 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/16 16:11:42 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	no_pipe_main(t_parser *parser_head, t_data *data)
 		redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data, PARENT);
-	// else
-	// 	data->exit_status = 1;
 	dup2_error_exit(stdin_fd, STDIN_FILENO);
 	dup2_error_exit(stdout_fd, STDOUT_FILENO);
 }
