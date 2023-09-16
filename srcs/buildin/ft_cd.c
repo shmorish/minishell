@@ -95,6 +95,8 @@ static void	ft_cd_old_pwd(t_env *env_head, t_data *data)
 
 void	ft_cd(char **array, t_env *env_head, t_data *data)
 {
+	if (array[1][0] == '\0')
+		return ;
 	if (array[1] == NULL)
 		ft_cd_home(env_head, data);
 	else if (!ft_strncmp(array[1], "~", 1))

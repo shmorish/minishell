@@ -51,7 +51,7 @@ static bool	export_check(char **array, t_env *env_head, t_data *data)
 	{
 		if (check_equal(array[i]))
 		{
-			if (!check_include_equal(array[i]))
+			if (!ft_strchr(array[i], '='))
 				;
 			else if (check_plus(array[i]))
 				export_with_plus(array, env_head, i);

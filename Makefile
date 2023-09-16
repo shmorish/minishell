@@ -16,9 +16,9 @@ BUILDIN		= env_init.c \
 				ft_cd.c \
 				ft_echo.c \
 				ft_env.c \
+				ft_exit_error.c \
 				ft_exit.c \
 				ft_export_utils.c \
-				ft_export_utils2.c \
 				ft_export.c \
 				ft_free.c \
 				ft_is_number_str.c \
