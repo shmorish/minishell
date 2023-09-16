@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:15 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 12:02:56 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 15:15:43 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef struct s_env	t_env;
 typedef struct s_data	t_data;
+typedef enum e_proccess_type	t_proccess_type;
 
 // buildin --------------------------------------------------------
 // env_init.c
@@ -41,7 +42,8 @@ void	ft_echo(char **array, t_data *data);
 // ft_env.c
 void	ft_env(char **array, t_env *env_head, t_data *data);
 // ft_exit.c
-void	ft_exit(char **array, t_env *env_head, t_data *data);
+void	ft_exit(char **array, t_env *env_head,
+			t_data *data, t_proccess_type type);
 // ft_export_utils.c
 bool	check_equal(char *str);
 bool	check_duplicate_path(char *str, t_env *env_head);
@@ -82,6 +84,7 @@ char	**path_split(char *path);
 // other_commands.c
 void	ft_other_command(char **array, t_env *env_head, t_data *data);
 // select_commands.c
-void	select_commands(char **array, t_env *env_head, t_data *data);
+void	select_commands(char **array, t_env *env_head, t_data *data,
+			t_proccess_type type);
 
 #endif

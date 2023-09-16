@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 10:21:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 13:11:40 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/16 14:41:37 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ t_parser	*parser(t_token *token_head)
 	while (tmp->prev != NULL)
 		tmp = tmp->prev;
 	parser_head = tmp;
-	print_parser(parser_head);
+	// print_parser(parser_head);
 	return (parser_head);
 }
