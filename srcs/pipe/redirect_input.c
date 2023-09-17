@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:58:07 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 14:00:40 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/17 14:02:16 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	in_file(t_file *file, char *file_name, t_data *data)
 	if (file->next == NULL)
 		dup2_error_exit(fd, STDIN_FILENO);
 	close_error_exit(fd);
+	data->exit_status = 0;
 }
 
 void	redirect_input(t_file *file, t_data *data)

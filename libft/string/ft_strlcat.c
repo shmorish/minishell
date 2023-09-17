@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:35:49 by shmorish          #+#    #+#             */
-/*   Updated: 2023/07/31 17:39:43 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/17 15:02:46 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

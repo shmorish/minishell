@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 18:01:06 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 16:37:15 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 	char	**path_list;
 	char	*path;
 
+	if (array[0][0] == '\0')
+		return (ft_puterr_command(array[0], data));
 	check_permit(array, data, &command);
 	if (command == NULL)
 		return ;

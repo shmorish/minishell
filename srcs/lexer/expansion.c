@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:52:20 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 15:31:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char	*expansion_get_env_val(char *env_name, t_env *env_head, t_data *data)
 
 	if (!ft_strcmp(env_name, "?"))
 	{
-		if (g_signal == SIGINT)
-			data->exit_status = 1;
 		env_val = ft_itoa(data->exit_status);
 		free(env_name);
 		if (env_val == NULL)
@@ -57,7 +55,7 @@ char	*expansion_get_env_val(char *env_name, t_env *env_head, t_data *data)
 	return (env_val);
 }
 
-void	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
+bool	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 {
 	size_t	start;
 	size_t	tmp_index;
@@ -65,7 +63,7 @@ void	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 	char	*env_val;
 
 	if (expansion_check_doll_end(str, index))
-		return ;
+		return (false);
 	start = *index;
 	while (ft_isalnum(str[*index]) || str[*index] == '_')
 		(*index)++;
@@ -79,11 +77,11 @@ void	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 	}
 	env_name = ft_substr(node->str, start, *index - start);
 	if (env_name == NULL)
-		return (ft_puterr_malloc());
+		return (ft_puterr_malloc(), false);
 	env_val = expansion_get_env_val(env_name, data->env_head, data);
 	if (env_val == NULL)
-		return (ft_puterr_malloc());
-	expansion(env_val, node, --start, *index);
+		return (ft_puterr_malloc(), false);
+	return (expansion(env_val, node, --start, *index), true);
 }
 
 void	expansion_quote(t_token *node)

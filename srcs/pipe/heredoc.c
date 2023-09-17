@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 09:03:41 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:56:35 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 14:01:14 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	heredoc(t_file *file, char *file_name, t_data *data)
 	free(new_name);
 	if (!dup2_heredoc(file, fd))
 		exit(1);
+	data->exit_status = 0;
 }
 
 void	quote_heredoc(t_file *file, char *file_name, t_data *data)
@@ -60,4 +61,5 @@ void	quote_heredoc(t_file *file, char *file_name, t_data *data)
 	free(new_name);
 	if (!dup2_heredoc(file, fd))
 		exit(1);
+	data->exit_status = 0;
 }

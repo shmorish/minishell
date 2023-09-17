@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   have_pipe_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 16:11:47 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/17 17:03:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,16 @@ void	child_process(t_pid *pid_data, int cmd_num,
 		next_pipe(pid_data, cmd_num);
 	if (tmp_parser->prev != NULL)
 		prev_pipe(pid_data, cmd_num);
-	if (tmp_parser->input != NULL)
-		redirect_input(tmp_parser->input, data);
 	if (tmp_parser->output != NULL)
 		redirect_output(tmp_parser->output, data);
+	if (tmp_parser->input != NULL)
+		redirect_input(tmp_parser->input, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data, CHILD);
+	else if (g_signal != 1 && tmp_parser->cmd == NULL)
+		data->exit_status = 0;
+	close_error_exit(pid_data->stdin_fd);
+	close_error_exit(pid_data->stdout_fd);
 	exit(data->exit_status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 12:00:02 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 18:00:54 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 16:01:12 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 	int		i;
 	char	*joined_path;
 
-	if (!ft_strncmp(command, "./", 2))
-	{
-		if (check_simple_access(path_list, command, data))
-			return (command);
-		free_char_array(path_list);
-		return (NULL);
-	}
 	i = 0;
 	while (path_list != NULL && path_list[i])
 	{
@@ -48,9 +41,6 @@ char	*check_path_access(char **path_list, char *command, t_data *data)
 			return (joined_path);
 		free(joined_path);
 	}
-	if (ft_strncmp("./", command, 2) == 0
-		&& check_simple_access(path_list, command, data))
-		return (command);
 	free_char_array(path_list);
 	return (NULL);
 }
@@ -75,19 +65,15 @@ bool	check_directory(char *command, t_data *data)
 
 void	check_permit(char **array, t_data *data, char **command)
 {
-	if (array[0][0] == '\0')
-	{
-		*command = NULL;
-		return (ft_puterr_command(array[0], data));
-	}
 	if (check_directory(array[0], data))
 	{
 		*command = NULL;
 		return ;
 	}
-	else if (ft_strchr(array[0], '/') && errno != 0)
+	else if (ft_strchr(array[0], '/') && errno == ENOENT)
 	{
 		*command = NULL;
+		data->exit_status = 127;
 		print_errno(array[0]);
 	}
 	else if (!ft_strncmp(array[0], "./", 2))
