@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:52:20 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 11:30:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char	*expansion_get_env_val(char *env_name, t_env *env_head, t_data *data)
 
 	if (!ft_strcmp(env_name, "?"))
 	{
-		if (g_signal == SIGINT)
-			data->exit_status = 1;
 		env_val = ft_itoa(data->exit_status);
 		free(env_name);
 		if (env_val == NULL)

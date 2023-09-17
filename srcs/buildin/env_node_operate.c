@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:18:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/08/31 16:13:33 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 12:12:59 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	node_delete(t_env *target)
 	t_env	*target_prev;
 	t_env	*target_next;
 
+	if (target == NULL)
+		return ;
 	target_next = target->next;
 	target_prev = target->prev;
 	target_prev->next = target_next;
@@ -48,6 +50,7 @@ t_env	*get_node_pos(t_env *head, char *str)
 {
 	size_t	count;
 	t_env	*tmp;
+	char	*path_name;
 
 	count = 0;
 	tmp = head->next;
@@ -55,10 +58,16 @@ t_env	*get_node_pos(t_env *head, char *str)
 		count++;
 	if (str[count - 1] == '+')
 		count--;
+	path_name = ft_substr(str, 0, count);
+	if (path_name == NULL)
+		return (ft_puterr_malloc(), NULL);
 	while (tmp != head)
 	{
-		if (!ft_strncmp(str, tmp->env_name, count))
+		if (!ft_strcmp(path_name, tmp->env_name))
+		{
+			free(path_name);
 			return (tmp);
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);

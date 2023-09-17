@@ -53,7 +53,10 @@ void	exit_include_space(char **array, char **new_array,
 			t_data *data, t_proccess_type type)
 {
 	if (!ft_is_number_str(new_array[0]))
+	{
+		free_char_array(new_array);
 		exit_numeric_error(array[1], data, type);
+	}
 	if (array[2] != NULL)
 		exit_arg_error(data, type);
 	else

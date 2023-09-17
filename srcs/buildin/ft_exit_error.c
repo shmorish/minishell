@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:45:34 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 18:17:46 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 10:27:59 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exit_numeric_error(char *str, t_data *data, t_proccess_type type)
 	ft_puterr("minishell: exit: ");
 	ft_puterr(str);
 	ft_puterr(": numeric argument required\n");
+	free_env_head_all(data->env_head);
 	data->exit_status = 255;
 	exit (255);
 }
