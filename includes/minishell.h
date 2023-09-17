@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 16:48:13 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 14:03:21 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	signal_handler_heredoc(int signum, siginfo_t *info, void *ucontext);
 void	signal_handler_heredoc_quit(int signum,
 			siginfo_t *info, void *ucontext);
 // signal.c
-void	signal_main_init(void);
+void	signal_main_init(t_data *data);
 void	signal_child_init(void);
 void	signal_parent_init(void);
 void	signal_heredoc(void);

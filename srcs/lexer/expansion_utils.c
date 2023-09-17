@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:53:24 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 15:19:58 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ bool	expansion_check_doll_end(char *str, size_t *index)
 {
 	if (!count_doller(str, index))
 		return (true);
-	if (str[*index] == '\0')
+	if (str[*index] == '\0' || str[*index] == '\"')
 		return (true);
 	return (false);
 }

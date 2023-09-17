@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:54:23 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 15:28:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	return (true);
 }
 
+t_token	*expansion_last(t_token *tmp_node)
+{
+	expansion_quote(tmp_node);
+	if (tmp_node->type == DELETE)
+		tmp_node = expansion_split(tmp_node);
+	if (tmp_node == NULL)
+		return (ft_puterr_malloc(), NULL);
+	return (tmp_node);
+}
+
 void	expansion_check(t_token *token_head, t_data *data)
 {
 	t_token	*tmp_node;
@@ -70,15 +80,15 @@ void	expansion_check(t_token *token_head, t_data *data)
 				if (tmp_node->str[index + 1] == '\"')
 					;
 				else if (!is_heredoc_expansion(tmp_node))
-					expansion_env(tmp_node->str, tmp_node, &index, data);
+				{
+					if (expansion_env(tmp_node->str, tmp_node, &index, data))
+						index = 0;
+				}
 			}
-			index++;
+			else
+				index++;
 		}
-		expansion_quote(tmp_node);
-		if (tmp_node->type == DELETE)
-			tmp_node = expansion_split(tmp_node);
-		if (tmp_node == NULL)
-			return (ft_puterr_malloc());
+		tmp_node = expansion_last(tmp_node);
 		tmp_node = tmp_node->next;
 	}
 }
