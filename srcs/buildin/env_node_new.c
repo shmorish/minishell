@@ -19,12 +19,14 @@ static t_env	*node_new_set(t_env *new, char *str)
 	path_list = ft_split_once(str, '=');
 	if (path_list == NULL)
 		return (NULL);
-	new->env_name = path_list[0];
+	new->env_name = ft_strdup(path_list[0]);
 	if (path_list[1] == NULL)
 		new->env_val = ft_strdup("");
 	else
-		new->env_val = path_list[1];
-	free(path_list);
+		new->env_val = ft_strdup(path_list[1]);
+	if (new->env_name == NULL || new->env_val == NULL)
+		return (ft_puterr_malloc(), NULL);
+	free_char_array(path_list);
 	return (new);
 }
 
