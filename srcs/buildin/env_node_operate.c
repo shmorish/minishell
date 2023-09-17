@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 19:18:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/17 12:12:59 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 13:24:17 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,12 @@ t_env	*get_node_pos(t_env *head, char *str)
 		if (!ft_strcmp(path_name, tmp->env_name))
 		{
 			free(path_name);
+			path_name = NULL;
 			return (tmp);
 		}
 		tmp = tmp->next;
 	}
+	free(path_name);
 	return (NULL);
 }
 
