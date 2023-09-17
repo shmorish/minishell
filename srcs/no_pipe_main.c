@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_pipe_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:40:22 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/17 15:27:30 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/17 15:33:25 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

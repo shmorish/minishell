@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:24:16 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/12 11:24:00 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 12:14:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_token	*token_node_new(char *str)
 {
 	t_token	*new;
 
+	if (str == NULL)
+		return (NULL);
 	new = (t_token *)malloc(sizeof(t_token));
 	if (new == NULL)
 		return (NULL);
@@ -71,6 +73,8 @@ void	token_node_delete(t_token *target)
 	t_token	*target_prev;
 	t_token	*target_next;
 
+	if (target == NULL)
+		return ;
 	target_next = target->next;
 	target_prev = target->prev;
 	target_prev->next = target_next;

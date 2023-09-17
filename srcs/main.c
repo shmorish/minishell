@@ -71,7 +71,7 @@ void	main_loop(t_data *data, char *line)
 {
 	while (1)
 	{
-		signal_main_init();
+		signal_main_init(data);
 		line = readline("\033[1;34mminishell \033[0m $> ");
 		if (line == NULL)
 		{

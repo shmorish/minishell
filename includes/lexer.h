@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 16:10:08 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/17 15:15:16 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	expansion_check_doll_end(char *str, size_t *index);
 // expansion.c
 void	expansion(char *env_val, t_token *node, size_t start, size_t end);
 char	*expansion_get_env_val(char *env_name, t_env *env_head, t_data *data);
-void	expansion_env(char *str, t_token *node, size_t *index, t_data *data);
+bool	expansion_env(char *str, t_token *node, size_t *index, t_data *data);
 void	expansion_quote(t_token *node);
 t_token	*expansion_split(t_token *node);
 // ft_split_charset.c

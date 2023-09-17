@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:09:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/16 13:21:42 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 11:37:47 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	signal_handler_heredoc(int signum, siginfo_t *info, void *ucontext)
 	(void)info;
 	close(0);
 	g_signal = 1;
-	write(1, "\n", 1);
 }
 
 void	signal_handler_heredoc_quit(int signum, siginfo_t *info, void *ucontext)

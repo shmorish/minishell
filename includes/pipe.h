@@ -6,14 +6,14 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/14 11:36:38 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 11:00:42 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPE_H
 # define PIPE_H
 
-# define HEREDOC_FILE ".heredoc"
+# define HEREDOC_FILE "/tmp/.heredoc"
 # include <fcntl.h>
 
 typedef struct s_parser	t_parser;
