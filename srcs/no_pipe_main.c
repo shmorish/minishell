@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:40:22 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/17 15:33:25 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 16:10:15 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,6 @@ void	no_pipe_main(t_parser *parser_head, t_data *data)
 		data->exit_status = 0;
 	dup2_error_exit(stdin_fd, STDIN_FILENO);
 	dup2_error_exit(stdout_fd, STDOUT_FILENO);
+	close_error_exit(stdin_fd);
+	close_error_exit(stdout_fd);
 }

@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 12:00:02 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/17 13:33:10 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/17 16:01:12 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	check_permit(char **array, t_data *data, char **command)
 		*command = NULL;
 		return ;
 	}
-	else if (ft_strchr(array[0], '/') && errno != 0)
+	else if (ft_strchr(array[0], '/') && errno == ENOENT)
 	{
 		*command = NULL;
 		data->exit_status = 127;
