@@ -57,6 +57,8 @@ void	main_exe(t_data *data, char *line)
 {
 	t_parser	*tmp_parser;
 
+	if (g_signal == 1 || g_signal == SIGINT)
+		data->exit_status = 1;
 	tmp_parser = lexer_parser(data, line);
 	if (tmp_parser == NULL)
 		return ;
