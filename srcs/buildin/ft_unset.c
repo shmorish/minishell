@@ -20,7 +20,7 @@ static bool	unset_check_name(char *str)
 	if (str[i] == '_' || ft_isalpha(str[i]))
 	{
 		i++;
-		while (str[i] && ft_isalnum(str[i]))
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 			i++;
 		if (str[i] == '\0')
 			return (true);
