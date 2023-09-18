@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/17 15:43:07 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/18 12:20:56 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	expansion_check(t_token *token_head, t_data *data)
 		{
 			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
 			{
-				if (tmp_node->str[index + 1] == '\"')
+				if (is_char_quote(tmp_node->str[index + 1]))
 					;
 				else if (!is_heredoc_expansion(tmp_node))
 				{
