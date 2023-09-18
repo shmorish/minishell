@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/17 17:03:42 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/18 16:09:23 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	wait_child(t_pid *pid_data, int cmd_num, t_data *data)
 	index = 0;
 	while (index < cmd_num)
 	{
+		signal_parent_init();
 		if (wait_error_exit(&status) == pid_data->end_pid)
 		{
 			if (WIFEXITED(status))
@@ -51,14 +52,15 @@ void	wait_child(t_pid *pid_data, int cmd_num, t_data *data)
 void	child_process(t_pid *pid_data, int cmd_num,
 	t_data *data, t_parser *tmp_parser)
 {
+	signal_child_init();
 	if (tmp_parser->next != NULL)
 		next_pipe(pid_data, cmd_num);
 	if (tmp_parser->prev != NULL)
 		prev_pipe(pid_data, cmd_num);
-	if (tmp_parser->output != NULL)
-		redirect_output(tmp_parser->output, data);
 	if (tmp_parser->input != NULL)
 		redirect_input(tmp_parser->input, data);
+	if (tmp_parser->output != NULL)
+		redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data, CHILD);
 	else if (g_signal != 1 && tmp_parser->cmd == NULL)

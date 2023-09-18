@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 10:32:12 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/18 15:58:21 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	wait_other_command(char **array, t_data *data, char *cmd, pid_t pid)
 	signal_parent_init();
 	if (waitpid(pid, &status, 0) < 0)
 	{
-		perror("wait");
+		perror("waitpid");
 		free_in_other_command(array, data->env_head, cmd);
 		data->exit_status = 1;
 		exit(1);
