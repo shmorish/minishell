@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 17:19:27 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/11 11:04:46 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/18 10:50:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	is_only_space_before(char *line, size_t index)
 
 bool	is_only_space_or_end(char *line, size_t index)
 {
-	while (line[index] && line[index] == ' ')
+	while (line[index] && (line[index] == ' ' || line[index] == '\t'))
 		index++;
 	if (line[index] == '\0')
 		return (true);

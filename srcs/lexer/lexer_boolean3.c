@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_boolean3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:08:36 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 16:09:00 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/18 12:20:51 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ bool	is_heredoc_expansion(t_token *node)
 		return (true);
 	else if (is_no_space(node->prev->type))
 		return (is_heredoc_expansion(node->prev));
+	else
+		return (false);
+}
+
+bool	is_char_quote(char c)
+{
+	if (c == '\"' || c == '\'')
+		return (true);
 	else
 		return (false);
 }

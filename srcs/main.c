@@ -101,5 +101,5 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	line = NULL;
 	main_loop(data, line);
-	return (0);
+	return (data->exit_status);
 }
