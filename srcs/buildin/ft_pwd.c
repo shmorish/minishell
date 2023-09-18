@@ -20,7 +20,10 @@ char	*get_pwd(void)
 	if (path_name == NULL)
 		return (NULL);
 	if (getcwd(path_name, PATH_MAX) == NULL)
+	{
+		free(path_name);
 		return (NULL);
+	}
 	else
 		return (path_name);
 }
@@ -32,8 +35,8 @@ void	create_pwd(t_env *env_head, char *env_name)
 
 	path_name = get_pwd();
 	if (path_name == NULL)
-		return ;
-	if (!ft_strcmp(env_name, "PWD"))
+		tmp_str = ft_strdup("");
+	else if (!ft_strcmp(env_name, "PWD"))
 		tmp_str = ft_strjoin("PWD=", path_name);
 	else if (!ft_strcmp(env_name, "OLDPWD"))
 		tmp_str = ft_strjoin("OLDPWD=", path_name);
@@ -55,8 +58,9 @@ void	update_pwd(t_env *node)
 	node->env_val = NULL;
 	path_name = get_pwd();
 	if (path_name == NULL)
-		return ;
-	tmp_str = ft_strdup(path_name);
+		tmp_str = ft_strdup("");
+	else
+		tmp_str = ft_strdup(path_name);
 	free(path_name);
 	if (tmp_str == NULL)
 		ft_puterr_malloc();
