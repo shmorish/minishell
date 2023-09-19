@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   have_pipe_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/18 16:09:23 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/19 18:33:25 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,13 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 		if (tmp_parser->next != NULL)
 			pipe_error_exit(pid_data.pipe_fd[cmd_num]);
 		pid_data.pid[cmd_num] = fork_error_exit();
+		if (pid_data.pid[cmd_num] == -1)
+		{
+			close_error_exit(pid_data.pipe_fd[cmd_num][0]);
+			close_error_exit(pid_data.pipe_fd[cmd_num][1]);
+			free(pid_data.pid);
+			return (NULL);
+		}
 		pid_data.end_pid = pid_data.pid[cmd_num];
 		if (pid_data.pid[cmd_num] == 0)
 			child_process(&pid_data, cmd_num, data, tmp_parser);

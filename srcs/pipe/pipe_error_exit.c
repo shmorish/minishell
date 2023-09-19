@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:00:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/12 22:57:48 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/18 22:25:26 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	fork_error_exit(void)
 	if (ret < 0)
 	{
 		perror("fork");
-		exit(1);
+		// exit(1);
 	}
 	return (ret);
 }
