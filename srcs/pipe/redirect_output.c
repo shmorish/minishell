@@ -6,13 +6,13 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 16:21:16 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 18:56:58 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	out_file(t_file *file, char *file_name, t_data *data)
+void	out_file(t_file *file, char *file_name, t_data *data, int *status)
 {
 	int	fd;
 
@@ -20,7 +20,8 @@ void	out_file(t_file *file, char *file_name, t_data *data)
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
 		data->exit_status = 1;
-		g_signal = 1;
+		// g_signal = 1;
+		*status = ERROR;
 		return ;
 	}
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -28,7 +29,8 @@ void	out_file(t_file *file, char *file_name, t_data *data)
 	{
 		print_errno(file_name);
 		data->exit_status = 1;
-		g_signal = 1;
+		// g_signal = 1;
+		*status = ERROR;
 		return ;
 	}
 	if (file->next == NULL)
@@ -36,7 +38,7 @@ void	out_file(t_file *file, char *file_name, t_data *data)
 	close_error_exit(fd);
 }
 
-void	append_file(t_file *file, char *file_name, t_data *data)
+void	append(t_file *file, char *file_name, t_data *data, int *status)
 {
 	int	fd;
 
@@ -44,7 +46,8 @@ void	append_file(t_file *file, char *file_name, t_data *data)
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
 		data->exit_status = 1;
-		g_signal = 1;
+		// g_signal = 1;
+		*status = ERROR;
 		return ;
 	}
 	fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -52,7 +55,8 @@ void	append_file(t_file *file, char *file_name, t_data *data)
 	{
 		print_errno(file_name);
 		data->exit_status = 1;
-		g_signal = 1;
+		// g_signal = 1;
+		*status = ERROR;
 		return ;
 	}
 	if (file->next == NULL)
@@ -60,17 +64,17 @@ void	append_file(t_file *file, char *file_name, t_data *data)
 	close_error_exit(fd);
 }
 
-void	redirect_output(t_file *file, t_data *data)
-{
-	t_file	*tmp_file;
+// void	redirect_output(t_file *file, t_data *data)
+// {
+// 	t_file	*tmp_file;
 
-	tmp_file = file;
-	while (tmp_file != NULL)
-	{
-		if (tmp_file->type == OUT_FILE)
-			out_file(tmp_file, tmp_file->file_name, data);
-		else if (tmp_file->type == APPEND)
-			append_file(tmp_file, tmp_file->file_name, data);
-		tmp_file = tmp_file->next;
-	}
-}
+// 	tmp_file = file;
+// 	while (tmp_file != NULL)
+// 	{
+// 		if (tmp_file->type == OUT_FILE)
+// 			out_file(tmp_file, tmp_file->file_name, data);
+// 		else if (tmp_file->type == APPEND)
+// 			append(tmp_file, tmp_file->file_name, data);
+// 		tmp_file = tmp_file->next;
+// 	}
+// }

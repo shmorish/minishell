@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/20 16:18:37 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 18:58:15 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	pipe_error_exit(int *pipefd);
 int		close_error_exit(int fd);
 pid_t	*count_process(t_parser *parser_head);
 void	free_cmd(char **cmd);
+void	redirect(t_parser *parser, t_data *data);
+void	in_file(t_file *file, char *file_name, t_data *data, int *status);
+void	append(t_file *file, char *file_name, t_data *data, int *status);
+void	out_file(t_file *file, char *file_name, t_data *data, int *status);
 // heredoc_expansion.c
 char	*heredoc_join(char *before_l, char *after_l, char *envstr, size_t *i);
 char	*heredoc_newline(char *newline, size_t *i, t_data *data);

@@ -3,37 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   free_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 11:29:28 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/07 00:10:41 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/20 17:05:28 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	free_input(t_file *input)
+static void	free_files(t_file *file)
 {
 	t_file	*tmp;
 
-	while (input != NULL)
+	while (file != NULL)
 	{
-		free(input->file_name);
-		tmp = input;
-		input = input->next;
-		free(tmp);
-	}
-}
-
-static void	free_output(t_file *output)
-{
-	t_file	*tmp;
-
-	while (output != NULL)
-	{
-		free(output->file_name);
-		tmp = output;
-		output = output->next;
+		free(file->file_name);
+		tmp = file;
+		file = file->next;
 		free(tmp);
 	}
 }
@@ -56,10 +43,8 @@ void	free_parser_head_all(t_parser *head)
 				free(tmp->cmd[i++]);
 			free(tmp->cmd);
 		}
-		if (tmp->input != NULL)
-			free_input(tmp->input);
-		if (tmp->output != NULL)
-			free_output(tmp->output);
+		if (tmp->file != NULL)
+			free_files(tmp->file);
 		delete = tmp;
 		tmp = tmp->next;
 		free(delete);
