@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 15:58:21 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/20 20:16:24 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	wait_other_command(char **array, t_data *data, char *cmd, pid_t pid)
 		free(cmd);
 }
 
-static void	exe_main(char *command, char **array, t_env *env_head, t_data *data)
+static void	exe_main(char *command, char **array, t_data *data)
 {
 	pid_t	pid;
 
@@ -67,14 +67,17 @@ static void	exe_main(char *command, char **array, t_env *env_head, t_data *data)
 	if (pid < 0)
 	{
 		perror("fork");
-		free_in_other_command(array, env_head, command);
+		if (array[0] != command)
+			free(command);
+		free_char_array(array);
 		data->exit_status = 1;
-		exit(1);
+		return ;
 	}
 	if (pid == 0)
 		exe_command(command, array, data);
 	else
 		wait_other_command(array, data, command, pid);
+	g_signal = 0;
 }
 
 void	ft_other_command(char **array, t_env *env_head, t_data *data)
@@ -103,7 +106,7 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 		if (command == NULL)
 			return (ft_puterr_command(array[0], data));
 	}
-	exe_main(command, array, env_head, data);
+	exe_main(command, array, data);
 }
 
 // void	ft_other_command(char **array, t_env *env_head, t_data *data)
