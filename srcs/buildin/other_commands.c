@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 15:58:21 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/20 20:03:30 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,16 @@ static void	exe_main(char *command, char **array, t_env *env_head, t_data *data)
 {
 	pid_t	pid;
 
+	(void)env_head;
 	pid = fork();
 	if (pid < 0)
 	{
 		perror("fork");
-		free_in_other_command(array, env_head, command);
+		if (array[0] != command)
+			free(command);
+		free_char_array(array);
 		data->exit_status = 1;
-		exit(1);
+		return ;
 	}
 	if (pid == 0)
 		exe_command(command, array, data);
