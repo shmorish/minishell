@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/19 18:33:25 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 16:18:55 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,23 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 	while (tmp_parser != NULL)
 	{
 		if (tmp_parser->next != NULL)
-			pipe_error_exit(pid_data.pipe_fd[cmd_num]);
+		{
+			// pipe_error_exit(pid_data.pipe_fd[cmd_num]);
+			if (pipe(pid_data.pipe_fd[cmd_num]) < 0)
+			{
+				perror("pipe");
+				free_pipefd(pid_data.pipe_fd);
+				put_back_fd(&pid_data);
+				free(pid_data.pid);
+				return (NULL);
+			}
+		}
 		pid_data.pid[cmd_num] = fork_error_exit();
 		if (pid_data.pid[cmd_num] == -1)
 		{
 			close_error_exit(pid_data.pipe_fd[cmd_num][0]);
 			close_error_exit(pid_data.pipe_fd[cmd_num][1]);
+			free_pipefd(pid_data.pipe_fd);
 			free(pid_data.pid);
 			return (NULL);
 		}

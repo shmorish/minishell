@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:00:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/18 22:25:26 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 11:43:39 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	pipe_error_exit(int *pipefd)
 	if (ret < 0)
 	{
 		perror("pipe");
-		exit(1);
 	}
 }
 

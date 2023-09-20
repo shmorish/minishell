@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/17 11:00:42 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/20 16:18:37 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		dup2_error_exit(int oldfd, int newfd);
 void	pipe_error_exit(int *pipefd);
 int		close_error_exit(int fd);
 pid_t	*count_process(t_parser *parser_head);
+void	free_cmd(char **cmd);
 // heredoc_expansion.c
 char	*heredoc_join(char *before_l, char *after_l, char *envstr, size_t *i);
 char	*heredoc_newline(char *newline, size_t *i, t_data *data);

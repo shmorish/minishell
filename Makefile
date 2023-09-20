@@ -80,7 +80,8 @@ PIPE		= make_pipefd.c \
 				heredoc_utils.c \
 				heredoc.c \
 				pipe_error_exit.c \
-				count_process.c
+				count_process.c \
+				free_cmd.c 
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)
