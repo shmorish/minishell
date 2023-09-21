@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:00:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 11:43:39 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/21 11:28:42 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	dup_error_exit(int oldfd)
 	ret = dup(oldfd);
 	if (ret < 0)
 	{
+		// ft_printf("oldfd = %d\n", oldfd);
 		perror("dup");
 		exit(1);
 	}
