@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 16:26:17 by shmorish          #+#    #+#             */
-/*   Updated: 2023/09/20 16:18:37 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/21 18:50:22 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	pipe_error_exit(int *pipefd);
 int		close_error_exit(int fd);
 pid_t	*count_process(t_parser *parser_head);
 void	free_cmd(char **cmd);
+void	redirect(t_parser *parser, t_data *data);
+int		in_file(t_file *file, char *file_name, t_data *data, int *status);
+int		append(t_file *file, char *file_name, t_data *data, int *status);
+int		out_file(t_file *file, char *file_name, t_data *data, int *status);
 // heredoc_expansion.c
 char	*heredoc_join(char *before_l, char *after_l, char *envstr, size_t *i);
 char	*heredoc_newline(char *newline, size_t *i, t_data *data);
@@ -46,6 +50,6 @@ void	write_heredoc(int fd, char *line, t_data *data);
 void	read_heredoc_quote(char *new_name, char *file_name);
 bool	dup2_heredoc(t_file *file, int fd);
 // heredoc.c
-void	heredoc(t_file *file, char *file_name, t_data *data);
-void	quote_heredoc(t_file *file, char *file_name, t_data *data);
+int		heredoc(t_file *file, char *file_name, t_data *data);
+int		quote_heredoc(t_file *file, char *file_name, t_data *data);
 #endif

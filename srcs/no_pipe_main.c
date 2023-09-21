@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:40:22 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 16:19:42 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 16:54:59 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ void	no_pipe_main(t_parser *parser_head, t_data *data)
 	tmp_parser = parser_head;
 	stdin_fd = dup_error_exit(STDIN_FILENO);
 	stdout_fd = dup_error_exit(STDOUT_FILENO);
-	if (tmp_parser->input != NULL)
-		redirect_input(tmp_parser->input, data);
-	if (tmp_parser->output != NULL)
-		redirect_output(tmp_parser->output, data);
+	if (tmp_parser->file != NULL)
+		redirect(tmp_parser, data);//////////////
+	// if (tmp_parser->input != NULL)
+	// 	redirect_input(tmp_parser->input, data);
+	// if (tmp_parser->output != NULL)
+	// 	redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data, PARENT);
 	else if (g_signal != 1 && tmp_parser->cmd == NULL)

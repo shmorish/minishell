@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 17:44:55 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 16:21:51 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 17:22:08 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ t_parser	*parser_node_new(void)
 	new->next = NULL;
 	new->prev = NULL;
 	new->cmd = NULL;
-	new->input = NULL;
-	new->output = NULL;
+	new->file = NULL;
 	return (new);
 }
 

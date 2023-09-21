@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 16:18:55 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/21 13:55:05 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	child_process(t_pid *pid_data, int cmd_num,
 		next_pipe(pid_data, cmd_num);
 	if (tmp_parser->prev != NULL)
 		prev_pipe(pid_data, cmd_num);
-	if (tmp_parser->input != NULL)
-		redirect_input(tmp_parser->input, data);
-	if (tmp_parser->output != NULL)
-		redirect_output(tmp_parser->output, data);
+	// if (tmp_parser->input != NULL)
+	// 	redirect_input(tmp_parser->input, data);
+	// if (tmp_parser->output != NULL)
+	// 	redirect_output(tmp_parser->output, data);
 	if (g_signal != 1 && tmp_parser->cmd != NULL)
 		select_commands(tmp_parser->cmd, data->env_head, data, CHILD);
 	else if (g_signal != 1 && tmp_parser->cmd == NULL)
@@ -90,14 +90,10 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 	{
 		if (tmp_parser->next != NULL)
 		{
-			// pipe_error_exit(pid_data.pipe_fd[cmd_num]);
 			if (pipe(pid_data.pipe_fd[cmd_num]) < 0)
 			{
 				perror("pipe");
-				free_pipefd(pid_data.pipe_fd);
-				put_back_fd(&pid_data);
-				free(pid_data.pid);
-				return (NULL);
+				break ;
 			}
 		}
 		pid_data.pid[cmd_num] = fork_error_exit();
@@ -105,9 +101,7 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 		{
 			close_error_exit(pid_data.pipe_fd[cmd_num][0]);
 			close_error_exit(pid_data.pipe_fd[cmd_num][1]);
-			free_pipefd(pid_data.pipe_fd);
-			free(pid_data.pid);
-			return (NULL);
+			break ;
 		}
 		pid_data.end_pid = pid_data.pid[cmd_num];
 		if (pid_data.pid[cmd_num] == 0)
