@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 09:03:41 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/17 14:01:14 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/21 18:52:45 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	heredoc(t_file *file, char *file_name, t_data *data)
+int	heredoc(t_file *file, char *file_name, t_data *data)
 {
 	int		fd;
 	char	*new_name;
 
 	(void)data;
+	(void)file;
 	new_name = create_heredoc_file();
 	if (new_name == NULL)
-		return ;
+		return (0);
 	fd = open(new_name, O_CREAT, 0644);
 	if (fd == -1)
 	{
@@ -33,20 +34,22 @@ void	heredoc(t_file *file, char *file_name, t_data *data)
 	read_heredoc(new_name, file_name, data);
 	fd = open(new_name, O_RDONLY);
 	free(new_name);
-	if (!dup2_heredoc(file, fd))
-		exit(1);
+	// if (!dup2_heredoc(file, fd))
+	// 	exit(1);
 	data->exit_status = 0;
+	return (fd);
 }
 
-void	quote_heredoc(t_file *file, char *file_name, t_data *data)
+int	quote_heredoc(t_file *file, char *file_name, t_data *data)
 {
 	int		fd;
 	char	*new_name;
 
 	(void)data;
+	(void)file;
 	new_name = create_heredoc_file();
 	if (new_name == NULL)
-		return ;
+		return (0);
 	fd = open(new_name, O_CREAT, 0644);
 	if (fd == -1)
 	{
@@ -59,7 +62,8 @@ void	quote_heredoc(t_file *file, char *file_name, t_data *data)
 	read_heredoc_quote(new_name, file_name);
 	fd = open(new_name, O_RDONLY);
 	free(new_name);
-	if (!dup2_heredoc(file, fd))
-		exit(1);
+	// if (!dup2_heredoc(file, fd))
+	// 	exit(1);
 	data->exit_status = 0;
+	return (fd);
 }

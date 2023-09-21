@@ -6,23 +6,24 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 13:00:53 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 18:56:58 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/21 18:49:54 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	out_file(t_file *file, char *file_name, t_data *data, int *status)
+int	out_file(t_file *file, char *file_name, t_data *data, int *status)
 {
 	int	fd;
 
+	(void)file;
 	if (file_name[0] == '\0')
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
 		data->exit_status = 1;
 		// g_signal = 1;
 		*status = ERROR;
-		return ;
+		return (0);
 	}
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
@@ -31,24 +32,27 @@ void	out_file(t_file *file, char *file_name, t_data *data, int *status)
 		data->exit_status = 1;
 		// g_signal = 1;
 		*status = ERROR;
-		return ;
+		return (0);
 	}
-	if (file->next == NULL)
-		dup2_error_exit(fd, STDOUT_FILENO);
-	close_error_exit(fd);
+	data->exit_status = 0;
+	return (fd);
+	// if (file->next == NULL)
+	// 	dup2_error_exit(fd, STDOUT_FILENO);
+	// close_error_exit(fd);
 }
 
-void	append(t_file *file, char *file_name, t_data *data, int *status)
+int	append(t_file *file, char *file_name, t_data *data, int *status)
 {
 	int	fd;
 
+	(void)file;
 	if (file_name[0] == '\0')
 	{
 		ft_puterr("minishell: ambiguous redirect\n");
 		data->exit_status = 1;
 		// g_signal = 1;
 		*status = ERROR;
-		return ;
+		return (0);
 	}
 	fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
@@ -57,11 +61,13 @@ void	append(t_file *file, char *file_name, t_data *data, int *status)
 		data->exit_status = 1;
 		// g_signal = 1;
 		*status = ERROR;
-		return ;
+		return (0);
 	}
-	if (file->next == NULL)
-		dup2_error_exit(fd, STDOUT_FILENO);
-	close_error_exit(fd);
+	data->exit_status = 0;
+	return (fd);
+	// if (file->next == NULL)
+	// 	dup2_error_exit(fd, STDOUT_FILENO);
+	// close_error_exit(fd);
 }
 
 // void	redirect_output(t_file *file, t_data *data)
