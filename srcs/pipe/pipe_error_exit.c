@@ -6,13 +6,13 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 20:00:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/21 11:28:42 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/22 12:55:09 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	fork_error_exit(void)
+int	fork_error(void)
 {
 	int	ret;
 
@@ -20,7 +20,6 @@ int	fork_error_exit(void)
 	if (ret < 0)
 	{
 		perror("fork");
-		// exit(1);
 	}
 	return (ret);
 }
@@ -32,7 +31,6 @@ int	dup_error_exit(int oldfd)
 	ret = dup(oldfd);
 	if (ret < 0)
 	{
-		// ft_printf("oldfd = %d\n", oldfd);
 		perror("dup");
 		exit(1);
 	}
@@ -52,7 +50,7 @@ int	dup2_error_exit(int oldfd, int newfd)
 	return (ret);
 }
 
-void	pipe_error_exit(int *pipefd)
+int	pipe_error(int *pipefd)
 {
 	int	ret;
 
@@ -61,6 +59,7 @@ void	pipe_error_exit(int *pipefd)
 	{
 		perror("pipe");
 	}
+	return (ret);
 }
 
 int	close_error_exit(int fd)

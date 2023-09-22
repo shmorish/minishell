@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 18:56:30 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/22 12:45:19 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data);
 void	next_pipe(t_pid *pid_data, int i);
 void	prev_pipe(t_pid *pid_data, int i);
 void	put_back_fd(t_pid *pid_data);
-void	parent_close_pipe(t_pid *pid_data, int i);
+void	close_pipe(t_pid *pid_data, int i);
 int		wait_error_exit(int *status);
 
 // print_errno.c

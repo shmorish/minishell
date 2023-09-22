@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 02:44:11 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/14 03:01:24 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/22 12:45:06 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	put_back_fd(t_pid *pid_data)
 	close_error_exit(pid_data->stdout_fd);
 }
 
-void	parent_close_pipe(t_pid *pid_data, int i)
+void	close_pipe(t_pid *pid_data, int i)
 {
-	close_error_exit(pid_data->pipe_fd[i - 1][0]);
-	close_error_exit(pid_data->pipe_fd[i - 1][1]);
+	close_error_exit(pid_data->pipe_fd[i][0]);
+	close_error_exit(pid_data->pipe_fd[i][1]);
 }
 
 int	wait_error_exit(int *status)

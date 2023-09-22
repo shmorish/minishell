@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 09:03:41 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/21 18:52:45 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/22 12:17:06 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	heredoc(t_file *file, char *file_name, t_data *data)
 	read_heredoc(new_name, file_name, data);
 	fd = open(new_name, O_RDONLY);
 	free(new_name);
-	// if (!dup2_heredoc(file, fd))
-	// 	exit(1);
 	data->exit_status = 0;
 	return (fd);
 }
@@ -62,8 +60,6 @@ int	quote_heredoc(t_file *file, char *file_name, t_data *data)
 	read_heredoc_quote(new_name, file_name);
 	fd = open(new_name, O_RDONLY);
 	free(new_name);
-	// if (!dup2_heredoc(file, fd))
-	// 	exit(1);
 	data->exit_status = 0;
 	return (fd);
 }

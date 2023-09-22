@@ -82,7 +82,8 @@ PIPE		= make_pipefd.c \
 				pipe_error_exit.c \
 				count_process.c \
 				free_cmd.c \
-				redirect.c
+				redirect.c \
+				redirect_bool.c 
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)

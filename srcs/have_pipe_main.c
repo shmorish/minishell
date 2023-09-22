@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/21 13:55:05 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/22 12:59:59 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,19 @@ void	wait_child(t_pid *pid_data, int cmd_num, t_data *data)
 void	child_process(t_pid *pid_data, int cmd_num,
 	t_data *data, t_parser *tmp_parser)
 {
+	int	status;
+
+	status = NORMAL;
 	signal_child_init();
 	if (tmp_parser->next != NULL)
 		next_pipe(pid_data, cmd_num);
 	if (tmp_parser->prev != NULL)
 		prev_pipe(pid_data, cmd_num);
-	// if (tmp_parser->input != NULL)
-	// 	redirect_input(tmp_parser->input, data);
-	// if (tmp_parser->output != NULL)
-	// 	redirect_output(tmp_parser->output, data);
-	if (g_signal != 1 && tmp_parser->cmd != NULL)
+	if (tmp_parser->file != NULL)
+		redirect(tmp_parser, data, &status);
+	if (g_signal != 1 && tmp_parser->cmd != NULL && status == NORMAL)
 		select_commands(tmp_parser->cmd, data->env_head, data, CHILD);
-	else if (g_signal != 1 && tmp_parser->cmd == NULL)
+	else if (g_signal != 1 && tmp_parser->cmd == NULL && status == NORMAL)
 		data->exit_status = 0;
 	close_error_exit(pid_data->stdin_fd);
 	close_error_exit(pid_data->stdout_fd);
@@ -74,6 +75,8 @@ void	restore_child_and_fd(t_pid *pid_data, int cmd_num, t_data *data)
 {
 	wait_child(pid_data, cmd_num, data);
 	put_back_fd(pid_data);
+	free_pipefd(pid_data->pipe_fd);
+	free(pid_data->pid);
 }
 
 void	*have_pipe_main(t_parser *parser_head, t_data *data)
@@ -89,30 +92,22 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 	while (tmp_parser != NULL)
 	{
 		if (tmp_parser->next != NULL)
-		{
-			if (pipe(pid_data.pipe_fd[cmd_num]) < 0)
-			{
-				perror("pipe");
+			if (pipe_error(pid_data.pipe_fd[cmd_num]) < 0)
 				break ;
-			}
-		}
-		pid_data.pid[cmd_num] = fork_error_exit();
+		pid_data.pid[cmd_num] = fork_error();
 		if (pid_data.pid[cmd_num] == -1)
 		{
-			close_error_exit(pid_data.pipe_fd[cmd_num][0]);
-			close_error_exit(pid_data.pipe_fd[cmd_num][1]);
+			close_pipe(&pid_data, cmd_num);
 			break ;
 		}
 		pid_data.end_pid = pid_data.pid[cmd_num];
 		if (pid_data.pid[cmd_num] == 0)
 			child_process(&pid_data, cmd_num, data, tmp_parser);
-		tmp_parser = tmp_parser->next;
 		if (cmd_num > 0)
-			parent_close_pipe(&pid_data, cmd_num);
+			close_pipe(&pid_data, cmd_num - 1);
+		tmp_parser = tmp_parser->next;
 		cmd_num++;
 	}
 	restore_child_and_fd(&pid_data, cmd_num, data);
-	free_pipefd(pid_data.pipe_fd);
-	free(pid_data.pid);
 	return ("OK");
 }

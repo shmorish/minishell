@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 18:34:14 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/22 12:18:28 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 
 	if (expansion_check_doll_end(str, index))
 		return (false);
-	start = * index;
+	start = *index;
 	while (ft_isalnum(str[*index]) || str[*index] == '_')
 		(*index)++;
 	if (str[*index] == '?')
