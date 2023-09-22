@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/20 20:03:30 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/22 13:40:04 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	wait_other_command(char **array, t_data *data, char *cmd, pid_t pid)
 		free(cmd);
 }
 
-static void	exe_main(char *command, char **array, t_env *env_head, t_data *data)
+static void	exe_main(char *command, char **array, t_data *data)
 {
 	pid_t	pid;
 
@@ -78,6 +78,7 @@ static void	exe_main(char *command, char **array, t_env *env_head, t_data *data)
 		exe_command(command, array, data);
 	else
 		wait_other_command(array, data, command, pid);
+	g_signal = 0;
 }
 
 void	ft_other_command(char **array, t_env *env_head, t_data *data)
@@ -106,7 +107,7 @@ void	ft_other_command(char **array, t_env *env_head, t_data *data)
 		if (command == NULL)
 			return (ft_puterr_command(array[0], data));
 	}
-	exe_main(command, array, env_head, data);
+	exe_main(command, array, data);
 }
 
 // void	ft_other_command(char **array, t_env *env_head, t_data *data)
