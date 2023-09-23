@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:22:28 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 17:18:51 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 18:51:01 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	expansion_main(t_token *tmp_node, t_data *data)
 					index = 0;
 			}
 		}
-		if (tmp_node->str[index] != '\0' && tmp_node->str[index] != '$')
+		else
 			index++;
 	}
 }
