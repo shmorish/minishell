@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 14:22:52 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 14:58:01 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,28 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	return (true);
 }
 
+bool	check_lexer_syntax(t_token *token_head, t_data *data)
+{
+	t_token	*tmp_node;
+
+	tmp_node = token_head->next;
+	while (tmp_node != token_head)
+	{
+		if ((is_redirect(tmp_node) || tmp_node->type == PIPE)
+			&& (is_redirect(tmp_node->next) || tmp_node->next->type == PIPE))
+		{
+			ft_puterr("syntax error near unexpected token `");
+			ft_puterr(tmp_node->next->str);
+			ft_puterr("'\n");
+			free_token_head_all(token_head);
+			data->exit_status = 258;
+			return (false);
+		}
+		tmp_node = tmp_node->next;
+	}
+	return (true);
+}
+
 t_token	*lexer(char *line, t_data *data)
 {
 	size_t	index;
@@ -76,6 +98,8 @@ t_token	*lexer(char *line, t_data *data)
 		else
 			lexer_normal(line, &index, token_head);
 	}
+	if (!check_lexer_syntax(token_head, data))
+		return (NULL);
 	expansion_check(token_head, data);
 	return (token_head);
 }
