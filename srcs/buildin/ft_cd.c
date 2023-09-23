@@ -67,7 +67,7 @@ static void	ft_cd_old_pwd(t_env *env_head, t_data *data)
 {
 	char	*name;
 
-	name = get_env_val(env_head, "OLDPWD");
+	name = ft_strdup(get_env_val(env_head, "OLDPWD"));
 	if (name == NULL)
 		ft_puterr_set_status("minishell: cd: OLDPWD not set\n", data, 1);
 	else
@@ -80,6 +80,7 @@ static void	ft_cd_old_pwd(t_env *env_head, t_data *data)
 			ft_printf("%s\n", name);
 			data->exit_status = 0;
 		}
+		free(name);
 	}
 }
 
