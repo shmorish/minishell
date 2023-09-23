@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:22:28 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 16:49:51 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 17:18:51 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	expansion_check(t_token *token_head, t_data *data)
 	tmp_node = token_head->next;
 	while (tmp_node != token_head)
 	{
-		expansion_main(tmp_node, data);
+		if (is_expansion(tmp_node->type))
+			expansion_main(tmp_node, data);
 		tmp_node = expansion_last(tmp_node);
 		tmp_node = tmp_node->next;
 	}
