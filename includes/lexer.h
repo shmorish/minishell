@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 13:42:22 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 14:24:02 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ typedef struct s_data		t_data;
 typedef enum e_token_type	t_token_type;
 
 // lexer --------------------------------------------------------
+// expansion_check.c
+t_token	*expansion_last(t_token *tmp_node);
+
+void	expansion_check(t_token *token_head, t_data *data);
 // expansion_utils.c
 void	expansion_free(char *before_str, char *after_str, char *env_str);
 void	expansion_check_space(t_token *node);
@@ -83,7 +87,6 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head);
 bool	lexer_token(char *line, size_t *index, t_token *token_head);
 bool	lexer_token_main(char *line, size_t *index,
 			t_token *token_head, t_data *data);
-void	expansion_check(t_token *token_head, t_data *data);
 t_token	*lexer(char *line, t_data *data);
 
 #endif

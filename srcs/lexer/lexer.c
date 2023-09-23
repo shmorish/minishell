@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 14:15:04 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 14:22:52 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,45 +52,6 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 		token_head->prev->type = LSP_S_QUOTE;
 	free(tmp);
 	return (true);
-}
-
-t_token	*expansion_last(t_token *tmp_node)
-{
-	expansion_quote(tmp_node);
-	if (tmp_node->type == DELETE)
-		tmp_node = expansion_split(tmp_node);
-	if (tmp_node == NULL)
-		return (ft_puterr_malloc(), NULL);
-	return (tmp_node);
-}
-
-void	expansion_check(t_token *token_head, t_data *data)
-{
-	t_token	*tmp_node;
-	size_t	index;
-
-	tmp_node = token_head->next;
-	while (tmp_node != token_head)
-	{
-		index = 0;
-		while (tmp_node->str[index])
-		{
-			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
-			{
-				if (!is_env_name(tmp_node->str[index + 1]))
-					index++;
-				else if (!is_heredoc_expansion(tmp_node))
-				{
-					if (expansion_env(tmp_node->str, tmp_node, &index, data))
-						index = 0;
-				}
-			}
-			if (tmp_node->str[0] != '\0' || tmp_node->str[0] != '$')
-				index++;
-		}
-		tmp_node = expansion_last(tmp_node);
-		tmp_node = tmp_node->next;
-	}
 }
 
 t_token	*lexer(char *line, t_data *data)
