@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:42:53 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/22 13:40:19 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/23 14:14:35 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	*expansion_get_env_val(char *env_name, t_env *env_head, t_data *data)
 bool	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 {
 	size_t	start;
-	size_t	tmp_index;
 	char	*env_name;
 	char	*env_val;
 
@@ -69,12 +68,6 @@ bool	expansion_env(char *str, t_token *node, size_t *index, t_data *data)
 		(*index)++;
 	if (str[*index] == '?')
 		(*index)++;
-	if (str[*index] == '$')
-	{
-		tmp_index = *index;
-		expansion_env(node->str, node, index, data);
-		*index = tmp_index;
-	}
 	env_name = ft_substr(node->str, start, *index - start);
 	if (env_name == NULL)
 		return (ft_puterr_malloc(), false);

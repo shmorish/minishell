@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:07:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/22 12:14:53 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/23 13:46:51 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,15 @@ static int	red_in_fd(t_file *file, char *file_name,
 	if (file->type == IN_FILE)
 		return (in_file(file, file_name, data, status));
 	else if (file->type == HEREDOC)
+	{
+		signal_heredoc();
 		return (heredoc(file, file_name, data));
+	}
 	else if (file->type == QUOTE_HEREDOC)
+	{
+		signal_heredoc();
 		return (quote_heredoc(file, file_name, data));
+	}
 	else
 		return (0);
 }

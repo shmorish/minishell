@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 10:33:04 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/22 13:40:04 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/23 12:16:04 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static void	exe_main(char *command, char **array, t_data *data)
 {
 	pid_t	pid;
 
-	(void)env_head;
 	pid = fork();
 	if (pid < 0)
 	{

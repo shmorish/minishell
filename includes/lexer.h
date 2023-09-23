@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 12:20:44 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 13:42:22 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	lexer_token_main(char *line, size_t *index,
 bool	is_left_space(t_token_type type);
 bool	is_no_space(t_token_type type);
 bool	is_heredoc_expansion(t_token *node);
-bool	is_char_quote(char c);
+bool	is_env_name(char c);
 // lexer_node_init.c
 t_token	*token_head_init(void);
 t_token	*token_init(char **envp);
