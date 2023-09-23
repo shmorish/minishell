@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 12:27:24 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 16:49:57 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 19:01:15 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ bool	count_doller(char *str, size_t *index)
 		(*index)++;
 		count_dollar++;
 	}
+	if (!is_env_name(str[*index]) && str[*index] != '?')
+		return (false);
 	if (count_dollar % 2 == 0)
 		return (false);
 	else
