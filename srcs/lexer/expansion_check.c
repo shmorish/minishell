@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:22:28 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 14:26:09 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 16:49:51 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	expansion_main(t_token *tmp_node, t_data *data)
 		if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
 		{
 			if (!is_env_name(tmp_node->str[index + 1])
-				&& tmp_node->str[index + 1] != '?')
+				&& tmp_node->str[index + 1] != '$'
+				&& tmp_node->str[index + 1] != '?'
+				&& tmp_node->str[index + 1] != '\0')
 				index++;
 			else if (!is_heredoc_expansion(tmp_node))
 			{
@@ -40,7 +42,7 @@ void	expansion_main(t_token *tmp_node, t_data *data)
 					index = 0;
 			}
 		}
-		if (tmp_node->str[0] != '\0' || tmp_node->str[0] != '$')
+		if (tmp_node->str[index] != '\0' && tmp_node->str[index] != '$')
 			index++;
 	}
 }
