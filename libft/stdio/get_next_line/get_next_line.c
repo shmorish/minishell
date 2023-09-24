@@ -6,7 +6,7 @@
 /*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 00:21:31 by shmorish          #+#    #+#             */
-/*   Updated: 2023/07/09 10:52:56 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/24 07:46:22 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,15 @@ char	*get_next_line(int fd)
 	}
 }
 
-// #include <fcntl.h>
-// #include <stdio.h>
+// # include <fcntl.h>
+// # include <stdio.h>
 // int	main(void)
 // {
-// 	char	*test = "";
+// 	char	*test;
 // 	int		fd1;
 // 	int		i;
 
-// 	fd1 = open("test1.txt", O_RDONLY);
+// 	fd1 = open("get_next_line.c", O_RDONLY);
 // 	i = 0;
 // 	while (1)
 // 	{

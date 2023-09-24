@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   have_pipe_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/22 12:59:59 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/24 10:48:40 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,33 @@ void	restore_child_and_fd(t_pid *pid_data, int cmd_num, t_data *data)
 	free(pid_data->pid);
 }
 
+void	pipe_main_loop(t_parser *tmp_parser, t_data *data, t_pid *pid_data)
+{
+	int	cmd_num;
+
+	cmd_num = 0;
+	while (tmp_parser != NULL)
+	{
+		if (tmp_parser->next != NULL)
+			if (pipe_error(pid_data->pipe_fd[cmd_num]) < 0)
+				break ;
+		pid_data->pid[cmd_num] = fork_error();
+		if (pid_data->pid[cmd_num] == -1)
+		{
+			close_pipe(pid_data, cmd_num);
+			break ;
+		}
+		pid_data->end_pid = pid_data->pid[cmd_num];
+		if (pid_data->pid[cmd_num] == 0)
+			child_process(pid_data, cmd_num, data, tmp_parser);
+		if (cmd_num > 0)
+			close_pipe(pid_data, cmd_num - 1);
+		tmp_parser = tmp_parser->next;
+		cmd_num++;
+	}
+	restore_child_and_fd(pid_data, cmd_num, data);
+}
+
 void	*have_pipe_main(t_parser *parser_head, t_data *data)
 {
 	t_pid		pid_data;
@@ -89,25 +116,6 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 	if (pid_init(&pid_data, parser_head) == NULL)
 		return (NULL);
 	tmp_parser = parser_head;
-	while (tmp_parser != NULL)
-	{
-		if (tmp_parser->next != NULL)
-			if (pipe_error(pid_data.pipe_fd[cmd_num]) < 0)
-				break ;
-		pid_data.pid[cmd_num] = fork_error();
-		if (pid_data.pid[cmd_num] == -1)
-		{
-			close_pipe(&pid_data, cmd_num);
-			break ;
-		}
-		pid_data.end_pid = pid_data.pid[cmd_num];
-		if (pid_data.pid[cmd_num] == 0)
-			child_process(&pid_data, cmd_num, data, tmp_parser);
-		if (cmd_num > 0)
-			close_pipe(&pid_data, cmd_num - 1);
-		tmp_parser = tmp_parser->next;
-		cmd_num++;
-	}
-	restore_child_and_fd(&pid_data, cmd_num, data);
+	pipe_main_loop(tmp_parser, data, &pid_data);
 	return ("OK");
 }
