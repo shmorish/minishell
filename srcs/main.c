@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_data		*data;
 
-	// print_ascii();
+	print_ascii();
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
 		return (1);

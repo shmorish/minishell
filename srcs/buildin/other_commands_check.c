@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_commands_check.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 12:00:02 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/17 16:01:12 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 10:59:51 by shmorish         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ bool	check_directory(char *command, t_data *data)
 	struct stat	st;
 	int			result;
 
+	if (!ft_strchr(command, '/'))
+		return (false);
 	result = stat(command, &st);
 	if (result == -1)
 		return (false);
