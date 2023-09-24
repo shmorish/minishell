@@ -46,6 +46,7 @@ obj*
 *.idb
 *.pdb
 .vscode/
+.DS_Store
 
 # Kernel Module Compile Results
 *.mod*
@@ -63,4 +64,3 @@ tmp/
 # tester files
 mpanic/
 minishell_tester/
-```

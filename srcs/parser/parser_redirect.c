@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:37:21 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/16 16:21:05 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 16:52:39 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ static void	*add_files(t_file **file, char *file_name,
 
 static void	*parser_redirect_input(t_token **tmp_token, t_parser **tmp)
 {
-	if ((*tmp)->input == NULL)
+	if ((*tmp)->file == NULL)
 	{
-		if (file_init(&(*tmp)->input, (*tmp_token)->next->str,
+		if (file_init(&(*tmp)->file, (*tmp_token)->next->str,
 				(*tmp_token)->type, (*tmp_token)->next->type) == NULL)
 			return (NULL);
 	}
 	else
 	{
-		if (add_files(&(*tmp)->input, (*tmp_token)->next->str,
+		if (add_files(&(*tmp)->file, (*tmp_token)->next->str,
 				(*tmp_token)->type, (*tmp_token)->next->type) == NULL)
 			return (NULL);
 	}
@@ -83,15 +83,15 @@ static void	*parser_redirect_input(t_token **tmp_token, t_parser **tmp)
 
 static void	*parser_redirect_output(t_token **tmp_token, t_parser **tmp)
 {
-	if ((*tmp)->output == NULL)
+	if ((*tmp)->file == NULL)
 	{
-		if (file_init(&(*tmp)->output, (*tmp_token)->next->str,
+		if (file_init(&(*tmp)->file, (*tmp_token)->next->str,
 				(*tmp_token)->type, (*tmp_token)->next->type) == NULL)
 			return (NULL);
 	}
 	else
 	{
-		if (add_files(&(*tmp)->output, (*tmp_token)->next->str,
+		if (add_files(&(*tmp)->file, (*tmp_token)->next->str,
 				(*tmp_token)->type, (*tmp_token)->next->type) == NULL)
 			return (NULL);
 	}

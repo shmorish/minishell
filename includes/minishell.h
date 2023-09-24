@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/17 14:03:21 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/22 12:45:19 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # include <string.h>
 # include <unistd.h>
 # include <sys/stat.h>
+
+# define NORMAL 0
+# define ERROR 1
 
 extern int				g_signal;
 typedef struct s_token	t_token;
@@ -115,8 +118,7 @@ typedef struct s_file
 typedef struct s_parser
 {
 	char				**cmd;
-	t_file				*input;
-	t_file				*output;
+	t_file				*file;
 	t_parser			*next;
 	t_parser			*prev;
 }						t_parser;
@@ -173,7 +175,7 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data);
 void	next_pipe(t_pid *pid_data, int i);
 void	prev_pipe(t_pid *pid_data, int i);
 void	put_back_fd(t_pid *pid_data);
-void	parent_close_pipe(t_pid *pid_data, int i);
+void	close_pipe(t_pid *pid_data, int i);
 int		wait_error_exit(int *status);
 
 // print_errno.c

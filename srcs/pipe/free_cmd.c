@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_node.c                                      :+:      :+:    :+:   */
+/*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/05 17:44:55 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/20 17:22:08 by morishitash      ###   ########.fr       */
+/*   Created: 2023/09/20 16:01:22 by morishitash       #+#    #+#             */
+/*   Updated: 2023/09/20 16:02:13 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_parser	*parser_node_new(void)
+void	free_cmd(char **cmd)
 {
-	t_parser	*new;
+	int	index;
 
-	new = (t_parser *)malloc(sizeof(t_parser));
-	if (new == NULL)
-		return (ft_puterr_malloc(), NULL);
-	new->next = NULL;
-	new->prev = NULL;
-	new->cmd = NULL;
-	new->file = NULL;
-	return (new);
-}
-
-t_parser	*parser_init(void)
-{
-	t_parser	*head;
-
-	head = parser_node_new();
-	if (head == NULL)
-		return (ft_puterr_malloc(), NULL);
-	return (head);
+	index = 0;
+	if (cmd == NULL)
+		return ;
+	while (cmd[index] != NULL)
+	{
+		free(cmd[index]);
+		cmd[index] = NULL;
+		index++;
+	}
+	free(cmd);
+	cmd = NULL;
 }

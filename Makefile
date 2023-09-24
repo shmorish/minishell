@@ -37,7 +37,8 @@ BUILDIN_OBJ 		= $(BUILDIN:%.c=%.o)
 BUILDIN_OBJS		= $(addprefix $(BUILDIN_OBJ_PATH)/, $(BUILDIN_OBJ))
 
 LEXER_PATH= srcs/lexer
-LEXER		= expansion_utils.c \
+LEXER		= expansion_check.c \
+				expansion_utils.c \
 				expansion.c \
 				ft_split_charset.c \
 				lexer_boolean.c \
@@ -80,7 +81,10 @@ PIPE		= make_pipefd.c \
 				heredoc_utils.c \
 				heredoc.c \
 				pipe_error_exit.c \
-				count_process.c
+				count_process.c \
+				free_cmd.c \
+				redirect.c \
+				redirect_bool.c
 PIPES	= $(addprefix $(PIPE_PATH)/, $(PIPE))
 PIPE_OBJ_PATH	= obj/obj_pipe
 PIPE_OBJ 		= $(PIPE:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 16:08:36 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/18 12:20:51 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 10:14:32 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ bool	is_heredoc_expansion(t_token *node)
 		return (false);
 }
 
-bool	is_char_quote(char c)
+bool	is_env_name(char c)
 {
-	if (c == '\"' || c == '\'')
+	if (ft_isalnum(c) || c == '_')
 		return (true);
 	else
 		return (false);

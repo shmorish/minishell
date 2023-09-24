@@ -6,7 +6,7 @@
 /*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 20:08:03 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/06 16:07:26 by morishitash      ###   ########.fr       */
+/*   Updated: 2023/09/20 16:53:10 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,8 @@ void	print_parser(t_parser *parser_head)
 				i++;
 			}
 		}
-		ft_printf("input\n");
-		print_parser_file(parser_tmp->input);
-		ft_printf("output\n");
-		print_parser_file(parser_tmp->output);
+		ft_printf("files\n");
+		print_parser_file(parser_tmp->file);
 		parser_tmp = parser_tmp->next;
 		ft_printf("---------- pipe end ---------\n");
 	}
