@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/24 15:32:00 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 17:38:43 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	return (true);
 }
 
+bool	check_syntax(t_token *node)
+{
+	if (node->type == PIPE && node->next->type == PIPE)
+		return (false);
+	if (is_redirect(node) && node->next->type == PIPE)
+		return (false);
+	if (is_redirect(node) && is_redirect(node->next))
+		return (false);
+	return (true);
+}
+
 bool	check_lexer_syntax(t_token *token_head, t_data *data)
 {
 	t_token	*tmp_node;
@@ -68,8 +79,7 @@ bool	check_lexer_syntax(t_token *token_head, t_data *data)
 	}
 	while (tmp_node != token_head)
 	{
-		if (is_redirect_pipe(tmp_node->type)
-			&& is_redirect_pipe(tmp_node->next->type))
+		if (!check_syntax(tmp_node))
 		{
 			ft_puterr("minishell: syntax error near unexpected token `");
 			ft_puterr(tmp_node->next->str);
