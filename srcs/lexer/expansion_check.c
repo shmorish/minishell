@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 14:22:28 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 19:02:35 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 10:14:45 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	expansion_main(t_token *tmp_node, t_data *data)
 				if (expansion_env(tmp_node->str, tmp_node, &index, data))
 					index = 0;
 			}
+			else
+				break ;
 		}
 		else
 			index++;
