@@ -59,6 +59,7 @@ void	main_exe(t_data *data, char *line)
 
 	if (g_signal == 1 || g_signal == SIGINT)
 		data->exit_status = 1;
+	g_signal = 0;
 	tmp_parser = lexer_parser(data, line);
 	if (tmp_parser == NULL)
 		return ;
@@ -97,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_data		*data;
 
-	print_ascii();
+	// print_ascii();
 	data = data_init(argc, argv, envp);
 	if (data == NULL)
 		return (1);

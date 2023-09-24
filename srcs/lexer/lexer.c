@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 18:37:52 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 10:15:25 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,43 +54,26 @@ bool	lexer_token(char *line, size_t *index, t_token *token_head)
 	return (true);
 }
 
-t_token	*expansion_last(t_token *tmp_node)
-{
-	expansion_quote(tmp_node);
-	if (tmp_node->type == DELETE)
-		tmp_node = expansion_split(tmp_node);
-	if (tmp_node == NULL)
-		return (ft_puterr_malloc(), NULL);
-	return (tmp_node);
-}
-
-void	expansion_check(t_token *token_head, t_data *data)
+bool	check_lexer_syntax(t_token *token_head, t_data *data)
 {
 	t_token	*tmp_node;
-	size_t	index;
 
 	tmp_node = token_head->next;
 	while (tmp_node != token_head)
 	{
-		index = 0;
-		while (tmp_node->str[index])
+		if (is_dredirect_pipe(tmp_node->type)
+			&& is_dredirect_pipe(tmp_node->next->type))
 		{
-			if (tmp_node->str[index] == '$' && is_expansion(tmp_node->type))
-			{
-				if (is_char_quote(tmp_node->str[index + 1]))
-					;
-				else if (!is_heredoc_expansion(tmp_node))
-				{
-					if (expansion_env(tmp_node->str, tmp_node, &index, data))
-						break ;
-				}
-			}
-			if (tmp_node->str[0] != '\0')
-				index++;
+			ft_puterr("minishell: syntax error near unexpected token `");
+			ft_puterr(tmp_node->next->str);
+			ft_puterr("'\n");
+			free_token_head_all(token_head);
+			data->exit_status = 258;
+			return (false);
 		}
-		tmp_node = expansion_last(tmp_node);
 		tmp_node = tmp_node->next;
 	}
+	return (true);
 }
 
 t_token	*lexer(char *line, t_data *data)
@@ -115,6 +98,8 @@ t_token	*lexer(char *line, t_data *data)
 		else
 			lexer_normal(line, &index, token_head);
 	}
+	if (!check_lexer_syntax(token_head, data))
+		return (NULL);
 	expansion_check(token_head, data);
 	return (token_head);
 }

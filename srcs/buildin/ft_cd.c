@@ -14,19 +14,14 @@
 
 static void	change_directory(char *name, t_env *env_head, t_data *data)
 {
-	if (!access(name, X_OK))
-	{
-		set_pwd(env_head, "OLDPWD");
-		if (chdir(name) != 0)
-			ft_strerror_cd(name, 1, data);
-		else
-		{
-			set_pwd(env_head, "PWD");
-			data->exit_status = 0;
-		}
-	}
-	else
+	set_pwd(env_head, "OLDPWD");
+	if (chdir(name) != 0)
 		ft_strerror_cd(name, 1, data);
+	else
+	{
+		set_pwd(env_head, "PWD");
+		data->exit_status = 0;
+	}
 }
 
 static void	ft_cd_home_plus(char **array, t_env *env_head, t_data *data)
@@ -72,24 +67,20 @@ static void	ft_cd_old_pwd(t_env *env_head, t_data *data)
 {
 	char	*name;
 
-	name = get_env_val(env_head, "OLDPWD");
+	name = ft_strdup(get_env_val(env_head, "OLDPWD"));
 	if (name == NULL)
 		ft_puterr_set_status("minishell: cd: OLDPWD not set\n", data, 1);
 	else
 	{
-		if (!access(name, X_OK))
-		{
-			set_pwd(env_head, "OLDPWD");
-			if (chdir(name) != 0)
-				ft_strerror_cd(name, 1, data);
-			else
-			{
-				ft_printf("%s\n", name);
-				data->exit_status = 0;
-			}
-		}
-		else
+		set_pwd(env_head, "OLDPWD");
+		if (chdir(name) != 0)
 			ft_strerror_cd(name, 1, data);
+		else
+		{
+			ft_printf("%s\n", name);
+			data->exit_status = 0;
+		}
+		free(name);
 	}
 }
 

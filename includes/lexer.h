@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/18 12:20:44 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/23 16:46:32 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ typedef struct s_data		t_data;
 typedef enum e_token_type	t_token_type;
 
 // lexer --------------------------------------------------------
+// expansion_check.c
+t_token	*expansion_last(t_token *tmp_node);
+
+void	expansion_check(t_token *token_head, t_data *data);
 // expansion_utils.c
 void	expansion_free(char *before_str, char *after_str, char *env_str);
 void	expansion_check_space(t_token *node);
@@ -45,6 +49,7 @@ bool	is_token(char c);
 bool	is_expansion(t_token_type type);
 bool	is_str_token(t_token_type type);
 bool	is_quote(t_token_type type);
+bool	is_dredirect_pipe(t_token_type type);
 // lexer_boolean2.c
 bool	is_only_space_before(char *line, size_t index);
 bool	is_only_space_or_end(char *line, size_t index);
@@ -56,7 +61,7 @@ bool	lexer_token_main(char *line, size_t *index,
 bool	is_left_space(t_token_type type);
 bool	is_no_space(t_token_type type);
 bool	is_heredoc_expansion(t_token *node);
-bool	is_char_quote(char c);
+bool	is_env_name(char c);
 // lexer_node_init.c
 t_token	*token_head_init(void);
 t_token	*token_init(char **envp);
@@ -83,7 +88,6 @@ void	lexer_normal(char *line, size_t *index, t_token *token_head);
 bool	lexer_token(char *line, size_t *index, t_token *token_head);
 bool	lexer_token_main(char *line, size_t *index,
 			t_token *token_head, t_data *data);
-void	expansion_check(t_token *token_head, t_data *data);
 t_token	*lexer(char *line, t_data *data);
 
 #endif
