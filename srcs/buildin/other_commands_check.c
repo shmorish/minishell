@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   other_commands_check.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 12:00:02 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/24 10:59:51 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/24 12:48:08 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ void	check_permit(char **array, t_data *data, char **command)
 			return (ft_puterr_permit(array[0]));
 		}
 	}
+	*command = "OK";
 }
