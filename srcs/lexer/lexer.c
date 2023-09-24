@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 11:04:25 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/24 10:15:25 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 12:59:01 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ bool	check_lexer_syntax(t_token *token_head, t_data *data)
 	t_token	*tmp_node;
 
 	tmp_node = token_head->next;
+	if (tmp_node->type == PIPE)
+	{
+		ft_puterr(ERR_PIPE);
+		data->exit_status = 258;
+		free_token_head_all(token_head);
+		return (false);
+	}
 	while (tmp_node != token_head)
 	{
 		if (is_dredirect_pipe(tmp_node->type)
