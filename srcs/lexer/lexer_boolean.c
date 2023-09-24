@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:40:31 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 18:50:10 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 15:31:53 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ bool	is_quote(t_token_type type)
 		return (false);
 }
 
-bool	is_dredirect_pipe(t_token_type type)
+bool	is_redirect_pipe(t_token_type type)
 {
-	if (type == D_LESSER || type == D_GREATER || type == PIPE)
+	if (type == D_LESSER || type == D_GREATER || type == S_LESSER
+		|| type == S_GREATER || type == PIPE)
 		return (true);
 	else
 		return (false);

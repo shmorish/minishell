@@ -6,7 +6,7 @@
 /*   By: ryhara <ryhara@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 15:00:12 by ryhara            #+#    #+#             */
-/*   Updated: 2023/09/23 16:46:32 by ryhara           ###   ########.fr       */
+/*   Updated: 2023/09/24 15:31:20 by ryhara           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_token(char c);
 bool	is_expansion(t_token_type type);
 bool	is_str_token(t_token_type type);
 bool	is_quote(t_token_type type);
-bool	is_dredirect_pipe(t_token_type type);
+bool	is_redirect_pipe(t_token_type type);
 // lexer_boolean2.c
 bool	is_only_space_before(char *line, size_t index);
 bool	is_only_space_or_end(char *line, size_t index);
