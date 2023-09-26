@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 14:54:48 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/24 11:04:11 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:26:22 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void	no_pipe_main(t_parser *parser, t_data *data);
 // have_pipe_main.c
 void	*have_pipe_main(t_parser *parser_head, t_data *data);
 void	*pid_init(t_pid *pid_data, t_parser *parser_head);
+void	have_input(t_parser *parser, t_pid *pid_data);
 // have_pipe_utils.c
 void	next_pipe(t_pid *pid_data, int i);
 void	prev_pipe(t_pid *pid_data, int i);
