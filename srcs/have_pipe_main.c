@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   have_pipe_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shmorish <shmorish@student.42.fr>          +#+  +:+       +#+        */
+/*   By: morishitashoto <morishitashoto@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 01:49:10 by morishitash       #+#    #+#             */
-/*   Updated: 2023/09/24 11:03:47 by shmorish         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:25:24 by morishitash      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ void	*have_pipe_main(t_parser *parser_head, t_data *data)
 {
 	t_pid		pid_data;
 	t_parser	*tmp_parser;
-	int			cmd_num;
 
-	cmd_num = 0;
 	if (pid_init(&pid_data, parser_head) == NULL)
 		return (NULL);
 	tmp_parser = parser_head;
