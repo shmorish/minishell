@@ -75,7 +75,7 @@ void	main_loop(t_data *data, char *line)
 	while (1)
 	{
 		signal_main_init(data);
-		line = readline("\033[1;34mminishell \033[0m $> ");
+		line = readline("\1\033[1;34m\2minishell \1\033[0m\2 $> ");
 		if (line == NULL)
 		{
 			free_env_head_all(data->env_head);
